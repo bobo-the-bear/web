@@ -12,6 +12,14 @@
     <p class="sub">Catalog View</p>
   </header>
 
+  <script>
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('expanded');
+    });
+  });
+</script>
+  
   <div class="page-wrapper">
   <main class="catalog">
     <!-- Card -->
