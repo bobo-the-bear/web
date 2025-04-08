@@ -30,6 +30,12 @@ header .sub {
   padding: 12px;
 }
 
+.page-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 12px;
+}
+
 .card {
   background: white;
   border: 1px solid #ccc;
