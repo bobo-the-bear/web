@@ -39,7 +39,7 @@ header .sub {
 }
 
 .card {
-  background: white;
+  background: transparent; /* ← changed from white */
   border: 1px solid #ccc;
   padding: 6px;
   font-size: 0.9em;
