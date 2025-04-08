@@ -1,8 +1,9 @@
 body {
-  margin: 0;
+  background-color: #d6daf0; /* Light blue-gray background */
+  color: #800000; /* Maroon text color */
   font-family: Arial, sans-serif;
-  background: #f0f0f0;
-  color: #000;
+  margin: 0;
+  padding: 0;
 }
 
 header {
