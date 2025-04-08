@@ -25,10 +25,12 @@ header .sub {
 
 .catalog {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
+  justify-content: center; /* ← This centers the grid */
   padding: 12px;
 }
+
 
 .page-wrapper {
   max-width: 1000px;
