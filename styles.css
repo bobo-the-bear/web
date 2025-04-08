@@ -39,17 +39,13 @@ header .sub {
 }
 
 .card {
-  background: transparent; /* ← changed from white */
+  background: transparent;
   border: 1px solid #ccc;
   padding: 6px;
   font-size: 0.9em;
   overflow: hidden;
-  cursor: pointer;
-  transition: box-shadow 0.2s ease;
-}
-
-.card:hover {
-  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  cursor: default; /* optional: remove pointer from entire card */
+  transition: none; /* remove hover effect from card */
 }
 
 .card img {
@@ -57,6 +53,12 @@ header .sub {
   height: auto;
   display: block;
   margin-bottom: 4px;
+  transition: box-shadow 0.2s ease; /* move the transition to the image */
+  cursor: pointer;
+}
+
+.card img:hover {
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
 }
 
 .snippet {
