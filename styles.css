@@ -40,12 +40,12 @@ header .sub {
 
 .card {
   background: transparent;
-  border: 0px solid #ccc;
+  /* border: 1px solid #ccc; */ /* ← remove or comment this out */
   padding: 6px;
   font-size: 0.9em;
   overflow: hidden;
-  cursor: default; /* optional: remove pointer from entire card */
-  transition: none; /* remove hover effect from card */
+  cursor: default;
+  transition: none;
 }
 
 .card img {
