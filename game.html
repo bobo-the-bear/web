@@ -24,11 +24,20 @@
     const honeyImg = new Image();
     honeyImg.src = "honey.png";
 
-    const bear = { x: 400, y: 500, width: 50, height: 50, speed: 5 };
-    const cows = [];
-    const candles = [];
-    const honey = { x: Math.random() * 750, y: 50, width: 40, height: 40, collected: false };
+    let bear;
+    let cows;
+    let candles;
+    let honey;
     let gameOver = false;
+
+    function resetGame() {
+      bear = { x: 400, y: 500, width: 50, height: 50, speed: 8 };
+      cows = [];
+      candles = [];
+      honey = { x: Math.random() * 750, y: 50, width: 40, height: 40, collected: false };
+      gameOver = false;
+      gameLoop();
+    }
 
     function spawnCow() {
       const cow = {
@@ -102,6 +111,8 @@
         ctx.fillStyle = "white";
         ctx.font = "32px Arial";
         ctx.fillText(honey.collected ? "You got the honey!" : "Game Over", 300, 300);
+        ctx.font = "20px Arial";
+        ctx.fillText("Press R to Restart", 310, 340);
       }
     }
 
@@ -114,10 +125,11 @@
     document.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft" && bear.x > 0) bear.x -= bear.speed;
       if (e.key === "ArrowRight" && bear.x + bear.width < canvas.width) bear.x += bear.speed;
+      if (e.key.toLowerCase() === "r" && gameOver) resetGame();
     });
 
     setInterval(spawnCow, 2000);
-    gameLoop();
+    resetGame();
   </script>
 </body>
 </html>
