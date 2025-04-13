@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bear Game</title>
+  <style>
+    body { margin: 0; background: black; }
+    canvas { display: block; margin: 0 auto; border: 2px solid white; }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <script>
+    // Retro Bear Game - HTML5 Canvas Game
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = 800;
+canvas.height = 600;
+
+// Game Assets (placeholder)
+const bear = { x: 400, y: 500, width: 50, height: 50, color: "red", speed: 5 };
+const cows = [];
+const candles = [];
+const honey = { x: Math.random() * 750, y: 50, width: 40, height: 40, collected: false };
+let gameOver = false;
+
+function spawnCow() {
+  const cow = {
+    x: Math.random() * 750,
+    y: 0,
+    width: 50,
+    height: 50,
+    color: "orange",
+    shootInterval: Math.random() * 100 + 50
+  };
+  cows.push(cow);
+}
+
+function shootCandle(cow) {
+  candles.push({ x: cow.x + 20, y: cow.y + 50, width: 10, height: 20, color: "green", speed: 4 });
+}
+
+function update() {
+  if (gameOver) return;
+  // Move candles
+  candles.forEach((c, i) => {
+    c.y += c.speed;
+    if (c.y > canvas.height) candles.splice(i, 1);
+    if (
+      c.x < bear.x + bear.width &&
+      c.x + c.width > bear.x &&
+      c.y < bear.y + bear.height &&
+      c.y + c.height > bear.y
+    ) {
+      gameOver = true;
+    }
+  });
+
+  // Move cows and shoot candles
+  cows.forEach((cow, i) => {
+    cow.y += 0.5;
+    cow.shootInterval--;
+    if (cow.shootInterval <= 0) {
+      shootCandle(cow);
+      cow.shootInterval = Math.random() * 100 + 50;
+    }
+  });
+
+  // Check honey collection
+  if (
+    bear.x < honey.x + honey.width &&
+    bear.x + bear.width > honey.x &&
+    bear.y < honey.y + honey.height &&
+    bear.y + bear.height > honey.y
+  ) {
+    honey.collected = true;
+    gameOver = true;
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Bear
+  ctx.fillStyle = bear.color;
+  ctx.fillRect(bear.x, bear.y, bear.width, bear.height);
+
+  // Cows
+  cows.forEach(cow => {
+    ctx.fillStyle = cow.color;
+    ctx.fillRect(cow.x, cow.y, cow.width, cow.height);
+  });
+
+  // Candles
+  candles.forEach(c => {
+    ctx.fillStyle = c.color;
+    ctx.fillRect(c.x, c.y, c.width, c.height);
+  });
+
+  // Honey
+  if (!honey.collected) {
+    ctx.fillStyle = "gold";
+    ctx.fillRect(honey.x, honey.y, honey.width, honey.height);
+  }
+
+  if (gameOver) {
+    ctx.fillStyle = "white";
+    ctx.font = "32px Arial";
+    ctx.fillText(honey.collected ? "You got the honey!" : "Game Over", 300, 300);
+  }
+}
+
+function gameLoop() {
+  update();
+  draw();
+  if (!gameOver) requestAnimationFrame(gameLoop);
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft" && bear.x > 0) bear.x -= bear.speed;
+  if (e.key === "ArrowRight" && bear.x + bear.width < canvas.width) bear.x += bear.speed;
+});
+
+setInterval(spawnCow, 2000);
+gameLoop();
+
+  </script>
+</body>
+</html>
