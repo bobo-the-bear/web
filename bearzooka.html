@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,9 +88,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
 @media(max-width:600px){.pane{padding:20px 14px}}
 
 /* ---------- airdrop tool ---------- */
-.ad-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}
-@media(max-width:860px){.ad-grid{grid-template-columns:1fr}}
-.ad-col{display:flex;flex-direction:column;gap:16px}
+.bz-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}
+@media(max-width:860px){.bz-grid{grid-template-columns:1fr}}
+.bz-col{display:flex;flex-direction:column;gap:16px}
 .card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px}
 .card h3{font-size:1rem;font-weight:600;display:flex;align-items:center;gap:10px}
 .step-n{font-family:var(--font-mono);font-size:.7rem;color:var(--red-bright);border:1px solid var(--line);border-radius:6px;padding:2px 8px;letter-spacing:.08em}
@@ -230,35 +231,35 @@ textarea.txt{resize:vertical;min-height:60px}
 
     <!-- ================= AIRDROP ================= -->
     <div class="pane active" id="pane-airdrop" role="tabpanel" aria-labelledby="tab-airdrop">
-      <div class="ad-grid">
-        <div class="ad-col">
+      <div class="bz-grid">
+        <div class="bz-col">
 
           <div class="card">
             <h3><span class="step-n">STEP 1</span> Connect your wallet</h3>
             <div class="wallet-line" style="margin-top:14px">
-              <button class="btn btn-red btn-sm" id="ad-connect">Connect wallet</button>
-              <span class="pill" id="ad-wallet-pill">Not connected</span>
+              <button class="btn btn-red btn-sm" id="bz-connect">Connect wallet</button>
+              <span class="pill" id="bz-wallet-pill">Not connected</span>
             </div>
-            <label class="lbl2" for="ad-rpc">RPC endpoint (Helius recommended for Top 100+)</label>
-            <input class="txt" id="ad-rpc" type="text" spellcheck="false" placeholder="https://mainnet.helius-rpc.com/?api-key=YOUR_KEY">
+            <label class="lbl2" for="bz-rpc">RPC endpoint (Helius recommended for Top 100+)</label>
+            <input class="txt" id="bz-rpc" type="text" spellcheck="false" placeholder="https://mainnet.helius-rpc.com/?api-key=YOUR_KEY">
             <p class="hint">A free Helius API key lets the software index full holder lists. Without one, targeting is limited to the Top 20.</p>
           </div>
 
           <div class="card">
             <h3><span class="step-n">STEP 2</span> What are you airdropping?</h3>
-            <label class="lbl2" for="ad-mint">Token to send (mint address)</label>
-            <input class="txt" id="ad-mint" type="text" spellcheck="false" value="4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump">
-            <label class="lbl2" for="ad-amount">Total amount to distribute</label>
-            <input class="txt" id="ad-amount" type="text" inputmode="decimal" placeholder="e.g. 1000000">
-            <p class="hint" id="ad-balance-hint">Connect your wallet to see your balance.</p>
+            <label class="lbl2" for="bz-mint">Token to send (mint address)</label>
+            <input class="txt" id="bz-mint" type="text" spellcheck="false" value="4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump">
+            <label class="lbl2" for="bz-amount">Total amount to distribute</label>
+            <input class="txt" id="bz-amount" type="text" inputmode="decimal" placeholder="e.g. 1000000">
+            <p class="hint" id="bz-balance-hint">Connect your wallet to see your balance.</p>
           </div>
 
           <div class="card">
             <h3><span class="step-n">STEP 3</span> Choose the target community</h3>
-            <label class="lbl2" for="ad-target">Target coin (mint address of any Solana token)</label>
-            <input class="txt" id="ad-target" type="text" spellcheck="false" placeholder="Mint address of the coin whose holders will receive the drop">
+            <label class="lbl2" for="bz-target">Target coin (mint address of any Solana token)</label>
+            <input class="txt" id="bz-target" type="text" spellcheck="false" placeholder="Mint address of the coin whose holders will receive the drop">
             <label class="lbl2">Reach the top…</label>
-            <div class="chip-row" id="ad-topn" role="group" aria-label="Number of top holders">
+            <div class="chip-row" id="bz-topn" role="group" aria-label="Number of top holders">
               <button class="chip" data-n="10" aria-pressed="true">Top 10</button>
               <button class="chip" data-n="25" aria-pressed="false">Top 25</button>
               <button class="chip" data-n="50" aria-pressed="false">Top 50</button>
@@ -267,13 +268,13 @@ textarea.txt{resize:vertical;min-height:60px}
               <button class="chip" data-n="500" aria-pressed="false">Top 500</button>
               <button class="chip" data-n="1000" aria-pressed="false">Top 1000</button>
             </div>
-            <label class="lbl2" for="ad-exclude">Exclude addresses (optional, one per line)</label>
-            <textarea class="txt" id="ad-exclude" spellcheck="false" placeholder="Liquidity pools and exchange wallets often rank near the top — paste any addresses to skip here."></textarea>
-            <div style="margin-top:16px"><button class="btn btn-ghost" id="ad-fetch">Fetch top holders</button></div>
+            <label class="lbl2" for="bz-exclude">Exclude addresses (optional, one per line)</label>
+            <textarea class="txt" id="bz-exclude" spellcheck="false" placeholder="Liquidity pools and exchange wallets often rank near the top — paste any addresses to skip here."></textarea>
+            <div style="margin-top:16px"><button class="btn btn-ghost" id="bz-fetch">Fetch top holders</button></div>
           </div>
 
         </div>
-        <div class="ad-col">
+        <div class="bz-col">
 
           <div class="card">
             <h3><span class="step-n">STEP 4</span> Review &amp; send</h3>
@@ -284,10 +285,10 @@ textarea.txt{resize:vertical;min-height:60px}
               <div class="pstat"><div class="l">Est. network cost</div><div class="v" id="p-cost">—</div></div>
             </div>
             <div class="holder-list" id="p-holders" aria-label="Recipient preview"><div class="holder-row"><span class="addr">Fetch holders to preview recipients.</span></div></div>
-            <div style="margin-top:16px"><button class="btn btn-red" id="ad-send" disabled>Send airdrop</button></div>
+            <div style="margin-top:16px"><button class="btn btn-red" id="bz-send" disabled>Send airdrop</button></div>
             <p class="hint">Tip: run a small test drop to the Top 10 first. Distributions are on-chain and irreversible.</p>
             <div class="progress" aria-hidden="true"><div class="fill" id="p-fill"></div></div>
-            <div class="log" id="ad-log">BOBO™ airdrop software ready. Connect a wallet to begin.</div>
+            <div class="log" id="bz-log">BOBO™ airdrop software ready. Connect a wallet to begin.</div>
           </div>
 
         </div>
@@ -510,10 +511,10 @@ textarea.txt{resize:vertical;min-height:60px}
 
   /* ================= AIRDROP TOOL ================= */
   var provider = null, walletPk = null, holders = [], plan = null;
-  var logEl = $("ad-log");
+  var logEl = $("bz-log");
 
   function rpcUrl(){
-    var v = $("ad-rpc").value.trim();
+    var v = $("bz-rpc").value.trim();
     return v || PUBLIC_RPC;
   }
   function conn(){ return new W.Connection(rpcUrl(), "confirmed"); }
@@ -527,16 +528,16 @@ textarea.txt{resize:vertical;min-height:60px}
 
   /* ----- top-N chips ----- */
   var topN = 10;
-  document.querySelectorAll("#ad-topn .chip").forEach(function(c){
+  document.querySelectorAll("#bz-topn .chip").forEach(function(c){
     c.addEventListener("click", function(){
-      document.querySelectorAll("#ad-topn .chip").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      document.querySelectorAll("#bz-topn .chip").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
       c.setAttribute("aria-pressed","true");
       topN = parseInt(c.getAttribute("data-n"), 10);
     });
   });
 
   /* ----- connect wallet ----- */
-  $("ad-connect").addEventListener("click", function(){
+  $("bz-connect").addEventListener("click", function(){
     var p = window.phantom && window.phantom.solana ? window.phantom.solana
           : window.solflare ? window.solflare
           : window.solana ? window.solana : null;
@@ -547,10 +548,10 @@ textarea.txt{resize:vertical;min-height:60px}
     p.connect().then(function(resp){
       provider = p;
       walletPk = new W.PublicKey((resp && resp.publicKey ? resp.publicKey : p.publicKey).toString());
-      var pill = $("ad-wallet-pill");
+      var pill = $("bz-wallet-pill");
       pill.textContent = short(walletPk.toString());
       pill.classList.add("ok");
-      $("ad-connect").textContent = "Connected";
+      $("bz-connect").textContent = "Connected";
       log("Wallet connected: " + walletPk.toString(), "ok");
       refreshBalanceHint();
     }).catch(function(e){ log("Wallet connection declined: " + (e.message || e), "err"); });
@@ -558,7 +559,7 @@ textarea.txt{resize:vertical;min-height:60px}
 
   function refreshBalanceHint(){
     if (!walletPk) return;
-    var mint = $("ad-mint").value.trim();
+    var mint = $("bz-mint").value.trim();
     if (!mint) return;
     fetch(rpcUrl(), { method:"POST", headers:{ "Content-Type":"application/json" },
       body: JSON.stringify({ jsonrpc:"2.0", id:1, method:"getTokenAccountsByOwner",
@@ -567,10 +568,10 @@ textarea.txt{resize:vertical;min-height:60px}
       var accts = (res.result && res.result.value) || [];
       var total = 0;
       accts.forEach(function(a){ total += a.account.data.parsed.info.tokenAmount.uiAmount || 0; });
-      $("ad-balance-hint").textContent = "Your balance: " + total.toLocaleString(undefined,{maximumFractionDigits:2});
+      $("bz-balance-hint").textContent = "Your balance: " + total.toLocaleString(undefined,{maximumFractionDigits:2});
     }).catch(function(){});
   }
-  $("ad-mint").addEventListener("change", refreshBalanceHint);
+  $("bz-mint").addEventListener("change", refreshBalanceHint);
 
   /* ----- mint info ----- */
   function getMintInfo(mintStr){
@@ -635,12 +636,12 @@ textarea.txt{resize:vertical;min-height:60px}
     });
   }
 
-  $("ad-fetch").addEventListener("click", function(){
-    var target = $("ad-target").value.trim();
+  $("bz-fetch").addEventListener("click", function(){
+    var target = $("bz-target").value.trim();
     if (!target){ log("Enter the target coin's mint address first.", "err"); return; }
-    var excluded = new Set($("ad-exclude").value.split(/\s+/).filter(Boolean));
+    var excluded = new Set($("bz-exclude").value.split(/\s+/).filter(Boolean));
     if (walletPk) excluded.add(walletPk.toString());
-    $("ad-fetch").disabled = true;
+    $("bz-fetch").disabled = true;
     log("Indexing holder list for " + short(target) + " (Top " + topN + ")…");
 
     var isHelius = /helius/i.test(rpcUrl());
@@ -656,14 +657,14 @@ textarea.txt{resize:vertical;min-height:60px}
     }).catch(function(e){
       log("Holder fetch failed: " + (e.message || e), "err");
     }).then(function(){
-      $("ad-fetch").disabled = false;
+      $("bz-fetch").disabled = false;
     });
   });
 
   /* ----- preview ----- */
   function renderPreview(){
-    var mintStr = $("ad-mint").value.trim();
-    var amtStr = $("ad-amount").value.trim().replace(/,/g, "");
+    var mintStr = $("bz-mint").value.trim();
+    var amtStr = $("bz-amount").value.trim().replace(/,/g, "");
     if (!mintStr || !amtStr || isNaN(parseFloat(amtStr)) || parseFloat(amtStr) <= 0){
       log("Enter the token mint and a total amount in Step 2, then fetch again.", "err"); return;
     }
@@ -690,7 +691,7 @@ textarea.txt{resize:vertical;min-height:60px}
         row.innerHTML = '<span class="rank">#' + (i+1) + '</span><span class="addr">' + h.owner + '</span>';
         box.appendChild(row);
       });
-      $("ad-send").disabled = !walletPk;
+      $("bz-send").disabled = !walletPk;
       log("Preview ready: " + fmtUnits(each, mi.decimals) + " to each of " + holders.length + " wallets across " + txCount + " transactions." + (walletPk ? "" : " Connect a wallet to send."), "ok");
     }).catch(function(e){ log("Could not load mint info: " + (e.message || e), "err"); });
   }
@@ -735,10 +736,10 @@ textarea.txt{resize:vertical;min-height:60px}
   }
 
   /* ----- execute ----- */
-  $("ad-send").addEventListener("click", function(){
+  $("bz-send").addEventListener("click", function(){
     if (!plan || !walletPk || !provider){ log("Fetch holders and connect a wallet first.", "err"); return; }
     if (!provider.signAllTransactions){ log("This wallet does not support batch signing.", "err"); return; }
-    $("ad-send").disabled = true;
+    $("bz-send").disabled = true;
     var c = conn();
     var srcAta = ataFor(walletPk, plan.mint, plan.program);
     var chunks = [];
@@ -752,7 +753,7 @@ textarea.txt{resize:vertical;min-height:60px}
       if (startIdx >= chunks.length){
         $("p-fill").style.width = "100%";
         log("Distribution complete. " + sent + " confirmed, " + failed + " failed.", failed ? "err" : "ok");
-        $("ad-send").disabled = false;
+        $("bz-send").disabled = false;
         return;
       }
       var group = chunks.slice(startIdx, startIdx + TXS_PER_WAVE);
@@ -785,7 +786,7 @@ textarea.txt{resize:vertical;min-height:60px}
       }).then(function(){ wave(startIdx + TXS_PER_WAVE); })
         .catch(function(e){
           log("Wave failed or was declined: " + (e.message || e), "err");
-          $("ad-send").disabled = false;
+          $("bz-send").disabled = false;
         });
     }
     wave(0);
