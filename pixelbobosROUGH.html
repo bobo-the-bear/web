@@ -70,7 +70,7 @@
 
     /* smooth scrolling + offset so the sticky ticker doesn't cover section tops */
     html { scroll-behavior: smooth; }
-    #who, #bobonomics, #about, #trade, #nfts { scroll-margin-top: 70px; }
+    #who, #bobonomics, #generator, #trade, #nfts { scroll-margin-top: 70px; }
 
     /* ---------- side nav rail (desktop) ---------- */
     .bt-sidenav {
@@ -95,7 +95,62 @@
       }
       .bt-sidenav a { padding: 8px 12px; font-size: 12px; }
     }
+
+    /* ---------- motion system (progressive enhancement) ---------- */
+    .bt-anim .bt-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s cubic-bezier(.22,.61,.36,1),
+                  transform .7s cubic-bezier(.22,.61,.36,1);
+      will-change: opacity, transform;
+    }
+    .bt-anim .bt-reveal.bt-in { opacity: 1; transform: none; }
+
+    /* gentle ambient float on the confused Bobo */
+    @media (prefers-reduced-motion: no-preference) {
+      .image-8 { animation: bt-float 6s ease-in-out infinite; }
+    }
+    @keyframes bt-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* hover micro-interactions on action + social buttons */
+    .div-block-4 a, .div-block-3 a { display: inline-block; transition: transform .18s ease; }
+    .div-block-4 a:hover, .div-block-3 a:hover { transform: translateY(-2px) scale(1.04); }
+
+    /* exchange cards lift on hover */
+    .div-block-15 { transition: transform .18s ease, box-shadow .18s ease; }
+    .div-block-15:hover { transform: translateY(-3px); }
+
+    /* ---------- Pixel Bobo PFP generator section ---------- */
+    .bt-gen-head { text-align: center; }
+    .bt-gen-sub {
+      font-family: 'Courier New', ui-monospace, monospace;
+      color: #937a6b; text-transform: uppercase; letter-spacing: .08em;
+      font-size: 12px; text-align: center; margin: 6px 0 22px;
+    }
+    .bt-gen-frame {
+      max-width: 960px; margin: 0 auto;
+      border: 3px solid #261d1b; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 18px 40px rgba(38,29,27,.28);
+      background: #fee1bf;
+    }
+    .bt-gen-frame iframe { display: block; width: 100%; height: 720px; border: 0; }
+    .bt-gen-actions { text-align: center; margin-top: 18px; }
+    .bt-gen-open {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #b90b2a; color: #fee1bf; text-decoration: none;
+      font-family: 'Courier New', ui-monospace, monospace; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em; font-size: 13px;
+      padding: 10px 20px; border-radius: 8px;
+      transition: transform .15s ease, background .15s ease, color .15s ease;
+    }
+    .bt-gen-open:hover { background: #261d1b; color: #fee1bf; transform: translateY(-2px); }
+    @media (max-width: 640px) { .bt-gen-frame iframe { height: 560px; } }
   </style>
+  <script>
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      document.documentElement.classList.add('bt-anim');
+    }
+  </script>
 </head>
 <body class="body">
 
@@ -113,7 +168,7 @@
   <nav class="bt-sidenav" aria-label="Section navigation">
     <a href="#who">Who</a>
     <a href="#bobonomics">Bobonomics</a>
-    <a href="#about">About</a>
+    <a href="#generator">PFP</a>
     <a href="#trade">Trade</a>
     <a href="#nfts">NFTs</a>
   </nav>
@@ -124,10 +179,10 @@
     </div>
   </div>
   <div class="w-layout-blockcontainer container-2 w-container">
-    <div class="div-block"><img src="images/bobo-marquee.png" loading="lazy" sizes="(max-width: 767px) 97vw, (max-width: 991px) 50vw, (max-width: 1919px) 47vw, 43vw" srcset="images/bobo-marquee-p-500.png 500w, images/bobo-marquee-p-800.png 800w, images/bobo-marquee-p-1080.png 1080w, images/bobo-marquee.png 1160w" alt="" class="image-2">
+    <div class="div-block bt-reveal"><img src="images/bobo-marquee.png" loading="lazy" sizes="(max-width: 767px) 97vw, (max-width: 991px) 50vw, (max-width: 1919px) 47vw, 43vw" srcset="images/bobo-marquee-p-500.png 500w, images/bobo-marquee-p-800.png 800w, images/bobo-marquee-p-1080.png 1080w, images/bobo-marquee.png 1160w" alt="" class="image-2">
       <div class="div-block-23"><img src="images/bobo-hand.png" loading="lazy" width="159.5" data-w-id="59f5b355-cead-9948-69a9-5fafd20fa5a8" alt="" class="image-32"></div>
     </div>
-    <div class="div-block-copy">
+    <div class="div-block-copy bt-reveal" style="transition-delay:.12s">
       <div class="div-block-9"><img src="images/bobo-logotype2.svg" loading="eager" alt="" class="image-3"><img src="images/bobo-tagline.svg" loading="lazy" alt="" class="image-4"></div>
       <div class="div-block-4">
         <a href="https://jup.ag/swap?sell=So11111111111111111111111111111111111111112&buy=4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump" target="_blank" class="w-inline-block"><img src="images/btn-buy-now.svg" loading="lazy" alt="Buy Now" class="image-6"></a>
@@ -141,13 +196,28 @@
       </div>
     </div>
   </div>
-  <div id="who" class="w-layout-blockcontainer container-3 w-clearfix w-container">
+  <div id="who" class="w-layout-blockcontainer container-3 w-clearfix w-container bt-reveal">
     <h1 class="heading heading-who-is-bobo">Who is Bobo?</h1>
     <div class="div-block-5 w-clearfix"><img src="images/bobo-confused.png" loading="lazy" sizes="(max-width: 991px) 70vw, (max-width: 1279px) 37vw, (max-width: 1439px) 32vw, 30vw" srcset="images/bobo-confused-p-500.png 500w, images/bobo-confused.png 568w" alt="" class="image-8">
       <p class="p-light">&quot;Bobo the Bear&quot; is a popular meme character that is used to satirize poor investment choices and express pessimism in both crypto and traditional finance markets on Twitter(X), Reddit, and the /biz board on 4chan, among other places on the internet. The <a href="https://x.com/bobocoineth" target="_blank" class="link-2">BOBO</a> coin is run by <a href="#RektBio" class="link">rekt_teka$hi,</a> an OG meme artist, who has been creating Bobo content since the meme first gained popularity in 2018.</p>
     </div>
+    <section id="RektBio" class="section">
+      <div class="div-block-11">
+        <div><img src="images/rekt-pfp.png" loading="lazy" width="96" alt="" class="image-31"></div>
+        <div class="div-block-22">
+          <p class="bio_name">rekt 熊</p>
+          <p class="bio_title">Artist/Founder</p>
+          <a href="https://x.com/rekt_tekashi" target="_blank" class="link-block-2 w-inline-block">
+            <p class="bio_twitter">@rekt_tekashi</p>
+          </a>
+        </div>
+      </div>
+      <div class="div-block-12 w-clearfix"><img src="images/boboboomer2.png" loading="lazy" width="284" sizes="(max-width: 991px) 70vw, 30vw" alt="" srcset="images/boboboomer2500.png 500w, images/boboboomer2.png 800w, images/boboboomer2.png 1024w" class="image-18">
+        <p class="bio-p">Rekt Tekashi is an OG meme artist, who has been creating Bobo content since the meme first gained popularity in 2018. He runs a well-known account on crypto twitter (X) where he uses the Bobo meme to satirize current market conditions daily in addition to providing the occasional insight.</p>
+      </div>
+    </section>
   </div>
-  <div id="bobonomics" class="w-layout-blockcontainer container-4 w-container">
+  <div id="bobonomics" class="w-layout-blockcontainer container-4 w-container bt-reveal">
     <h2 class="heading-bobonomics">Bobonomics</h2>
     <div class="div-block-7">
       <a href="https://solscan.io/token/4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump" target="_blank" class="link-block w-inline-block">
@@ -163,34 +233,21 @@
     </div>
     <div class="div-block-10"></div>
   </div>
-  <div id="about" class="w-layout-blockcontainer container-5 w-clearfix w-container">
-    <h2 class="heading heading-about">About BOBO</h2>
-    <div class="div-block-5">
-      <section id="RektBio" class="section">
-        <div class="div-block-11">
-          <div><img src="images/rekt-pfp.png" loading="lazy" width="96" alt="" class="image-31"></div>
-          <div class="div-block-22">
-            <p class="bio_name">rekt 熊</p>
-            <p class="bio_title">Artist/Founder</p>
-            <a href="https://x.com/rekt_tekashi" target="_blank" class="link-block-2 w-inline-block">
-              <p class="bio_twitter">@rekt_tekashi</p>
-            </a>
-          </div>
-        </div>
-        <div class="div-block-12 w-clearfix"><img src="images/boboboomer2.png" loading="lazy" width="284" sizes="(max-width: 991px) 70vw, 30vw" alt="" srcset="images/boboboomer2500.png 500w, images/boboboomer2.png 800w, images/boboboomer2.png 1024w" class="image-18">
-          <p class="bio-p">Rekt Tekashi is an OG meme artist, who has been creating Bobo content since the meme first gained popularity in 2018. He runs a well-known account on crypto twitter (X) where he uses the Bobo meme to satirize current market conditions daily in addition to providing the occasional insight.</p>
-        </div>
-      </section>
+  <div id="generator" class="w-layout-blockcontainer container-5 w-clearfix w-container bt-reveal">
+    <h2 class="heading heading-about bt-gen-head">Build Your Bobo</h2>
+    <p class="bt-gen-sub">Pixel Bobo PFP Generator</p>
+    <div class="bt-gen-frame">
+      <iframe src="https://www.bobothebear.io/pixelbobos.html" title="Pixel Bobo PFP Generator" loading="lazy"></iframe>
+    </div>
+    <div class="bt-gen-actions">
+      <a href="https://www.bobothebear.io/pixelbobos.html" target="_blank" rel="noopener" class="bt-gen-open">Open full generator ↗</a>
     </div>
   </div>
-  <div id="trade" class="w-layout-blockcontainer container-6 w-container">
+  <div id="trade" class="w-layout-blockcontainer container-6 w-container bt-reveal">
     <div class="div-block-13"><img src="images/bobo-45.png" loading="lazy" width="364" sizes="(max-width: 767px) 100vw, (max-width: 991px) 98vw, (max-width: 1919px) 33vw, 42vw" alt="" srcset="images/bobo-4-p-500.png 500w, images/bobo-45.png 728w" class="image-19">
       <div class="div-block-14">
         <h2 class="heading heading-where-to-trade">Where to trade</h2>
         <div class="div-block-16">
-          <a href="https://blofin.com/spot/BOBO-USDT" target="_blank" class="div-block-15 w-inline-block"><img src="images/logo-bitget3.svg" loading="lazy" alt="" class="image-24">
-            <p class="logo-label">BloFin</p>
-          </a>
           <a href="https://www.xt.com/en/trade/bobo_usdt" target="_blank" class="div-block-15 w-inline-block"><img src="images/logo-xt.svg" loading="lazy" alt="" class="image-25">
             <p class="logo-label">XT</p>
           </a>
@@ -203,14 +260,11 @@
           <a href="https://www.lbank.com/trade/bobo_usdt" target="_blank" class="div-block-15 w-inline-block"><img src="images/logo-lbank.svg" loading="lazy" alt="" class="image-29">
             <p class="logo-label">LBank</p>
           </a>
-          <a href="https://www.coinex.com/en/info/BOBO" target="_blank" class="div-block-15 w-inline-block"><img src="images/logo-coinex.svg" loading="lazy" alt="" class="image-30">
-            <p class="logo-label">CoinEx</p>
-          </a>
         </div>
       </div>
     </div>
   </div>
-  <div id="nfts" class="w-layout-blockcontainer container-7 w-container">
+  <div id="nfts" class="w-layout-blockcontainer container-7 w-container bt-reveal">
     <div class="div-block-18">
       <div class="div-block-21">
         <h2 class="heading heading-nfts">The Bobo Council NFTs</h2>
@@ -319,6 +373,23 @@ window.addEventListener('scroll', function() {
 
     load();
     setInterval(load, 45000); // refresh every 45s
+  })();
+</script>
+  <!-- Scroll-reveal motion -->
+  <script>
+  (function () {
+    var els = document.querySelectorAll('.bt-reveal');
+    var animated = document.documentElement.classList.contains('bt-anim');
+    if (!animated || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('bt-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('bt-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
   })();
 </script>
 </body>
