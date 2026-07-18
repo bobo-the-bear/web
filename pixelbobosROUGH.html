@@ -67,6 +67,34 @@
     @media (max-width: 600px) {
       .bt-ticker { justify-content: center; text-align: center; }
     }
+
+    /* smooth scrolling + offset so the sticky ticker doesn't cover section tops */
+    html { scroll-behavior: smooth; }
+    #who, #bobonomics, #about, #trade, #nfts { scroll-margin-top: 70px; }
+
+    /* ---------- side nav rail (desktop) ---------- */
+    .bt-sidenav {
+      position: fixed; top: 50%; right: 24px; transform: translateY(-50%);
+      z-index: 90;
+      background: rgba(38,29,27,0.9); backdrop-filter: blur(6px);
+      border: 1px solid rgba(254,225,191,0.25); border-radius: 14px;
+      padding: 10px; display: flex; flex-direction: column; gap: 2px;
+    }
+    .bt-sidenav a {
+      font-family: 'Courier New', ui-monospace, monospace;
+      font-size: 13px; text-transform: uppercase; letter-spacing: .05em;
+      color: #fee1bf; text-decoration: none; padding: 10px 20px;
+      border-radius: 10px; text-align: center; white-space: nowrap;
+      transition: background .15s, color .15s;
+    }
+    .bt-sidenav a:hover { background: #b90b2a; color: #fee1bf; }
+    @media (max-width: 640px) {
+      .bt-sidenav {
+        top: auto; bottom: 20px; right: 50%; transform: translateX(50%);
+        flex-direction: row; border-radius: 30px; max-width: 92vw; overflow-x: auto;
+      }
+      .bt-sidenav a { padding: 8px 12px; font-size: 12px; }
+    }
   </style>
 </head>
 <body class="body">
@@ -80,6 +108,15 @@
     </div>
     <a href="/pixelbobos.html" class="bt-pixel-link">🎨 Pixel Bobo Generator →</a>
   </div>
+
+  <!-- Right-side section navigation (collapses to bottom bar on mobile) -->
+  <nav class="bt-sidenav" aria-label="Section navigation">
+    <a href="#who">Who</a>
+    <a href="#bobonomics">Bobonomics</a>
+    <a href="#about">About</a>
+    <a href="#trade">Trade</a>
+    <a href="#nfts">NFTs</a>
+  </nav>
 
   <div id="Navbar" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="container w-container">
@@ -104,13 +141,13 @@
       </div>
     </div>
   </div>
-  <div class="w-layout-blockcontainer container-3 w-clearfix w-container">
+  <div id="who" class="w-layout-blockcontainer container-3 w-clearfix w-container">
     <h1 class="heading heading-who-is-bobo">Who is Bobo?</h1>
     <div class="div-block-5 w-clearfix"><img src="images/bobo-confused.png" loading="lazy" sizes="(max-width: 991px) 70vw, (max-width: 1279px) 37vw, (max-width: 1439px) 32vw, 30vw" srcset="images/bobo-confused-p-500.png 500w, images/bobo-confused.png 568w" alt="" class="image-8">
       <p class="p-light">&quot;Bobo the Bear&quot; is a popular meme character that is used to satirize poor investment choices and express pessimism in both crypto and traditional finance markets on Twitter(X), Reddit, and the /biz board on 4chan, among other places on the internet. The <a href="https://x.com/bobocoineth" target="_blank" class="link-2">BOBO</a> coin is run by <a href="#RektBio" class="link">rekt_teka$hi,</a> an OG meme artist, who has been creating Bobo content since the meme first gained popularity in 2018.</p>
     </div>
   </div>
-  <div class="w-layout-blockcontainer container-4 w-container">
+  <div id="bobonomics" class="w-layout-blockcontainer container-4 w-container">
     <h2 class="heading-bobonomics">Bobonomics</h2>
     <div class="div-block-7">
       <a href="https://solscan.io/token/4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump" target="_blank" class="link-block w-inline-block">
@@ -126,7 +163,7 @@
     </div>
     <div class="div-block-10"></div>
   </div>
-  <div class="w-layout-blockcontainer container-5 w-clearfix w-container">
+  <div id="about" class="w-layout-blockcontainer container-5 w-clearfix w-container">
     <h2 class="heading heading-about">About BOBO</h2>
     <div class="div-block-5">
       <section id="RektBio" class="section">
@@ -146,7 +183,7 @@
       </section>
     </div>
   </div>
-  <div class="w-layout-blockcontainer container-6 w-container">
+  <div id="trade" class="w-layout-blockcontainer container-6 w-container">
     <div class="div-block-13"><img src="images/bobo-45.png" loading="lazy" width="364" sizes="(max-width: 767px) 100vw, (max-width: 991px) 98vw, (max-width: 1919px) 33vw, 42vw" alt="" srcset="images/bobo-4-p-500.png 500w, images/bobo-45.png 728w" class="image-19">
       <div class="div-block-14">
         <h2 class="heading heading-where-to-trade">Where to trade</h2>
@@ -173,7 +210,7 @@
       </div>
     </div>
   </div>
-  <div class="w-layout-blockcontainer container-7 w-container">
+  <div id="nfts" class="w-layout-blockcontainer container-7 w-container">
     <div class="div-block-18">
       <div class="div-block-21">
         <h2 class="heading heading-nfts">The Bobo Council NFTs</h2>
