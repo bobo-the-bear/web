@@ -201,7 +201,7 @@
     var save = document.getElementById("saveBobo");
     var prepared;
     var backgroundIndex = 0;
-    var picks = { Body: 3, Mouth: 4, Eyes: 0, "Head Item": null, Item: null };
+    var picks = { Body: 3, Mouth: 4, Eyes: 2, "Head Item": null, Item: null };
 
     function render() {
       if (!prepared) return;
