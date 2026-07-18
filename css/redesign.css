@@ -1176,6 +1176,10 @@ main {
   letter-spacing: 0.08em;
 }
 
+.generator-loading[hidden] {
+  display: none !important;
+}
+
 .trait-summary {
   min-height: 42px;
   margin: 13px 0 0;
