@@ -304,6 +304,7 @@
       });
 
       loading.hidden = true;
+      loading.style.display = "none";
       shuffle.disabled = false;
       clear.disabled = false;
       save.disabled = false;
