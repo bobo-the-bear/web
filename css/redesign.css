@@ -423,10 +423,10 @@ main {
 .art-stage img {
   position: absolute;
   z-index: 1;
-  width: 113%;
+  width: 100%;
   max-width: none;
   left: 50%;
-  bottom: -5%;
+  bottom: -14%;
   transform: translateX(-50%);
   filter: saturate(0.9) sepia(0.04);
 }
@@ -1701,7 +1701,7 @@ main {
   .hero-art { min-height: 430px; margin-top: 8px; }
   .paper { inset: 22px 4px 48px 26px; }
   .terminal-window { inset: 37px 8px 54px 10px; }
-  .art-stage img { width: 121%; }
+  .art-stage img { width: 108%; bottom: -12%; }
   .issue-card { right: -10px; width: 165px; padding: 14px; }
   .pixel-ticket { left: 1px; bottom: 3px; min-width: 195px; }
   .scroll-cue { width: min(100% - 28px, 1500px); }
