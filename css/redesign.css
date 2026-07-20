@@ -186,36 +186,49 @@ main {
 }
 
 .header-link {
-  border: 1px solid var(--crimson);
-  padding: 12px 15px;
-  color: #e35d73;
-  font: 500 0.7rem/1 "IBM Plex Mono", monospace;
+  display: inline-flex;
+  min-height: 53px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 25px;
+  border: 1px solid var(--paper);
+  color: var(--paper);
+  font: 600 0.7rem/1 "IBM Plex Mono", monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: color 180ms ease, background 180ms ease;
+  transition: transform 180ms ease, color 180ms ease, background 180ms ease,
+    border-color 180ms ease;
 }
 
 .header-actions {
+  grid-column: 3;
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .header-link:hover,
 .header-link:focus-visible {
+  transform: translateY(-2px);
+}
+
+.header-link--primary {
+  border-color: var(--crimson);
   background: var(--crimson);
-  color: var(--paper);
+  color: var(--paper-bright);
 }
 
-.header-link--memes {
-  border-color: var(--paper);
-  color: var(--paper);
+.header-link--primary:hover,
+.header-link--primary:focus-visible {
+  border-color: var(--paper-bright);
+  background: var(--paper-bright);
+  color: var(--crimson);
 }
 
-.header-link--memes:hover,
-.header-link--memes:focus-visible {
-  border-color: var(--paper);
+.header-link--outline:hover,
+.header-link--outline:focus-visible {
   background: var(--paper);
   color: var(--ink);
 }
