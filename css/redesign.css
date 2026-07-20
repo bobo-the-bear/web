@@ -186,7 +186,6 @@ main {
 }
 
 .header-link {
-  justify-self: end;
   border: 1px solid var(--crimson);
   padding: 12px 15px;
   color: #e35d73;
@@ -196,10 +195,29 @@ main {
   transition: color 180ms ease, background 180ms ease;
 }
 
+.header-actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .header-link:hover,
 .header-link:focus-visible {
   background: var(--crimson);
   color: var(--paper);
+}
+
+.header-link--memes {
+  border-color: var(--paper);
+  color: var(--paper);
+}
+
+.header-link--memes:hover,
+.header-link--memes:focus-visible {
+  border-color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .mobile-nav {
@@ -1608,7 +1626,7 @@ main {
     grid-template-columns: 1fr auto;
   }
   .desktop-nav,
-  .header-link { display: none; }
+  .header-actions { display: none; }
   .mobile-nav { display: block; position: relative; }
   .mobile-nav summary {
     list-style: none;
