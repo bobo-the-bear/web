@@ -1626,7 +1626,7 @@ main {
     grid-template-columns: 1fr auto;
   }
   .desktop-nav,
-  .header-link { display: none; }
+  .header-actions { display: none; }
   .mobile-nav { display: block; position: relative; }
   .mobile-nav summary {
     list-style: none;
