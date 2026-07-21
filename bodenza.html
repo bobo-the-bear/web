@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bodenza is an original, seed-based Bobo generative art preview and future mint interface on Solana.">
+  <meta property="og:title" content="Bodenza — Bobo Generative Art">
+  <meta property="og:description" content="Generate deterministic bear-market abstractions in the official Bobo palette.">
+  <meta property="og:type" content="website">
+  <title>Bodenza — Bobo Generative Art</title>
+  <link rel="icon" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/webclip.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800;9..144,900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bobo-white: #ffffff;
+      --bobo-dark-brown: #472c1b;
+      --bobo-brown: #6f452d;
+      --bobo-red: #b90b2a;
+      --bobo-black: #000000;
+      --rule: rgba(255, 255, 255, 0.18);
+      --muted: rgba(255, 255, 255, 0.62);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      color-scheme: dark;
+      background: var(--bobo-black);
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--bobo-white);
+      background:
+        radial-gradient(circle at 82% 8%, rgba(185, 11, 42, 0.16), transparent 30rem),
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        var(--bobo-black);
+      background-size: auto, 24px 24px, 24px 24px, auto;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    button,
+    input { font: inherit; }
+
+    button,
+    a { -webkit-tap-highlight-color: transparent; }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--bobo-white);
+      outline-offset: 3px;
+    }
+
+    a { color: inherit; }
+
+    .topbar {
+      width: min(100% - 48px, 1520px);
+      min-height: 92px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--bobo-white);
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .brand span {
+      font: 600 0.72rem/1.05 "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-left: auto;
+    }
+
+    .topbar-nav a {
+      color: var(--muted);
+      font: 500 0.7rem/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .topbar-nav a:hover { color: var(--bobo-white); }
+
+    .wallet-button,
+    .primary-button,
+    .secondary-button,
+    .mint-button {
+      border: 1px solid var(--bobo-white);
+      min-height: 48px;
+      padding: 0 20px;
+      cursor: pointer;
+      font: 600 0.7rem/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    }
+
+    .wallet-button,
+    .secondary-button {
+      color: var(--bobo-white);
+      background: transparent;
+    }
+
+    .wallet-button:hover,
+    .secondary-button:hover {
+      color: var(--bobo-black);
+      background: var(--bobo-white);
+    }
+
+    .primary-button,
+    .mint-button {
+      color: var(--bobo-white);
+      border-color: var(--bobo-red);
+      background: var(--bobo-red);
+    }
+
+    .primary-button:hover,
+    .mint-button:not(:disabled):hover { transform: translateY(-2px); }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.46;
+    }
+
+    main {
+      width: min(100% - 48px, 1520px);
+      margin: 0 auto;
+      padding: 68px 0 0;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 8vw;
+      align-items: end;
+      margin-bottom: 52px;
+    }
+
+    .eyebrow,
+    .panel-label,
+    .status-label {
+      margin: 0;
+      color: var(--bobo-red);
+      font: 600 0.68rem/1.3 "IBM Plex Mono", monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 12px 0 0;
+      font: 900 clamp(4.5rem, 10.5vw, 10rem)/0.78 "Fraunces", Georgia, serif;
+      letter-spacing: -0.06em;
+    }
+
+    h1 em {
+      color: var(--bobo-red);
+      font-style: normal;
+    }
+
+    .intro-copy {
+      max-width: 560px;
+      margin: 0 0 8px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+      line-height: 1.7;
+    }
+
+    .intro-copy strong { color: var(--bobo-white); }
+
+    .mint-notice {
+      margin-top: 22px;
+      border-left: 3px solid var(--bobo-red);
+      padding: 10px 0 10px 15px;
+      color: var(--muted);
+      font: 500 0.68rem/1.55 "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    .studio {
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      background: rgba(71, 44, 27, 0.15);
+      box-shadow: 14px 14px 0 var(--bobo-dark-brown);
+    }
+
+    .window-bar {
+      min-height: 42px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: rgba(255, 255, 255, 0.78);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+      background: var(--bobo-dark-brown);
+      font: 500 0.64rem/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .online-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .online-state i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--bobo-red);
+      box-shadow: 0 0 12px var(--bobo-red);
+    }
+
+    .studio-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.72fr);
+      min-height: 720px;
+    }
+
+    .art-column {
+      padding: clamp(18px, 2.4vw, 36px);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .canvas-shell {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: var(--bobo-white);
+      box-shadow: 0 0 0 1px var(--bobo-black), 9px 9px 0 var(--bobo-red);
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .canvas-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 8px 10px;
+      color: var(--bobo-white);
+      background: rgba(0, 0, 0, 0.78);
+      font: 600 0.58rem/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .canvas-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 22px;
+      color: var(--muted);
+      font: 500 0.62rem/1.5 "IBM Plex Mono", monospace;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .canvas-caption strong { color: var(--bobo-white); }
+
+    .control-column {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: rgba(0, 0, 0, 0.52);
+    }
+
+    .control-section {
+      padding: 25px 26px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .control-section:last-child { border-bottom: 0; }
+
+    .seed-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      margin-top: 13px;
+    }
+
+    .seed-row input {
+      width: 100%;
+      min-width: 0;
+      height: 47px;
+      padding: 0 13px;
+      color: var(--bobo-white);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-right: 0;
+      border-radius: 0;
+      background: var(--bobo-black);
+      font: 500 0.72rem/1 "IBM Plex Mono", monospace;
+    }
+
+    .seed-row button {
+      width: 47px;
+      border: 1px solid var(--bobo-red);
+      color: var(--bobo-white);
+      background: var(--bobo-red);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .button-grid button { width: 100%; }
+
+    .traits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin: 15px 0 0;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .traits div {
+      min-width: 0;
+      padding: 12px;
+      border-right: 1px solid rgba(255, 255, 255, 0.14);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .traits div:nth-child(even) { border-right: 0; }
+    .traits div:nth-last-child(-n + 2) { border-bottom: 0; }
+
+    .traits dt {
+      margin-bottom: 6px;
+      color: var(--muted);
+      font: 500 0.54rem/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .traits dd {
+      overflow: hidden;
+      margin: 0;
+      color: var(--bobo-white);
+      font: 600 0.68rem/1.2 "IBM Plex Mono", monospace;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .progress-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 14px;
+      font: 600 0.72rem/1 "IBM Plex Mono", monospace;
+    }
+
+    .progress-head span:last-child { color: var(--muted); }
+
+    .progress-track {
+      height: 10px;
+      margin-top: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      background: var(--bobo-black);
+    }
+
+    .progress-track span {
+      width: 0;
+      height: 100%;
+      display: block;
+      background: var(--bobo-red);
+      transition: width 300ms ease;
+    }
+
+    .mint-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .mint-meta div {
+      padding: 12px;
+      background: rgba(71, 44, 27, 0.48);
+    }
+
+    .mint-meta span,
+    .mint-meta small {
+      display: block;
+      color: var(--muted);
+      font: 500 0.56rem/1.4 "IBM Plex Mono", monospace;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .mint-meta strong {
+      display: block;
+      margin: 5px 0 2px;
+      font: 800 1.18rem/1 "Fraunces", Georgia, serif;
+    }
+
+    .mint-button { width: 100%; }
+
+    .mint-status {
+      min-height: 36px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font: 500 0.62rem/1.5 "IBM Plex Mono", monospace;
+    }
+
+    .mint-status[data-kind="error"] { color: #ff7089; }
+    .mint-status[data-kind="success"] { color: var(--bobo-white); }
+
+    .palette-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      min-height: 10px;
+    }
+
+    .palette-strip i:nth-child(1) { background: #ffffff; }
+    .palette-strip i:nth-child(2) { background: #472c1b; }
+    .palette-strip i:nth-child(3) { background: #6f452d; }
+    .palette-strip i:nth-child(4) { background: #b90b2a; }
+    .palette-strip i:nth-child(5) { background: #000000; border-left: 1px solid rgba(255, 255, 255, 0.2); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 8vw;
+      padding: 112px 0;
+    }
+
+    .about-grid h2 {
+      margin: 10px 0 0;
+      font: 900 clamp(3.4rem, 7vw, 7rem)/0.87 "Fraunces", Georgia, serif;
+      letter-spacing: -0.05em;
+    }
+
+    .about-copy {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.96rem;
+      line-height: 1.75;
+    }
+
+    .about-copy strong { color: var(--bobo-white); }
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 34px 0 46px;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 500 0.62rem/1.6 "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    .site-footer p { max-width: 720px; margin: 0; text-align: right; }
+
+    .toast {
+      position: fixed;
+      z-index: 100;
+      right: 22px;
+      bottom: 22px;
+      max-width: min(420px, calc(100% - 44px));
+      padding: 15px 18px;
+      color: var(--bobo-white);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-left: 4px solid var(--bobo-red);
+      background: var(--bobo-dark-brown);
+      box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.8);
+      font: 500 0.68rem/1.5 "IBM Plex Mono", monospace;
+    }
+
+    .toast[hidden] { display: none; }
+
+    @media (max-width: 1050px) {
+      .intro { grid-template-columns: 1fr; gap: 34px; }
+      .studio-grid { grid-template-columns: 1fr; }
+      .art-column { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+      .control-column { display: grid; grid-template-columns: 1fr 1fr; }
+      .control-section { border-right: 1px solid rgba(255, 255, 255, 0.18); }
+      .control-section:nth-child(even) { border-right: 0; }
+      .about-grid { grid-template-columns: 1fr; gap: 45px; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar { width: min(100% - 28px, 1520px); min-height: 76px; }
+      .brand img { width: 42px; height: 42px; }
+      .topbar-nav { display: none; }
+      .wallet-button { min-height: 42px; padding: 0 13px; font-size: 0.59rem; }
+      main { width: min(100% - 28px, 1520px); padding-top: 48px; }
+      h1 { font-size: clamp(4rem, 22vw, 6.5rem); }
+      .studio { box-shadow: 8px 8px 0 var(--bobo-dark-brown); }
+      .studio-grid { min-height: 0; }
+      .art-column { padding: 14px; }
+      .canvas-shell { box-shadow: 0 0 0 1px var(--bobo-black), 5px 5px 0 var(--bobo-red); }
+      .canvas-caption { flex-direction: column; gap: 4px; }
+      .control-column { display: block; }
+      .control-section { padding: 22px 18px; border-right: 0; }
+      .button-grid { grid-template-columns: 1fr; }
+      .about-grid { padding: 88px 0; }
+      .about-copy { grid-template-columns: 1fr; gap: 12px; }
+      .site-footer { flex-direction: column; }
+      .site-footer p { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Bobo the Bear home">
+      <img src="images/logo.png" alt="">
+      <span>Bobo<br>The Bear</span>
+    </a>
+    <nav class="topbar-nav" aria-label="Bodenza navigation">
+      <a href="index.html">Home</a>
+      <a href="#studio">Studio</a>
+      <a href="#algorithm">Algorithm</a>
+    </nav>
+    <button class="wallet-button" id="connectWallet" type="button">Connect wallet</button>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Bobo generative works / Preview terminal</p>
+        <h1 id="page-title">Bo<em>denza.</em></h1>
+      </div>
+      <div>
+        <p class="intro-copy"><strong>Every bear market leaves a path.</strong> Generate an original, deterministic abstraction from one seed and the five official Bobo colors.</p>
+        <p class="mint-notice" id="launchNotice">Preview mode — mint contract not configured</p>
+      </div>
+    </section>
+
+    <section class="studio" id="studio" aria-label="Bodenza generative art studio">
+      <div class="window-bar">
+        <span>BODENZA_GENERATOR.SYS / 2048 × 2048</span>
+        <span class="online-state"><i aria-hidden="true"></i>Generator online</span>
+      </div>
+
+      <div class="studio-grid">
+        <div class="art-column">
+          <div class="canvas-shell">
+            <canvas id="artCanvas" width="2048" height="2048" role="img" aria-label="Generated Bodenza abstract artwork"></canvas>
+            <span class="canvas-badge" id="editionBadge">Preview / Not minted</span>
+          </div>
+          <div class="canvas-caption">
+            <span><strong id="captionSeed">Seed —</strong></span>
+            <span>Deterministic output / PNG ready</span>
+          </div>
+        </div>
+
+        <aside class="control-column" aria-label="Artwork and mint controls">
+          <section class="control-section">
+            <p class="panel-label">01 / Seed</p>
+            <label class="seed-row" for="seedInput">
+              <input id="seedInput" type="text" maxlength="64" autocomplete="off" spellcheck="false" aria-label="Artwork seed">
+              <button id="randomSeed" type="button" title="Create a random seed" aria-label="Create a random seed">↻</button>
+            </label>
+            <div class="button-grid">
+              <button class="primary-button" id="generateArt" type="button">Generate / Preview</button>
+              <button class="secondary-button" id="savePng" type="button">Save PNG</button>
+            </div>
+          </section>
+
+          <section class="control-section">
+            <p class="panel-label">02 / Generated traits</p>
+            <dl class="traits" id="traitList" aria-live="polite">
+              <div><dt>Palette</dt><dd data-trait="palette">—</dd></div>
+              <div><dt>Market flow</dt><dd data-trait="flow">—</dd></div>
+              <div><dt>Density</dt><dd data-trait="density">—</dd></div>
+              <div><dt>Volatility</dt><dd data-trait="volatility">—</dd></div>
+              <div><dt>Paw signals</dt><dd data-trait="paws">—</dd></div>
+              <div><dt>Hex breaks</dt><dd data-trait="hexes">—</dd></div>
+            </dl>
+          </section>
+
+          <section class="control-section">
+            <p class="panel-label">03 / Collection progress</p>
+            <div class="progress-head"><span id="mintedCount">— / 1,000</span><span id="progressPercent">Awaiting contract</span></div>
+            <div class="progress-track" role="progressbar" aria-label="Mint progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressFill"></span></div>
+          </section>
+
+          <section class="control-section">
+            <p class="panel-label">04 / Mint</p>
+            <div class="mint-meta">
+              <div><span>Price</span><strong id="mintPrice">0.25 SOL</strong><small>Network fees separate</small></div>
+              <div><span>Network</span><strong>Solana</strong><small id="networkLabel">Mainnet / unconfigured</small></div>
+            </div>
+            <button class="mint-button" id="mintButton" type="button" disabled>Mint not configured</button>
+            <p class="mint-status" id="mintStatus" role="status" aria-live="polite">Connect a wallet to preview wallet readiness. Minting stays disabled until verified collection and Candy Machine addresses are added.</p>
+          </section>
+        </aside>
+      </div>
+      <div class="palette-strip" aria-label="Official Bobo palette: white, dark brown, brown, red, and black"><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+
+    <section class="about-grid" id="algorithm" aria-labelledby="algorithm-title">
+      <div>
+        <p class="eyebrow">Original system / Bear market logic</p>
+        <h2 id="algorithm-title">Built to trend down.</h2>
+      </div>
+      <div class="about-copy">
+        <p><strong>Bodenza uses its own drawing rules.</strong> Segmented market routes descend through a seeded vector drift, interrupted by drawdown cuts, paw signals, and honeycomb-like gaps. The same seed always rebuilds the same image.</p>
+        <p>The system uses the Bobo palette only: #FFFFFF, #472C1B, #6F452D, #B90B2A, and #000000. It is an original Bobo project and is not affiliated with Tyler Hobbs or Fidenza.</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>© 2026 Bobo the Bear</span>
+      <p>Preview artwork is generated in your browser. A wallet connection does not authorize a transaction. Always verify mint details in your wallet before signing.</p>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script>
+    "use strict";
+
+    /*
+     * LIVE MINT CONFIGURATION
+     * -----------------------
+     * Leave collectionAddress and candyMachineAddress empty until the deployed
+     * Metaplex Core collection and Core Candy Machine have been verified.
+     * minted may remain null; a live adapter should fetch the on-chain count.
+     */
+    const MINT_CONFIG = Object.freeze({
+      rpcEndpoint: "https://api.mainnet-beta.solana.com",
+      collectionAddress: "",
+      candyMachineAddress: "",
+      mintPriceSol: 0.25,
+      supply: 1000,
+      minted: null
+    });
+
+    const COLORS = Object.freeze({
+      white: "#FFFFFF",
+      darkBrown: "#472C1B",
+      brown: "#6F452D",
+      red: "#B90B2A",
+      black: "#000000"
+    });
+
+    const canvas = document.getElementById("artCanvas");
+    const ctx = canvas.getContext("2d", { alpha: false });
+    const seedInput = document.getElementById("seedInput");
+    const connectWalletButton = document.getElementById("connectWallet");
+    const mintButton = document.getElementById("mintButton");
+    const mintStatus = document.getElementById("mintStatus");
+    const toast = document.getElementById("toast");
+    let currentSeed = "";
+    let currentTraits = null;
+    let walletProvider = null;
+    let walletPublicKey = "";
+    let toastTimer = 0;
+
+    function hashSeed(value) {
+      let h = 2166136261 >>> 0;
+      for (let i = 0; i < value.length; i += 1) {
+        h ^= value.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+        h ^= h >>> 13;
+      }
+      return h >>> 0;
+    }
+
+    function createRng(seed) {
+      let state = hashSeed(seed) || 0x6d2b79f5;
+      return function random() {
+        state += 0x6d2b79f5;
+        let t = state;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function choose(rng, values) {
+      return values[Math.floor(rng() * values.length)];
+    }
+
+    function randomInt(rng, min, max) {
+      return Math.floor(rng() * (max - min + 1)) + min;
+    }
+
+    function createRandomSeed() {
+      try {
+        const bytes = new Uint32Array(3);
+        crypto.getRandomValues(bytes);
+        return `BOBO-${Array.from(bytes, value => value.toString(16).padStart(8, "0")).join("-")}`;
+      } catch (error) {
+        return `BOBO-${Date.now().toString(16)}-${Math.floor(Math.random() * 1e8).toString(16)}`;
+      }
+    }
+
+    function buildTraits(seed) {
+      const rng = createRng(`${seed}:traits`);
+      const paletteRoll = rng();
+      const palette = paletteRoll < 0.07 ? "Full Rekt" : paletteRoll < 0.23 ? "Paper Hands" : paletteRoll < 0.46 ? "Brownout" : paletteRoll < 0.64 ? "Blackout" : "Classic Bobo";
+      const flowRoll = rng();
+      const flow = flowRoll < 0.18 ? "Bull Trap" : flowRoll < 0.56 ? "Capitulation" : "Downtrend";
+      const densityRoll = rng();
+      const density = densityRoll < 0.27 ? "Sparse" : densityRoll < 0.74 ? "Measured" : "Heavy";
+      const volatilityRoll = rng();
+      const volatility = volatilityRoll < 0.30 ? "Low" : volatilityRoll < 0.76 ? "Medium" : "High";
+      const routeCounts = { Sparse: 20, Measured: 29, Heavy: 39 };
+      const volatilityValues = { Low: 0.55, Medium: 0.9, High: 1.32 };
+
+      return {
+        palette,
+        flow,
+        density,
+        volatility,
+        routeCount: routeCounts[density] + randomInt(rng, -2, 3),
+        volatilityValue: volatilityValues[volatility],
+        paws: randomInt(rng, 1, density === "Heavy" ? 6 : 4),
+        hexes: randomInt(rng, 3, density === "Sparse" ? 7 : 12),
+        redCuts: palette === "Full Rekt" ? randomInt(rng, 4, 7) : randomInt(rng, 1, 3)
+      };
+    }
+
+    function paletteForTraits(traits) {
+      const palettes = {
+        "Classic Bobo": { background: COLORS.white, routes: [COLORS.darkBrown, COLORS.brown, COLORS.black, COLORS.brown, COLORS.darkBrown], accent: COLORS.red },
+        "Brownout": { background: COLORS.darkBrown, routes: [COLORS.brown, COLORS.black, COLORS.white, COLORS.brown], accent: COLORS.red },
+        "Blackout": { background: COLORS.black, routes: [COLORS.darkBrown, COLORS.brown, COLORS.white, COLORS.darkBrown], accent: COLORS.red },
+        "Paper Hands": { background: COLORS.white, routes: [COLORS.black, COLORS.brown, COLORS.darkBrown, COLORS.white], accent: COLORS.red },
+        "Full Rekt": { background: COLORS.red, routes: [COLORS.black, COLORS.darkBrown, COLORS.white, COLORS.brown], accent: COLORS.white }
+      };
+      return palettes[traits.palette];
+    }
+
+    function hexPath(context, x, y, radius) {
+      context.beginPath();
+      for (let side = 0; side < 6; side += 1) {
+        const angle = Math.PI / 3 * side - Math.PI / 6;
+        const px = x + Math.cos(angle) * radius;
+        const py = y + Math.sin(angle) * radius;
+        if (side === 0) context.moveTo(px, py);
+        else context.lineTo(px, py);
+      }
+      context.closePath();
+    }
+
+    function drawPaperTexture(rng, background) {
+      ctx.fillStyle = background;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.globalAlpha = background === COLORS.white ? 0.075 : 0.13;
+      ctx.fillStyle = background === COLORS.white ? COLORS.black : COLORS.white;
+      for (let i = 0; i < 5600; i += 1) {
+        const size = rng() < 0.94 ? 1.5 : 4;
+        ctx.fillRect(rng() * canvas.width, rng() * canvas.height, size, size);
+      }
+      ctx.restore();
+    }
+
+    function routePoints(rng, index, traits) {
+      const points = [];
+      const segmentCount = randomInt(rng, 26, 42);
+      const lane = (index + 0.5) / traits.routeCount;
+      let x = lane * canvas.width + (rng() - 0.5) * 260;
+      let y = -180 - rng() * 380;
+      const phase = rng() * Math.PI * 2;
+      const direction = rng() < 0.5 ? -1 : 1;
+      const drift = (rng() - 0.5) * 17 * traits.volatilityValue;
+
+      for (let step = 0; step < segmentCount; step += 1) {
+        const progress = step / (segmentCount - 1);
+        const bullTrap = traits.flow === "Bull Trap" && progress > 0.20 && progress < 0.47;
+        const fall = bullTrap ? -38 : traits.flow === "Capitulation" ? 70 + progress * 35 : 66;
+        const wave = Math.sin(progress * Math.PI * (2.2 + traits.volatilityValue) + phase) * 31 * traits.volatilityValue;
+        x += drift + wave * 0.18 + direction * (rng() - 0.5) * 34 * traits.volatilityValue;
+        y += fall + (rng() - 0.5) * 20;
+        points.push({ x, y });
+      }
+      return points;
+    }
+
+    function drawSegmentedRoute(rng, points, color, width) {
+      const half = width / 2;
+      const gapChance = 0.075 + rng() * 0.055;
+      for (let i = 0; i < points.length - 1; i += 1) {
+        if (rng() < gapChance) continue;
+        const a = points[i];
+        const b = points[i + 1];
+        const angle = Math.atan2(b.y - a.y, b.x - a.x);
+        const nx = Math.cos(angle + Math.PI / 2) * half;
+        const ny = Math.sin(angle + Math.PI / 2) * half;
+        const taper = i === 0 || i === points.length - 2 ? 0.72 : 1;
+        ctx.beginPath();
+        ctx.moveTo(a.x + nx * taper, a.y + ny * taper);
+        ctx.lineTo(b.x + nx, b.y + ny);
+        ctx.lineTo(b.x - nx, b.y - ny);
+        ctx.lineTo(a.x - nx * taper, a.y - ny * taper);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.lineWidth = Math.max(3, width * 0.045);
+        ctx.strokeStyle = color === COLORS.black ? COLORS.darkBrown : COLORS.black;
+        ctx.stroke();
+      }
+    }
+
+    function drawPawSignal(rng, palette) {
+      const x = 160 + rng() * (canvas.width - 320);
+      const y = 180 + rng() * (canvas.height - 360);
+      const radius = randomInt(rng, 28, 58);
+      const color = rng() < 0.42 ? palette.accent : choose(rng, palette.routes);
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate((rng() - 0.5) * 1.2);
+      ctx.fillStyle = color;
+      ctx.strokeStyle = COLORS.black;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.ellipse(0, radius * 0.35, radius * 0.92, radius * 0.76, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      [-1.08, -0.36, 0.36, 1.08].forEach((offset, index) => {
+        ctx.beginPath();
+        ctx.ellipse(offset * radius * 0.67, -radius * (0.48 + Math.abs(index - 1.5) * 0.1), radius * 0.31, radius * 0.42, offset * 0.12, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      });
+      ctx.restore();
+    }
+
+    function drawRedCut(rng, accent) {
+      const startX = -280 + rng() * canvas.width;
+      const startY = rng() * canvas.height * 0.85;
+      const width = randomInt(rng, 44, 118);
+      const length = randomInt(rng, 650, 1180);
+      ctx.save();
+      ctx.translate(startX, startY);
+      ctx.rotate(0.55 + rng() * 0.28);
+      ctx.fillStyle = accent;
+      ctx.strokeStyle = COLORS.black;
+      ctx.lineWidth = 8;
+      ctx.beginPath();
+      ctx.moveTo(0, -width / 2);
+      ctx.lineTo(length, -width * 0.28);
+      ctx.lineTo(length - width * 0.8, 0);
+      ctx.lineTo(length, width * 0.28);
+      ctx.lineTo(0, width / 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawArtwork(seed) {
+      if (!ctx) throw new Error("This browser could not start the canvas renderer.");
+      const cleanSeed = seed.trim();
+      if (!cleanSeed) throw new Error("Enter a seed before generating artwork.");
+
+      const traits = buildTraits(cleanSeed);
+      const palette = paletteForTraits(traits);
+      const rng = createRng(`${cleanSeed}:art`);
+      drawPaperTexture(rng, palette.background);
+
+      for (let route = 0; route < traits.routeCount; route += 1) {
+        const points = routePoints(rng, route, traits);
+        const routeColor = choose(rng, palette.routes);
+        const routeWidth = randomInt(rng, traits.density === "Heavy" ? 28 : 34, traits.density === "Sparse" ? 96 : 78);
+        drawSegmentedRoute(rng, points, routeColor, routeWidth);
+      }
+
+      for (let cut = 0; cut < traits.redCuts; cut += 1) drawRedCut(rng, palette.accent);
+
+      for (let gap = 0; gap < traits.hexes; gap += 1) {
+        const radius = randomInt(rng, 32, 94);
+        const x = 100 + rng() * (canvas.width - 200);
+        const y = 100 + rng() * (canvas.height - 200);
+        hexPath(ctx, x, y, radius);
+        ctx.fillStyle = palette.background;
+        ctx.fill();
+        ctx.lineWidth = randomInt(rng, 4, 10);
+        ctx.strokeStyle = rng() < 0.25 ? palette.accent : COLORS.black;
+        ctx.stroke();
+      }
+
+      for (let paw = 0; paw < traits.paws; paw += 1) drawPawSignal(rng, palette);
+
+      ctx.save();
+      ctx.globalAlpha = 0.78;
+      ctx.fillStyle = palette.background === COLORS.black ? COLORS.white : COLORS.black;
+      ctx.font = "600 24px IBM Plex Mono, monospace";
+      ctx.textAlign = "right";
+      ctx.fillText(`BODENZA / ${hashSeed(cleanSeed).toString(16).toUpperCase().padStart(8, "0")}`, canvas.width - 48, canvas.height - 42);
+      ctx.restore();
+
+      currentSeed = cleanSeed;
+      currentTraits = traits;
+      updateArtworkUi();
+    }
+
+    function updateArtworkUi() {
+      document.getElementById("captionSeed").textContent = `Seed ${currentSeed}`;
+      const values = {
+        palette: currentTraits.palette,
+        flow: currentTraits.flow,
+        density: currentTraits.density,
+        volatility: currentTraits.volatility,
+        paws: String(currentTraits.paws),
+        hexes: String(currentTraits.hexes)
+      };
+      Object.entries(values).forEach(([key, value]) => {
+        const field = document.querySelector(`[data-trait="${key}"]`);
+        if (field) field.textContent = value;
+      });
+    }
+
+    function showToast(message) {
+      window.clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.hidden = false;
+      toastTimer = window.setTimeout(() => { toast.hidden = true; }, 4200);
+    }
+
+    function setMintStatus(message, kind = "info") {
+      mintStatus.textContent = message;
+      mintStatus.dataset.kind = kind;
+    }
+
+    function isPublicKeyLike(value) {
+      return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(value);
+    }
+
+    function isMintConfigured() {
+      return Boolean(
+        /^https?:\/\//.test(MINT_CONFIG.rpcEndpoint) &&
+        isPublicKeyLike(MINT_CONFIG.collectionAddress) &&
+        isPublicKeyLike(MINT_CONFIG.candyMachineAddress)
+      );
+    }
+
+    function findWalletProvider() {
+      if (window.phantom?.solana?.isPhantom) return window.phantom.solana;
+      if (window.solana?.connect) return window.solana;
+      return null;
+    }
+
+    function shortenKey(value) {
+      return `${value.slice(0, 4)}…${value.slice(-4)}`;
+    }
+
+    /*
+     * SOLANA / METAPLEX CORE INTEGRATION LAYER
+     * ----------------------------------------
+     * 1. Pin browser-compatible versions of Umi, mpl-core and
+     *    mpl-core-candy-machine in this site (or bundle this page).
+     * 2. Create Umi with MINT_CONFIG.rpcEndpoint and attach a wallet adapter
+     *    identity for the provider connected below.
+     * 3. Fetch MINT_CONFIG.candyMachineAddress to replace the configured
+     *    progress placeholder with its live itemsRedeemed / supply values.
+     * 4. Implement executeCoreCandyMachineMint() with the current Metaplex
+     *    Core Candy Machine mintV1 flow and the deployed guard configuration.
+     * 5. Keep the final wallet prompt visible so collectors verify price,
+     *    collection and Candy Machine addresses before signing.
+     */
+    const MintAdapter = {
+      async connectWallet() {
+        const provider = findWalletProvider();
+        if (!provider) throw new Error("No compatible Solana wallet was found. Install Phantom or another injected Solana wallet.");
+        const response = await provider.connect();
+        const publicKey = response?.publicKey || provider.publicKey;
+        if (!publicKey) throw new Error("The wallet connected without returning a public key.");
+        walletProvider = provider;
+        walletPublicKey = publicKey.toString();
+        return walletPublicKey;
+      },
+
+      async executeCoreCandyMachineMint() {
+        throw new Error("The verified Core Candy Machine transaction builder has not been connected yet.");
+      }
+    };
+
+    function updateMintUi() {
+      const configured = isMintConfigured();
+      const minted = Number.isInteger(MINT_CONFIG.minted) ? Math.max(0, Math.min(MINT_CONFIG.minted, MINT_CONFIG.supply)) : null;
+      const percent = minted === null || !MINT_CONFIG.supply ? 0 : Math.round((minted / MINT_CONFIG.supply) * 100);
+
+      document.getElementById("mintPrice").textContent = `${MINT_CONFIG.mintPriceSol} SOL`;
+      document.getElementById("mintedCount").textContent = `${minted === null ? "—" : minted.toLocaleString()} / ${MINT_CONFIG.supply.toLocaleString()}`;
+      document.getElementById("progressPercent").textContent = minted === null ? "Awaiting contract" : `${percent}% minted`;
+      document.getElementById("progressFill").style.width = `${percent}%`;
+      const progress = document.querySelector(".progress-track");
+      progress.setAttribute("aria-valuenow", String(percent));
+      document.getElementById("networkLabel").textContent = configured ? "Mainnet / configured" : "Mainnet / unconfigured";
+      document.getElementById("launchNotice").textContent = configured ? "Contract configured — verify all addresses before minting" : "Preview mode — mint contract not configured";
+
+      if (!configured) {
+        mintButton.disabled = true;
+        mintButton.textContent = "Mint not configured";
+        return;
+      }
+      mintButton.disabled = !walletPublicKey;
+      mintButton.textContent = walletPublicKey ? `Mint for ${MINT_CONFIG.mintPriceSol} SOL` : "Connect wallet to mint";
+    }
+
+    async function connectWallet() {
+      connectWalletButton.disabled = true;
+      connectWalletButton.textContent = "Connecting…";
+      try {
+        const key = await MintAdapter.connectWallet();
+        connectWalletButton.textContent = shortenKey(key);
+        setMintStatus(isMintConfigured() ? "Wallet ready. Review the generated artwork and mint details before continuing." : "Wallet connected for readiness only. Minting is not live because contract addresses are not configured.", "success");
+        updateMintUi();
+      } catch (error) {
+        walletProvider = null;
+        walletPublicKey = "";
+        connectWalletButton.textContent = "Connect wallet";
+        setMintStatus(error.message || "Wallet connection failed.", "error");
+        showToast(error.message || "Wallet connection failed.");
+      } finally {
+        connectWalletButton.disabled = false;
+      }
+    }
+
+    async function mintArtwork() {
+      if (!isMintConfigured()) {
+        setMintStatus("Minting is unavailable until verified collection and Candy Machine addresses are configured.", "error");
+        return;
+      }
+      if (!walletPublicKey) {
+        await connectWallet();
+        if (!walletPublicKey) return;
+      }
+      mintButton.disabled = true;
+      mintButton.textContent = "Preparing mint…";
+      try {
+        await MintAdapter.executeCoreCandyMachineMint({ seed: currentSeed, traits: currentTraits, walletProvider });
+        setMintStatus("Mint transaction submitted. Confirm final status in your wallet and explorer.", "success");
+      } catch (error) {
+        setMintStatus(error.message || "The mint could not be prepared.", "error");
+        showToast(error.message || "The mint could not be prepared.");
+      } finally {
+        updateMintUi();
+      }
+    }
+
+    function generateFromInput() {
+      try {
+        drawArtwork(seedInput.value);
+      } catch (error) {
+        showToast(error.message || "Artwork generation failed.");
+      }
+    }
+
+    function saveArtwork() {
+      if (!currentSeed) {
+        showToast("Generate an artwork before saving it.");
+        return;
+      }
+      try {
+        const link = document.createElement("a");
+        const safeName = currentSeed.replace(/[^a-z0-9_-]+/gi, "-").replace(/^-+|-+$/g, "").slice(0, 48) || "seed";
+        link.download = `bodenza-${safeName}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        showToast("High-resolution 2048 × 2048 PNG saved.");
+      } catch (error) {
+        showToast("The PNG could not be saved in this browser.");
+      }
+    }
+
+    document.getElementById("randomSeed").addEventListener("click", () => {
+      seedInput.value = createRandomSeed();
+      generateFromInput();
+    });
+    document.getElementById("generateArt").addEventListener("click", generateFromInput);
+    document.getElementById("savePng").addEventListener("click", saveArtwork);
+    connectWalletButton.addEventListener("click", connectWallet);
+    mintButton.addEventListener("click", mintArtwork);
+    seedInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") generateFromInput();
+    });
+
+    seedInput.value = createRandomSeed();
+    updateMintUi();
+    generateFromInput();
+  </script>
+</body>
+</html>
