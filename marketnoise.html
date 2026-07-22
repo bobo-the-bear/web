@@ -426,6 +426,70 @@
 
     .toast[hidden] { display: none; }
 
+    .save-sheet {
+      position: fixed;
+      z-index: 200;
+      inset: 0;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.9);
+      overscroll-behavior: contain;
+    }
+
+    .save-sheet[hidden] { display: none; }
+
+    .save-dialog {
+      width: min(100%, 620px);
+      max-height: calc(100dvh - 36px);
+      padding: 16px;
+      overflow: auto;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      background: var(--bobo-black);
+      box-shadow: 8px 8px 0 var(--bobo-dark-brown);
+    }
+
+    .save-dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .save-dialog-title {
+      margin: 0;
+      font: 600 0.72rem/1.3 "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .save-close {
+      min-height: 38px;
+      padding: 0 13px;
+      color: var(--bobo-white);
+      border: 1px solid var(--bobo-white);
+      background: transparent;
+      cursor: pointer;
+      font: 600 0.62rem/1 "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    .save-help {
+      margin: 0 0 13px;
+      color: var(--muted);
+      font: 500 0.68rem/1.55 "IBM Plex Mono", monospace;
+    }
+
+    .save-preview {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--bobo-white);
+      -webkit-touch-callout: default;
+      user-select: auto;
+    }
+
     @media (max-width: 1050px) {
       .intro { grid-template-columns: 1fr; gap: 34px; }
       .studio-grid { grid-template-columns: 1fr; }
@@ -719,6 +783,17 @@
 
   </main>
 
+  <div class="save-sheet" id="saveSheet" hidden>
+    <section class="save-dialog" role="dialog" aria-modal="true" aria-labelledby="saveDialogTitle">
+      <div class="save-dialog-head">
+        <h2 class="save-dialog-title" id="saveDialogTitle">Save your Market Noise</h2>
+        <button class="save-close" id="closeSavePreview" type="button">Close</button>
+      </div>
+      <p class="save-help">Touch and hold the image, then choose <strong>Save to Photos</strong>.</p>
+      <img class="save-preview" id="savePreview" alt="Your generated Market Noise artwork">
+    </section>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script>
@@ -736,9 +811,13 @@
     const ctx = canvas.getContext("2d", { alpha: false });
     const seedInput = document.getElementById("seedInput");
     const toast = document.getElementById("toast");
+    const saveSheet = document.getElementById("saveSheet");
+    const savePreview = document.getElementById("savePreview");
+    const closeSavePreviewButton = document.getElementById("closeSavePreview");
     let currentSeed = "";
     let currentTraits = null;
     let toastTimer = 0;
+    let savePreviewUrl = "";
 
     function hashSeed(value) {
       let h = 2166136261 >>> 0;
@@ -1392,17 +1471,50 @@
       }
     }
 
+    function isAppleTouchDevice() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    }
+
+    function closeSavePreview() {
+      saveSheet.hidden = true;
+      savePreview.removeAttribute("src");
+      if (savePreviewUrl) {
+        URL.revokeObjectURL(savePreviewUrl);
+        savePreviewUrl = "";
+      }
+    }
+
+    function showAppleSavePreview() {
+      canvas.toBlob(blob => {
+        if (savePreviewUrl) URL.revokeObjectURL(savePreviewUrl);
+        savePreviewUrl = blob ? URL.createObjectURL(blob) : "";
+        savePreview.src = savePreviewUrl || canvas.toDataURL("image/png");
+        saveSheet.hidden = false;
+        closeSavePreviewButton.focus();
+        showToast("Touch and hold the image, then choose Save to Photos.");
+      }, "image/png");
+    }
+
     function saveArtwork() {
       if (!currentSeed) {
         showToast("Generate an artwork before saving it.");
         return;
       }
+
+      if (isAppleTouchDevice()) {
+        showAppleSavePreview();
+        return;
+      }
+
       try {
         const link = document.createElement("a");
         const safeName = currentSeed.replace(/[^a-z0-9_-]+/gi, "-").replace(/^-+|-+$/g, "").slice(0, 48) || "seed";
         link.download = `market-noise-${safeName}.png`;
         link.href = canvas.toDataURL("image/png");
+        document.body.appendChild(link);
         link.click();
+        link.remove();
         showToast("High-resolution 2048 x 2048 PNG saved.");
       } catch (error) {
         showToast("The PNG could not be saved in this browser.");
@@ -1417,8 +1529,15 @@
     document.getElementById("randomSeed").addEventListener("click", generateNewArtwork);
     document.getElementById("generateArt").addEventListener("click", generateNewArtwork);
     document.getElementById("savePng").addEventListener("click", saveArtwork);
+    closeSavePreviewButton.addEventListener("click", closeSavePreview);
+    saveSheet.addEventListener("click", event => {
+      if (event.target === saveSheet) closeSavePreview();
+    });
     seedInput.addEventListener("keydown", event => {
       if (event.key === "Enter") generateFromInput();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && !saveSheet.hidden) closeSavePreview();
     });
 
     seedInput.value = createRandomSeed();
