@@ -107,10 +107,8 @@
 
     .topbar-nav a:hover { color: var(--bobo-white); }
 
-    .wallet-button,
     .primary-button,
-    .secondary-button,
-    .mint-button {
+    .secondary-button {
       border: 1px solid var(--bobo-white);
       min-height: 48px;
       padding: 0 20px;
@@ -121,27 +119,23 @@
       transition: transform 160ms ease, background 160ms ease, color 160ms ease;
     }
 
-    .wallet-button,
     .secondary-button {
       color: var(--bobo-white);
       background: transparent;
     }
 
-    .wallet-button:hover,
     .secondary-button:hover {
       color: var(--bobo-black);
       background: var(--bobo-white);
     }
 
-    .primary-button,
-    .mint-button {
+    .primary-button {
       color: var(--bobo-white);
       border-color: var(--bobo-red);
       background: var(--bobo-red);
     }
 
-    .primary-button:hover,
-    .mint-button:not(:disabled):hover { transform: translateY(-2px); }
+    .primary-button:hover { transform: translateY(-2px); }
 
     button:disabled {
       cursor: not-allowed;
@@ -193,15 +187,6 @@
     }
 
     .intro-copy strong { color: var(--bobo-white); }
-
-    .mint-notice {
-      margin-top: 22px;
-      border-left: 3px solid var(--bobo-red);
-      padding: 10px 0 10px 15px;
-      color: var(--muted);
-      font: 500 0.68rem/1.55 "IBM Plex Mono", monospace;
-      text-transform: uppercase;
-    }
 
     .studio {
       border: 1px solid rgba(255, 255, 255, 0.26);
@@ -375,71 +360,6 @@
       white-space: nowrap;
     }
 
-    .progress-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 15px;
-      margin-top: 14px;
-      font: 600 0.72rem/1 "IBM Plex Mono", monospace;
-    }
-
-    .progress-head span:last-child { color: var(--muted); }
-
-    .progress-track {
-      height: 10px;
-      margin-top: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.36);
-      background: var(--bobo-black);
-    }
-
-    .progress-track span {
-      width: 0;
-      height: 100%;
-      display: block;
-      background: var(--bobo-red);
-      transition: width 300ms ease;
-    }
-
-    .mint-meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 16px 0;
-    }
-
-    .mint-meta div {
-      padding: 12px;
-      background: rgba(71, 44, 27, 0.48);
-    }
-
-    .mint-meta span,
-    .mint-meta small {
-      display: block;
-      color: var(--muted);
-      font: 500 0.56rem/1.4 "IBM Plex Mono", monospace;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .mint-meta strong {
-      display: block;
-      margin: 5px 0 2px;
-      font: 800 1.18rem/1 "Fraunces", Georgia, serif;
-    }
-
-    .mint-button { width: 100%; }
-
-    .mint-status {
-      min-height: 36px;
-      margin: 12px 0 0;
-      color: var(--muted);
-      font: 500 0.62rem/1.5 "IBM Plex Mono", monospace;
-    }
-
-    .mint-status[data-kind="error"] { color: #ff7089; }
-    .mint-status[data-kind="success"] { color: var(--bobo-white); }
-
     .palette-strip {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -520,7 +440,6 @@
       .topbar { width: min(100% - 28px, 1520px); min-height: 76px; }
       .brand img { width: 42px; height: 42px; }
       .topbar-nav { display: none; }
-      .wallet-button { min-height: 42px; padding: 0 13px; font-size: 0.59rem; }
       main { width: min(100% - 28px, 1520px); padding-top: 48px; }
       h1 { font-size: clamp(4rem, 22vw, 6.5rem); }
       .studio { box-shadow: 8px 8px 0 var(--bobo-dark-brown); }
