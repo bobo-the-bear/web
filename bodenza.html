@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Bodenza is an original, seed-based Bobo generative art preview and future mint interface on Solana.">
-  <meta property="og:title" content="Bodenza — Bobo Generative Art">
+  <meta property="og:title" content="Bodenza â€” Bobo Generative Art">
   <meta property="og:description" content="Generate deterministic bear-market abstractions in the official Bobo palette.">
   <meta property="og:type" content="website">
-  <title>Bodenza — Bobo Generative Art</title>
+  <title>Bodenza â€” Bobo Generative Art</title>
   <link rel="icon" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/webclip.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -568,13 +568,13 @@
       </div>
       <div>
         <p class="intro-copy"><strong>Every bear market leaves a path.</strong> Generate an original, deterministic abstraction from one seed and the five official Bobo colors.</p>
-        <p class="mint-notice" id="launchNotice">Preview mode — mint contract not configured</p>
+        <p class="mint-notice" id="launchNotice">Preview mode â€” mint contract not configured</p>
       </div>
     </section>
 
     <section class="studio" id="studio" aria-label="Bodenza generative art studio">
       <div class="window-bar">
-        <span>BODENZA_GENERATOR.SYS / 2048 × 2048</span>
+        <span>BODENZA_GENERATOR.SYS / 2048 Ã— 2048</span>
         <span class="online-state"><i aria-hidden="true"></i>Generator online</span>
       </div>
 
@@ -585,7 +585,7 @@
             <span class="canvas-badge" id="editionBadge">Preview / Not minted</span>
           </div>
           <div class="canvas-caption">
-            <span><strong id="captionSeed">Seed —</strong></span>
+            <span><strong id="captionSeed">Seed â€”</strong></span>
             <span>Deterministic output / PNG ready</span>
           </div>
         </div>
@@ -595,7 +595,7 @@
             <p class="panel-label">01 / Seed</p>
             <label class="seed-row" for="seedInput">
               <input id="seedInput" type="text" maxlength="64" autocomplete="off" spellcheck="false" aria-label="Artwork seed">
-              <button id="randomSeed" type="button" title="Create a random seed" aria-label="Create a random seed">↻</button>
+              <button id="randomSeed" type="button" title="Create a random seed" aria-label="Create a random seed">â†»</button>
             </label>
             <div class="button-grid">
               <button class="primary-button" id="generateArt" type="button">Generate / Preview</button>
@@ -606,18 +606,18 @@
           <section class="control-section">
             <p class="panel-label">02 / Generated traits</p>
             <dl class="traits" id="traitList" aria-live="polite">
-              <div><dt>Palette</dt><dd data-trait="palette">—</dd></div>
-              <div><dt>Market flow</dt><dd data-trait="flow">—</dd></div>
-              <div><dt>Density</dt><dd data-trait="density">—</dd></div>
-              <div><dt>Volatility</dt><dd data-trait="volatility">—</dd></div>
-              <div><dt>Paw signals</dt><dd data-trait="paws">—</dd></div>
-              <div><dt>Hex breaks</dt><dd data-trait="hexes">—</dd></div>
+              <div><dt>Composition</dt><dd data-trait="composition">â€”</dd></div>
+              <div><dt>Market path</dt><dd data-trait="market">â€”</dd></div>
+              <div><dt>Density</dt><dd data-trait="density">â€”</dd></div>
+              <div><dt>Texture</dt><dd data-trait="texture">â€”</dd></div>
+              <div><dt>Scale</dt><dd data-trait="scale">â€”</dd></div>
+              <div><dt>Margin</dt><dd data-trait="margin">â€”</dd></div>
             </dl>
           </section>
 
           <section class="control-section">
             <p class="panel-label">03 / Collection progress</p>
-            <div class="progress-head"><span id="mintedCount">— / 1,000</span><span id="progressPercent">Awaiting contract</span></div>
+            <div class="progress-head"><span id="mintedCount">â€” / 1,000</span><span id="progressPercent">Awaiting contract</span></div>
             <div class="progress-track" role="progressbar" aria-label="Mint progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressFill"></span></div>
           </section>
 
@@ -637,17 +637,17 @@
 
     <section class="about-grid" id="algorithm" aria-labelledby="algorithm-title">
       <div>
-        <p class="eyebrow">Original system / Bear market logic</p>
-        <h2 id="algorithm-title">Built to trend down.</h2>
+        <p class="eyebrow">Original system / Market-failure logic</p>
+        <h2 id="algorithm-title">Every chart finds a bottom.</h2>
       </div>
       <div class="about-copy">
-        <p><strong>Bodenza uses its own drawing rules.</strong> Segmented market routes descend through a seeded vector drift, interrupted by drawdown cuts, paw signals, and honeycomb-like gaps. The same seed always rebuilds the same image.</p>
-        <p>The system uses the Bobo palette only: #FFFFFF, #472C1B, #6F452D, #B90B2A, and #000000. It is an original Bobo project and is not affiliated with Tyler Hobbs or Fidenza.</p>
+        <p><strong>Bodenza uses its own code and drawing rules.</strong> Each seed chooses from six market-failure systems: collision-aware crash flows, capitulation clouds, chart scribbles, fractured order books, topographic selloffs, and distressed tape fields. Under every abstraction is a generated price path that bleeds, gaps, bounces, or capitulates.</p>
+        <p>The system uses the Bobo palette only: #FFFFFF, #472C1B, #6F452D, #B90B2A, and #000000. It studies established generative techniques while remaining an original Bobo project that is not affiliated with Tyler Hobbs, Fidenza, Art Blocks, or the artists behind any reference work.</p>
       </div>
     </section>
 
     <footer class="site-footer">
-      <span>© 2026 Bobo the Bear</span>
+      <span>Â© 2026 Bobo the Bear</span>
       <p>Preview artwork is generated in your browser. A wallet connection does not authorize a transaction. Always verify mint details in your wallet before signing.</p>
     </footer>
   </main>
@@ -733,160 +733,552 @@
       }
     }
 
+    function chance(rng, probability) {
+      return rng() < probability;
+    }
+
+    function weightedChoice(rng, entries) {
+      const total = entries.reduce((sum, entry) => sum + entry.weight, 0);
+      let roll = rng() * total;
+      for (const entry of entries) {
+        roll -= entry.weight;
+        if (roll <= 0) return entry.value;
+      }
+      return entries[entries.length - 1].value;
+    }
+
     function buildTraits(seed) {
       const rng = createRng(`${seed}:traits`);
-      const paletteRoll = rng();
-      const palette = paletteRoll < 0.07 ? "Full Rekt" : paletteRoll < 0.23 ? "Paper Hands" : paletteRoll < 0.46 ? "Brownout" : paletteRoll < 0.64 ? "Blackout" : "Classic Bobo";
-      const flowRoll = rng();
-      const flow = flowRoll < 0.18 ? "Bull Trap" : flowRoll < 0.56 ? "Capitulation" : "Downtrend";
-      const densityRoll = rng();
-      const density = densityRoll < 0.27 ? "Sparse" : densityRoll < 0.74 ? "Measured" : "Heavy";
-      const volatilityRoll = rng();
-      const volatility = volatilityRoll < 0.30 ? "Low" : volatilityRoll < 0.76 ? "Medium" : "High";
-      const routeCounts = { Sparse: 20, Measured: 29, Heavy: 39 };
-      const volatilityValues = { Low: 0.55, Medium: 0.9, High: 1.32 };
+      const composition = weightedChoice(rng, [
+        { value: "Crash Flow", weight: 27 },
+        { value: "Capitulation Cloud", weight: 17 },
+        { value: "Market Scribble", weight: 15 },
+        { value: "Orderbook Fracture", weight: 16 },
+        { value: "Contour Selloff", weight: 14 },
+        { value: "Tape Burn", weight: 11 }
+      ]);
+      const market = weightedChoice(rng, [
+        { value: "Slow Bleed", weight: 36 },
+        { value: "Gap Down", weight: 24 },
+        { value: "Dead Cat Bounce", weight: 22 },
+        { value: "Capitulation", weight: 18 }
+      ]);
+      const density = weightedChoice(rng, [
+        { value: "Sparse", weight: 23 },
+        { value: "Measured", weight: 49 },
+        { value: "Heavy", weight: 28 }
+      ]);
+      const texture = weightedChoice(rng, [
+        { value: "Clean", weight: 30 },
+        { value: "Grain", weight: 46 },
+        { value: "Distressed", weight: 24 }
+      ]);
+      const scale = weightedChoice(rng, [
+        { value: "Micro", weight: 18 },
+        { value: "Mixed", weight: 57 },
+        { value: "Jumbo", weight: 25 }
+      ]);
+      const palette = weightedChoice(rng, [
+        { value: "Classic Bobo", weight: 42 },
+        { value: "Brownout", weight: 20 },
+        { value: "Blackout", weight: 18 },
+        { value: "Paper Hands", weight: 14 },
+        { value: "Full Rekt", weight: 6 }
+      ]);
 
       return {
-        palette,
-        flow,
+        composition,
+        market,
         density,
-        volatility,
-        routeCount: routeCounts[density] + randomInt(rng, -2, 3),
-        volatilityValue: volatilityValues[volatility],
-        paws: randomInt(rng, 1, density === "Heavy" ? 6 : 4),
-        hexes: randomInt(rng, 3, density === "Sparse" ? 7 : 12),
-        redCuts: palette === "Full Rekt" ? randomInt(rng, 4, 7) : randomInt(rng, 1, 3)
+        texture,
+        scale,
+        palette,
+        margin: chance(rng, 0.62),
+        flowVariant: weightedChoice(rng, [
+          { value: "Curved", weight: 79 },
+          { value: "Sharp", weight: 14 },
+          { value: "Spiral Trap", weight: 7 }
+        ]),
+        collision: weightedChoice(rng, [
+          { value: "No Overlap", weight: 88 },
+          { value: "Relaxed", weight: 9 },
+          { value: "Anything Goes", weight: 3 }
+        ]),
+        ribbonStyle: weightedChoice(rng, [
+          { value: "Solid", weight: 64 },
+          { value: "Outlined", weight: 20 },
+          { value: "Color Blocks", weight: 16 }
+        ])
       };
     }
 
     function paletteForTraits(traits) {
       const palettes = {
-        "Classic Bobo": { background: COLORS.white, routes: [COLORS.darkBrown, COLORS.brown, COLORS.black, COLORS.brown, COLORS.darkBrown], accent: COLORS.red },
-        "Brownout": { background: COLORS.darkBrown, routes: [COLORS.brown, COLORS.black, COLORS.white, COLORS.brown], accent: COLORS.red },
-        "Blackout": { background: COLORS.black, routes: [COLORS.darkBrown, COLORS.brown, COLORS.white, COLORS.darkBrown], accent: COLORS.red },
-        "Paper Hands": { background: COLORS.white, routes: [COLORS.black, COLORS.brown, COLORS.darkBrown, COLORS.white], accent: COLORS.red },
-        "Full Rekt": { background: COLORS.red, routes: [COLORS.black, COLORS.darkBrown, COLORS.white, COLORS.brown], accent: COLORS.white }
+        "Classic Bobo": {
+          background: COLORS.white,
+          colors: [
+            { value: COLORS.brown, weight: 31 },
+            { value: COLORS.darkBrown, weight: 27 },
+            { value: COLORS.black, weight: 22 },
+            { value: COLORS.red, weight: 13 },
+            { value: COLORS.white, weight: 7 }
+          ]
+        },
+        "Brownout": {
+          background: COLORS.darkBrown,
+          colors: [
+            { value: COLORS.brown, weight: 34 },
+            { value: COLORS.white, weight: 22 },
+            { value: COLORS.black, weight: 22 },
+            { value: COLORS.red, weight: 14 },
+            { value: COLORS.darkBrown, weight: 8 }
+          ]
+        },
+        "Blackout": {
+          background: COLORS.black,
+          colors: [
+            { value: COLORS.brown, weight: 35 },
+            { value: COLORS.darkBrown, weight: 31 },
+            { value: COLORS.white, weight: 20 },
+            { value: COLORS.red, weight: 14 }
+          ]
+        },
+        "Paper Hands": {
+          background: COLORS.white,
+          colors: [
+            { value: COLORS.black, weight: 34 },
+            { value: COLORS.brown, weight: 27 },
+            { value: COLORS.darkBrown, weight: 24 },
+            { value: COLORS.red, weight: 15 }
+          ]
+        },
+        "Full Rekt": {
+          background: COLORS.red,
+          colors: [
+            { value: COLORS.black, weight: 34 },
+            { value: COLORS.white, weight: 29 },
+            { value: COLORS.darkBrown, weight: 22 },
+            { value: COLORS.brown, weight: 15 }
+          ]
+        }
       };
       return palettes[traits.palette];
     }
 
-    function hexPath(context, x, y, radius) {
-      context.beginPath();
-      for (let side = 0; side < 6; side += 1) {
-        const angle = Math.PI / 3 * side - Math.PI / 6;
-        const px = x + Math.cos(angle) * radius;
-        const py = y + Math.sin(angle) * radius;
-        if (side === 0) context.moveTo(px, py);
-        else context.lineTo(px, py);
+    function weightedColor(rng, palette, avoid = "") {
+      let color = weightedChoice(rng, palette.colors);
+      for (let retry = 0; retry < 4 && color === avoid; retry += 1) {
+        color = weightedChoice(rng, palette.colors);
       }
-      context.closePath();
+      return color;
     }
 
-    function drawPaperTexture(rng, background) {
+    function drawPaperTexture(rng, background, texture) {
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const flecks = texture === "Clean" ? 1800 : texture === "Grain" ? 6200 : 11800;
       ctx.save();
-      ctx.globalAlpha = background === COLORS.white ? 0.075 : 0.13;
+      ctx.globalAlpha = background === COLORS.white ? 0.07 : 0.12;
       ctx.fillStyle = background === COLORS.white ? COLORS.black : COLORS.white;
-      for (let i = 0; i < 5600; i += 1) {
-        const size = rng() < 0.94 ? 1.5 : 4;
+      for (let i = 0; i < flecks; i += 1) {
+        const size = rng() < 0.94 ? 1 + rng() * 2 : 3 + rng() * 5;
         ctx.fillRect(rng() * canvas.width, rng() * canvas.height, size, size);
       }
       ctx.restore();
     }
 
-    function routePoints(rng, index, traits) {
-      const points = [];
-      const segmentCount = randomInt(rng, 26, 42);
-      const lane = (index + 0.5) / traits.routeCount;
-      let x = lane * canvas.width + (rng() - 0.5) * 260;
-      let y = -180 - rng() * 380;
-      const phase = rng() * Math.PI * 2;
-      const direction = rng() < 0.5 ? -1 : 1;
-      const drift = (rng() - 0.5) * 17 * traits.volatilityValue;
+    function gaussian(rng) {
+      const u = Math.max(rng(), 1e-9);
+      const v = Math.max(rng(), 1e-9);
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(Math.PI * 2 * v);
+    }
 
-      for (let step = 0; step < segmentCount; step += 1) {
-        const progress = step / (segmentCount - 1);
-        const bullTrap = traits.flow === "Bull Trap" && progress > 0.20 && progress < 0.47;
-        const fall = bullTrap ? -38 : traits.flow === "Capitulation" ? 70 + progress * 35 : 66;
-        const wave = Math.sin(progress * Math.PI * (2.2 + traits.volatilityValue) + phase) * 31 * traits.volatilityValue;
-        x += drift + wave * 0.18 + direction * (rng() - 0.5) * 34 * traits.volatilityValue;
-        y += fall + (rng() - 0.5) * 20;
+    function contentBounds(traits) {
+      const margin = traits.margin ? 112 : 24;
+      return { left: margin, top: margin, right: canvas.width - margin, bottom: canvas.height - margin };
+    }
+
+    function buildCrashPath(rng, traits, count = 34) {
+      const bounds = contentBounds(traits);
+      const points = [];
+      const width = bounds.right - bounds.left;
+      let y = bounds.top + (bounds.bottom - bounds.top) * (0.12 + rng() * 0.12);
+      const baseDrop = traits.market === "Slow Bleed" ? 0.018 : traits.market === "Gap Down" ? 0.025 : traits.market === "Dead Cat Bounce" ? 0.022 : 0.034;
+      const gapIndex = randomInt(rng, Math.floor(count * 0.28), Math.floor(count * 0.68));
+      const bounceStart = Math.floor(count * (0.42 + rng() * 0.12));
+
+      for (let i = 0; i < count; i += 1) {
+        const x = bounds.left + width * (i / (count - 1));
+        let move = (bounds.bottom - bounds.top) * baseDrop;
+        move += gaussian(rng) * (traits.market === "Capitulation" ? 18 : 11);
+        if (traits.market === "Gap Down" && i === gapIndex) move += 250 + rng() * 180;
+        if (traits.market === "Capitulation" && i > count * 0.67) move += 16 + rng() * 32;
+        if (traits.market === "Dead Cat Bounce" && i >= bounceStart && i < bounceStart + 6) move -= 48 + rng() * 22;
+        y = Math.max(bounds.top + 20, Math.min(bounds.bottom - 18, y + move));
         points.push({ x, y });
       }
       return points;
     }
 
-    function drawSegmentedRoute(rng, points, color, width) {
-      const half = width / 2;
-      const gapChance = 0.075 + rng() * 0.055;
-      for (let i = 0; i < points.length - 1; i += 1) {
-        if (rng() < gapChance) continue;
-        const a = points[i];
-        const b = points[i + 1];
-        const angle = Math.atan2(b.y - a.y, b.x - a.x);
-        const nx = Math.cos(angle + Math.PI / 2) * half;
-        const ny = Math.sin(angle + Math.PI / 2) * half;
-        const taper = i === 0 || i === points.length - 2 ? 0.72 : 1;
+    function samplePathY(points, x) {
+      if (x <= points[0].x) return points[0].y;
+      if (x >= points[points.length - 1].x) return points[points.length - 1].y;
+      const span = points[points.length - 1].x - points[0].x;
+      const position = ((x - points[0].x) / span) * (points.length - 1);
+      const index = Math.floor(position);
+      const amount = position - index;
+      return points[index].y + (points[index + 1].y - points[index].y) * amount;
+    }
+
+    function strokePath(points, color, width, alpha = 1) {
+      if (points.length < 2) return;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i += 1) ctx.lineTo(points[i].x, points[i].y);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawPriceGhost(rng, traits, palette, path, strength = 0.22) {
+      const color = palette.background === COLORS.black ? COLORS.white : COLORS.black;
+      strokePath(path, color, 4, strength);
+      ctx.save();
+      ctx.globalAlpha = strength * 0.86;
+      for (let i = 1; i < path.length - 1; i += 2) {
+        const point = path[i];
+        const falling = path[i + 1].y >= path[i - 1].y;
+        const candleColor = falling ? COLORS.red : COLORS.white;
+        const bodyHeight = 18 + rng() * 54;
+        ctx.strokeStyle = candleColor;
+        ctx.fillStyle = candleColor;
+        ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.moveTo(a.x + nx * taper, a.y + ny * taper);
-        ctx.lineTo(b.x + nx, b.y + ny);
-        ctx.lineTo(b.x - nx, b.y - ny);
-        ctx.lineTo(a.x - nx * taper, a.y - ny * taper);
-        ctx.closePath();
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.lineWidth = Math.max(3, width * 0.045);
-        ctx.strokeStyle = color === COLORS.black ? COLORS.darkBrown : COLORS.black;
+        ctx.moveTo(point.x, point.y - bodyHeight);
+        ctx.lineTo(point.x, point.y + bodyHeight);
         ctx.stroke();
+        ctx.fillRect(point.x - 8, point.y - bodyHeight * 0.34, 16, bodyHeight * 0.68);
+      }
+      ctx.restore();
+    }
+
+    function createAngleField(rng, traits, crashPath) {
+      const resolution = traits.density === "Heavy" ? 92 : traits.density === "Sparse" ? 154 : 120;
+      const columns = Math.ceil(canvas.width / resolution) + 2;
+      const rows = Math.ceil(canvas.height / resolution) + 2;
+      const values = Array.from({ length: rows }, () => Array.from({ length: columns }, () => rng() * 2 - 1));
+      const turbulence = traits.texture === "Clean" ? 0.72 : traits.texture === "Grain" ? 1.18 : 1.62;
+      const baseAngle = 0.28 + rng() * 0.55;
+      const centerX = canvas.width * (0.42 + rng() * 0.16);
+      const centerY = canvas.height * (0.42 + rng() * 0.16);
+
+      function smooth(value) {
+        return value * value * (3 - 2 * value);
+      }
+
+      function valueAt(x, y) {
+        const gx = Math.max(0, Math.min(columns - 2, x / resolution));
+        const gy = Math.max(0, Math.min(rows - 2, y / resolution));
+        const x0 = Math.floor(gx);
+        const y0 = Math.floor(gy);
+        const tx = smooth(gx - x0);
+        const ty = smooth(gy - y0);
+        const top = values[y0][x0] + (values[y0][x0 + 1] - values[y0][x0]) * tx;
+        const bottom = values[y0 + 1][x0] + (values[y0 + 1][x0 + 1] - values[y0 + 1][x0]) * tx;
+        return top + (bottom - top) * ty;
+      }
+
+      return function angleAt(x, y) {
+        const targetY = samplePathY(crashPath, x);
+        const chartPull = Math.atan2(targetY - y, 420);
+        let angle = baseAngle + valueAt(x, y) * turbulence + chartPull * 0.34;
+        if (traits.flowVariant === "Spiral Trap") {
+          const spiral = Math.atan2(y - centerY, x - centerX) + Math.PI / 2;
+          angle = Math.atan2(Math.sin(angle) * 0.35 + Math.sin(spiral) * 0.65, Math.cos(angle) * 0.35 + Math.cos(spiral) * 0.65);
+        } else if (traits.flowVariant === "Sharp") {
+          const snap = Math.PI * 0.2;
+          angle = Math.round(angle / snap) * snap;
+        }
+        return angle;
+      };
+    }
+
+    function createSpatialIndex() {
+      const cellSize = 54;
+      const cells = new Map();
+      const key = (column, row) => `${column}:${row}`;
+
+      return {
+        collides(x, y, radius, mode) {
+          if (mode === "Anything Goes") return false;
+          const column = Math.floor(x / cellSize);
+          const row = Math.floor(y / cellSize);
+          const range = Math.ceil((radius + 120) / cellSize);
+          const tolerance = mode === "Relaxed" ? 0.72 : 1;
+          for (let cy = row - range; cy <= row + range; cy += 1) {
+            for (let cx = column - range; cx <= column + range; cx += 1) {
+              const entries = cells.get(key(cx, cy));
+              if (!entries) continue;
+              for (const entry of entries) {
+                const dx = x - entry.x;
+                const dy = y - entry.y;
+                const minimum = (radius + entry.radius + 7) * tolerance;
+                if (dx * dx + dy * dy < minimum * minimum) return true;
+              }
+            }
+          }
+          return false;
+        },
+        add(x, y, radius) {
+          const column = Math.floor(x / cellSize);
+          const row = Math.floor(y / cellSize);
+          const cellKey = key(column, row);
+          if (!cells.has(cellKey)) cells.set(cellKey, []);
+          cells.get(cellKey).push({ x, y, radius });
+        }
+      };
+    }
+
+    function traceFlow(start, direction, field, bounds, index, radius, traits, rng) {
+      const points = [{ x: start.x, y: start.y }];
+      const stepLength = traits.scale === "Micro" ? 9 : traits.scale === "Jumbo" ? 15 : 12;
+      const maxSteps = randomInt(rng, 70, traits.density === "Sparse" ? 142 : 188);
+      let x = start.x;
+      let y = start.y;
+      let relaxedHits = 0;
+
+      for (let step = 0; step < maxSteps; step += 1) {
+        const angle = field(x, y) + (direction < 0 ? Math.PI : 0);
+        const nextX = x + Math.cos(angle) * stepLength;
+        const nextY = y + Math.sin(angle) * stepLength;
+        if (nextX < bounds.left + radius || nextX > bounds.right - radius || nextY < bounds.top + radius || nextY > bounds.bottom - radius) break;
+        if (index.collides(nextX, nextY, radius, traits.collision)) {
+          if (traits.collision === "Relaxed" && relaxedHits < 2) relaxedHits += 1;
+          else break;
+        }
+        x = nextX;
+        y = nextY;
+        points.push({ x, y });
+      }
+      return points;
+    }
+
+    function drawRibbon(rng, traits, palette, points, width) {
+      const primary = weightedColor(rng, palette);
+      if (traits.ribbonStyle === "Outlined") {
+        const outline = primary === COLORS.black ? COLORS.white : COLORS.black;
+        strokePath(points, outline, width + Math.max(8, width * 0.12));
+        strokePath(points, primary, width);
+        return;
+      }
+      if (traits.ribbonStyle === "Color Blocks") {
+        let cursor = 0;
+        while (cursor < points.length - 1) {
+          const length = randomInt(rng, 4, 11);
+          const segment = points.slice(cursor, Math.min(points.length, cursor + length + 1));
+          strokePath(segment, weightedColor(rng, palette), width);
+          cursor += length;
+        }
+        return;
+      }
+
+      strokePath(points, primary, width);
+      if (points.length > 22 && chance(rng, 0.76)) {
+        const split = Math.max(4, Math.floor(points.length * (0.10 + rng() * 0.16)));
+        strokePath(points.slice(0, split + 1), weightedColor(rng, palette, primary), width);
+        if (chance(rng, 0.72)) strokePath(points.slice(-split), weightedColor(rng, palette, primary), width);
       }
     }
 
-    function drawPawSignal(rng, palette) {
-      const x = 160 + rng() * (canvas.width - 320);
-      const y = 180 + rng() * (canvas.height - 360);
-      const radius = randomInt(rng, 28, 58);
-      const color = rng() < 0.42 ? palette.accent : choose(rng, palette.routes);
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate((rng() - 0.5) * 1.2);
-      ctx.fillStyle = color;
-      ctx.strokeStyle = COLORS.black;
-      ctx.lineWidth = 6;
-      ctx.beginPath();
-      ctx.ellipse(0, radius * 0.35, radius * 0.92, radius * 0.76, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-      [-1.08, -0.36, 0.36, 1.08].forEach((offset, index) => {
-        ctx.beginPath();
-        ctx.ellipse(offset * radius * 0.67, -radius * (0.48 + Math.abs(index - 1.5) * 0.1), radius * 0.31, radius * 0.42, offset * 0.12, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-      });
-      ctx.restore();
+    function drawCrashFlow(rng, traits, palette, crashPath) {
+      const bounds = contentBounds(traits);
+      const field = createAngleField(rng, traits, crashPath);
+      const index = createSpatialIndex();
+      const targetBase = traits.density === "Sparse" ? 52 : traits.density === "Heavy" ? 104 : 76;
+      const target = Math.round(targetBase * (traits.scale === "Micro" ? 1.28 : traits.scale === "Jumbo" ? 0.66 : 1));
+      const widthRange = traits.scale === "Micro" ? [18, 36] : traits.scale === "Jumbo" ? [82, 146] : [38, 82];
+      let placed = 0;
+
+      for (let attempt = 0; attempt < target * 12 && placed < target; attempt += 1) {
+        const width = randomInt(rng, widthRange[0], widthRange[1]);
+        const radius = width / 2;
+        const start = {
+          x: bounds.left + radius + rng() * Math.max(1, bounds.right - bounds.left - radius * 2),
+          y: bounds.top + radius + rng() * Math.max(1, bounds.bottom - bounds.top - radius * 2)
+        };
+        if (index.collides(start.x, start.y, radius, traits.collision)) continue;
+        const backward = traceFlow(start, -1, field, bounds, index, radius, traits, rng).reverse();
+        const forward = traceFlow(start, 1, field, bounds, index, radius, traits, rng);
+        const points = backward.concat(forward.slice(1));
+        if (points.length < 10) continue;
+        drawRibbon(rng, traits, palette, points, width);
+        for (let i = 0; i < points.length; i += 2) index.add(points[i].x, points[i].y, radius);
+        placed += 1;
+      }
+      drawPriceGhost(rng, traits, palette, crashPath, 0.18);
+      traits.generatedShapes = placed;
     }
 
-    function drawRedCut(rng, accent) {
-      const startX = -280 + rng() * canvas.width;
-      const startY = rng() * canvas.height * 0.85;
-      const width = randomInt(rng, 44, 118);
-      const length = randomInt(rng, 650, 1180);
+    function drawCapitulationCloud(rng, traits, palette, crashPath) {
+      const bounds = contentBounds(traits);
+      const particleCount = traits.density === "Sparse" ? 13000 : traits.density === "Heavy" ? 31000 : 21500;
+      const spread = traits.scale === "Jumbo" ? 250 : traits.scale === "Micro" ? 120 : 180;
       ctx.save();
-      ctx.translate(startX, startY);
-      ctx.rotate(0.55 + rng() * 0.28);
-      ctx.fillStyle = accent;
-      ctx.strokeStyle = COLORS.black;
-      ctx.lineWidth = 8;
-      ctx.beginPath();
-      ctx.moveTo(0, -width / 2);
-      ctx.lineTo(length, -width * 0.28);
-      ctx.lineTo(length - width * 0.8, 0);
-      ctx.lineTo(length, width * 0.28);
-      ctx.lineTo(0, width / 2);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
+      for (let i = 0; i < particleCount; i += 1) {
+        const x = bounds.left + rng() * (bounds.right - bounds.left);
+        const centerY = samplePathY(crashPath, x);
+        const collapse = (x - bounds.left) / (bounds.right - bounds.left);
+        const y = centerY + gaussian(rng) * spread * (0.45 + collapse * 0.75) - rng() * spread * 0.8;
+        if (y < bounds.top || y > bounds.bottom) continue;
+        const size = traits.scale === "Micro" ? 1 + rng() * 2.5 : 1.5 + rng() * 5;
+        ctx.globalAlpha = 0.34 + rng() * 0.58;
+        ctx.fillStyle = weightedColor(rng, palette);
+        ctx.fillRect(x, y, size, size);
+      }
       ctx.restore();
+
+      ctx.save();
+      ctx.globalAlpha = 0.88;
+      for (let i = 2; i < crashPath.length - 1; i += 2) {
+        const point = crashPath[i];
+        const next = crashPath[i + 1];
+        const barHeight = Math.max(28, Math.abs(next.y - point.y) * 2.4 + rng() * 90);
+        ctx.fillStyle = next.y > point.y ? COLORS.red : weightedColor(rng, palette);
+        ctx.fillRect(point.x - 9, point.y - barHeight * 0.2, 18, barHeight);
+      }
+      ctx.restore();
+      drawPriceGhost(rng, traits, palette, crashPath, 0.48);
+    }
+
+    function drawMarketScribble(rng, traits, palette, crashPath) {
+      const bounds = contentBounds(traits);
+      const lineCount = traits.density === "Sparse" ? 72 : traits.density === "Heavy" ? 220 : 138;
+      for (let line = 0; line < lineCount; line += 1) {
+        const points = [];
+        const offset = gaussian(rng) * (traits.scale === "Jumbo" ? 150 : 84);
+        let drift = gaussian(rng) * 8;
+        for (let i = 0; i < crashPath.length; i += 1) {
+          const source = crashPath[i];
+          drift = drift * 0.78 + gaussian(rng) * (traits.texture === "Distressed" ? 24 : 13);
+          const x = source.x + gaussian(rng) * 10;
+          const y = source.y + offset + drift;
+          if (x >= bounds.left && x <= bounds.right && y >= bounds.top && y <= bounds.bottom) points.push({ x, y });
+          if (chance(rng, 0.035) && points.length) {
+            const last = points[points.length - 1];
+            points.push({ x: last.x - 20 - rng() * 70, y: last.y + gaussian(rng) * 40 });
+          }
+        }
+        strokePath(points, weightedColor(rng, palette), traits.scale === "Micro" ? 1 + rng() * 2 : 2 + rng() * 6, 0.32 + rng() * 0.52);
+      }
+      drawPriceGhost(rng, traits, palette, crashPath, 0.7);
+    }
+
+    function drawOrderbookFracture(rng, traits, palette, crashPath) {
+      const bounds = contentBounds(traits);
+      const blockCount = traits.density === "Sparse" ? 86 : traits.density === "Heavy" ? 220 : 146;
+      for (let i = 0; i < blockCount; i += 1) {
+        const x = bounds.left + rng() * (bounds.right - bounds.left);
+        const center = samplePathY(crashPath, x);
+        const width = traits.scale === "Jumbo" ? 100 + rng() * 280 : 38 + rng() * 160;
+        const height = traits.scale === "Micro" ? 22 + rng() * 70 : 40 + rng() * 170;
+        const y = center + gaussian(rng) * 330 - height / 2;
+        const color = weightedColor(rng, palette);
+        ctx.globalAlpha = 0.82 + rng() * 0.18;
+        ctx.fillStyle = color;
+        ctx.fillRect(x - width / 2, y, width, height);
+        if (chance(rng, 0.66)) {
+          ctx.globalAlpha = 0.72;
+          ctx.fillStyle = color === COLORS.black ? COLORS.white : COLORS.black;
+          const stripe = 4 + rng() * 8;
+          for (let sx = x - width / 2 + stripe; sx < x + width / 2; sx += stripe * 2) {
+            ctx.fillRect(sx, y, Math.max(1, stripe * 0.28), height);
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+      for (let i = 0; i < randomInt(rng, 2, 5); i += 1) {
+        const width = 260 + rng() * 620;
+        const height = 130 + rng() * 460;
+        const x = bounds.left + rng() * Math.max(1, bounds.right - bounds.left - width);
+        const y = bounds.top + rng() * Math.max(1, bounds.bottom - bounds.top - height);
+        ctx.fillStyle = chance(rng, 0.72) ? COLORS.black : COLORS.red;
+        ctx.fillRect(x, y, width, height);
+      }
+      drawPriceGhost(rng, traits, palette, crashPath, 0.46);
+    }
+
+    function drawContourSelloff(rng, traits, palette, crashPath) {
+      const bounds = contentBounds(traits);
+      const lineCount = traits.density === "Sparse" ? 58 : traits.density === "Heavy" ? 150 : 102;
+      const spacing = (bounds.bottom - bounds.top) / lineCount;
+      for (let line = -12; line < lineCount + 12; line += 1) {
+        const points = [];
+        const phase = rng() * Math.PI * 2;
+        for (let step = 0; step <= 90; step += 1) {
+          const x = bounds.left + (bounds.right - bounds.left) * (step / 90);
+          const chart = samplePathY(crashPath, x);
+          const contour = Math.sin(step * 0.15 + phase) * (18 + rng() * 8) + Math.sin(step * 0.047 + phase * 1.7) * 44;
+          const y = chart + (line - lineCount * 0.48) * spacing + contour;
+          if (y >= bounds.top && y <= bounds.bottom) points.push({ x, y });
+        }
+        const color = line % 7 === 0 ? COLORS.red : weightedColor(rng, palette);
+        const width = traits.scale === "Jumbo" ? 12 + rng() * 18 : traits.scale === "Micro" ? 2 + rng() * 4 : 5 + rng() * 10;
+        strokePath(points, color, width, 0.62 + rng() * 0.34);
+      }
+      drawPriceGhost(rng, traits, palette, crashPath, 0.30);
+    }
+
+    function drawNoisyBlob(rng, x, y, radius, color, stretch = 1) {
+      const points = 96;
+      const lobes = 12;
+      const radii = Array.from({ length: lobes }, () => 0.72 + rng() * 0.42);
+      ctx.beginPath();
+      for (let i = 0; i < points; i += 1) {
+        const angle = Math.PI * 2 * (i / points);
+        const position = (i / points) * lobes;
+        const index = Math.floor(position) % lobes;
+        const next = (index + 1) % lobes;
+        const amount = position - Math.floor(position);
+        const eased = amount * amount * (3 - 2 * amount);
+        const wave = radii[index] + (radii[next] - radii[index]) * eased + Math.sin(angle * 3 + radius) * 0.06;
+        const px = x + Math.cos(angle) * radius * wave * stretch;
+        const py = y + Math.sin(angle) * radius * wave;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+
+    function drawTapeBurn(rng, traits, palette, crashPath) {
+      const bounds = contentBounds(traits);
+      const blobCount = traits.density === "Sparse" ? 18 : traits.density === "Heavy" ? 46 : 30;
+      for (let i = 0; i < blobCount; i += 1) {
+        const x = bounds.left + rng() * (bounds.right - bounds.left);
+        const y = samplePathY(crashPath, x) + gaussian(rng) * 310;
+        const radius = traits.scale === "Jumbo" ? 120 + rng() * 250 : 55 + rng() * 160;
+        drawNoisyBlob(rng, x, y, radius, weightedColor(rng, palette), 0.65 + rng() * 1.25);
+      }
+
+      const speckles = traits.density === "Heavy" ? 22000 : 12500;
+      ctx.save();
+      for (let i = 0; i < speckles; i += 1) {
+        const x = bounds.left + rng() * (bounds.right - bounds.left);
+        const y = samplePathY(crashPath, x) + gaussian(rng) * 380;
+        if (y < bounds.top || y > bounds.bottom) continue;
+        ctx.globalAlpha = 0.18 + rng() * 0.52;
+        ctx.fillStyle = chance(rng, 0.18) ? COLORS.red : weightedColor(rng, palette);
+        const size = 1 + rng() * 5;
+        ctx.fillRect(x, y, size, size);
+      }
+      ctx.restore();
+      drawPriceGhost(rng, traits, palette, crashPath, 0.32);
     }
 
     function drawArtwork(seed) {
@@ -897,30 +1289,18 @@
       const traits = buildTraits(cleanSeed);
       const palette = paletteForTraits(traits);
       const rng = createRng(`${cleanSeed}:art`);
-      drawPaperTexture(rng, palette.background);
+      const crashPath = buildCrashPath(rng, traits);
+      drawPaperTexture(rng, palette.background, traits.texture);
 
-      for (let route = 0; route < traits.routeCount; route += 1) {
-        const points = routePoints(rng, route, traits);
-        const routeColor = choose(rng, palette.routes);
-        const routeWidth = randomInt(rng, traits.density === "Heavy" ? 28 : 34, traits.density === "Sparse" ? 96 : 78);
-        drawSegmentedRoute(rng, points, routeColor, routeWidth);
-      }
-
-      for (let cut = 0; cut < traits.redCuts; cut += 1) drawRedCut(rng, palette.accent);
-
-      for (let gap = 0; gap < traits.hexes; gap += 1) {
-        const radius = randomInt(rng, 32, 94);
-        const x = 100 + rng() * (canvas.width - 200);
-        const y = 100 + rng() * (canvas.height - 200);
-        hexPath(ctx, x, y, radius);
-        ctx.fillStyle = palette.background;
-        ctx.fill();
-        ctx.lineWidth = randomInt(rng, 4, 10);
-        ctx.strokeStyle = rng() < 0.25 ? palette.accent : COLORS.black;
-        ctx.stroke();
-      }
-
-      for (let paw = 0; paw < traits.paws; paw += 1) drawPawSignal(rng, palette);
+      const renderers = {
+        "Crash Flow": drawCrashFlow,
+        "Capitulation Cloud": drawCapitulationCloud,
+        "Market Scribble": drawMarketScribble,
+        "Orderbook Fracture": drawOrderbookFracture,
+        "Contour Selloff": drawContourSelloff,
+        "Tape Burn": drawTapeBurn
+      };
+      renderers[traits.composition](rng, traits, palette, crashPath);
 
       ctx.save();
       ctx.globalAlpha = 0.78;
@@ -938,12 +1318,12 @@
     function updateArtworkUi() {
       document.getElementById("captionSeed").textContent = `Seed ${currentSeed}`;
       const values = {
-        palette: currentTraits.palette,
-        flow: currentTraits.flow,
+        composition: currentTraits.composition,
+        market: currentTraits.market,
         density: currentTraits.density,
-        volatility: currentTraits.volatility,
-        paws: String(currentTraits.paws),
-        hexes: String(currentTraits.hexes)
+        texture: currentTraits.texture,
+        scale: currentTraits.scale,
+        margin: currentTraits.margin ? "Preserved" : "Full Bleed"
       };
       Object.entries(values).forEach(([key, value]) => {
         const field = document.querySelector(`[data-trait="${key}"]`);
@@ -982,7 +1362,7 @@
     }
 
     function shortenKey(value) {
-      return `${value.slice(0, 4)}…${value.slice(-4)}`;
+      return `${value.slice(0, 4)}â€¦${value.slice(-4)}`;
     }
 
     /*
@@ -1022,13 +1402,13 @@
       const percent = minted === null || !MINT_CONFIG.supply ? 0 : Math.round((minted / MINT_CONFIG.supply) * 100);
 
       document.getElementById("mintPrice").textContent = `${MINT_CONFIG.mintPriceSol} SOL`;
-      document.getElementById("mintedCount").textContent = `${minted === null ? "—" : minted.toLocaleString()} / ${MINT_CONFIG.supply.toLocaleString()}`;
+      document.getElementById("mintedCount").textContent = `${minted === null ? "â€”" : minted.toLocaleString()} / ${MINT_CONFIG.supply.toLocaleString()}`;
       document.getElementById("progressPercent").textContent = minted === null ? "Awaiting contract" : `${percent}% minted`;
       document.getElementById("progressFill").style.width = `${percent}%`;
       const progress = document.querySelector(".progress-track");
       progress.setAttribute("aria-valuenow", String(percent));
       document.getElementById("networkLabel").textContent = configured ? "Mainnet / configured" : "Mainnet / unconfigured";
-      document.getElementById("launchNotice").textContent = configured ? "Contract configured — verify all addresses before minting" : "Preview mode — mint contract not configured";
+      document.getElementById("launchNotice").textContent = configured ? "Contract configured â€” verify all addresses before minting" : "Preview mode â€” mint contract not configured";
 
       if (!configured) {
         mintButton.disabled = true;
@@ -1041,7 +1421,7 @@
 
     async function connectWallet() {
       connectWalletButton.disabled = true;
-      connectWalletButton.textContent = "Connecting…";
+      connectWalletButton.textContent = "Connectingâ€¦";
       try {
         const key = await MintAdapter.connectWallet();
         connectWalletButton.textContent = shortenKey(key);
@@ -1068,7 +1448,7 @@
         if (!walletPublicKey) return;
       }
       mintButton.disabled = true;
-      mintButton.textContent = "Preparing mint…";
+      mintButton.textContent = "Preparing mintâ€¦";
       try {
         await MintAdapter.executeCoreCandyMachineMint({ seed: currentSeed, traits: currentTraits, walletProvider });
         setMintStatus("Mint transaction submitted. Confirm final status in your wallet and explorer.", "success");
@@ -1099,7 +1479,7 @@
         link.download = `bodenza-${safeName}.png`;
         link.href = canvas.toDataURL("image/png");
         link.click();
-        showToast("High-resolution 2048 × 2048 PNG saved.");
+        showToast("High-resolution 2048 Ã— 2048 PNG saved.");
       } catch (error) {
         showToast("The PNG could not be saved in this browser.");
       }
