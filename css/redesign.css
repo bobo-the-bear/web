@@ -1417,6 +1417,44 @@ main {
 .founder-copy h2 { color: var(--paper-bright); }
 .founder-copy > p:not(.section-kicker) { color: #bca58d; }
 
+.founder-media-link {
+  width: fit-content;
+  margin-top: 30px;
+  padding: 14px 17px;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid var(--amber);
+  color: var(--paper-bright);
+  background: rgba(184, 134, 75, 0.08);
+  font: 600 0.64rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.founder-media-link i {
+  color: var(--amber);
+  font-style: normal;
+  font-size: 0.88rem;
+  transition: transform 180ms ease;
+}
+
+.founder-media-link:hover,
+.founder-media-link:focus-visible {
+  color: var(--paper-bright);
+  border-color: var(--crimson-bright);
+  background: var(--crimson);
+  transform: translateY(-2px);
+}
+
+.founder-media-link:hover i,
+.founder-media-link:focus-visible i {
+  color: var(--paper-bright);
+  transform: translate(2px, -2px);
+}
+
 .founder-id {
   margin-top: 42px;
   padding: 18px;

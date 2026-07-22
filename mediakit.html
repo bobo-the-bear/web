@@ -6,6 +6,11 @@
   <meta name="description" content="Official Bobo media kit: standard, 3D, anime, logo, and brand assets for community creations.">
   <meta name="theme-color" content="#000000">
   <title>Bobo Media Kit</title>
+  <script>
+    window.BOBO_USE_EMBEDDED_MODEL = location.protocol === 'file:' || location.search.includes('embedded-model=1');
+  </script>
+  <script src="assets/models/bobo-3d-data.js"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>
   <style>
     :root {
       --white: #FFFFFF;
@@ -299,14 +304,43 @@
     .collection-actions p { margin: 0; max-width: 610px; color: inherit; opacity: .66; font-size: .9rem; line-height: 1.5; }
     .collection-dark .btn-light:hover, .collection-red .btn-light:hover { background: transparent; color: var(--white); }
 
-    .standard-gallery .preview-button:nth-child(1) { background: var(--red); }
-    .standard-gallery .preview-button:nth-child(1) img { object-fit: contain; padding: 35px; }
-    .standard-gallery .preview-button:nth-child(2) img { object-position: center top; }
-    .standard-gallery .preview-button:nth-child(3) { background: #ded7d0; }
-    .standard-gallery .preview-button:nth-child(3) img { object-fit: contain; padding: 30px; }
     .three-d-gallery .preview-button { background: radial-gradient(circle at 50% 25%, #fff 0 18%, #d4d0cc 58%, #9b928b 100%); }
     .three-d-gallery .preview-button img { object-fit: cover; object-position: center 28%; }
     .three-d-gallery .preview-button.wide img { object-position: center; }
+    .viewer-section { background: #0b0a09; color: var(--white); border-color: rgba(255,255,255,.22); }
+    .viewer-section .section-intro { color: rgba(255,255,255,.62); }
+    .model-stage {
+      position: relative;
+      min-height: 720px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      background-color: #171412;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+        radial-gradient(circle at 50% 38%, rgba(111,69,45,.5), transparent 55%);
+      background-size: 42px 42px, 42px 42px, 100% 100%;
+      box-shadow: 0 28px 80px rgba(0,0,0,.48);
+    }
+    .model-stage:fullscreen { width: 100vw; height: 100vh; min-height: 100vh; border: 0; border-radius: 0; }
+    .model-stage:fullscreen model-viewer { height: 100vh; }
+    .model-stage model-viewer { width: 100%; height: 720px; --poster-color: transparent; }
+    .viewer-brand { position: absolute; z-index: 3; left: 20px; top: 18px; display: flex; align-items: center; gap: 9px; border-radius: 999px; padding: 9px 12px; background: rgba(9,8,7,.76); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(12px); color: var(--white); font-size: .68rem; letter-spacing: .11em; text-transform: uppercase; font-weight: 900; pointer-events: none; }
+    .viewer-brand::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--red-bright); box-shadow: 0 0 0 5px rgba(239,23,64,.15); }
+    .model-badge { position: absolute; z-index: 3; right: 18px; top: 18px; border-radius: 999px; padding: 9px 12px; background: rgba(9,8,7,.76); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.76); backdrop-filter: blur(12px); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 900; pointer-events: none; }
+    .viewer-toolbar { position: absolute; z-index: 4; left: 18px; top: 50%; display: grid; gap: 8px; transform: translateY(-50%); }
+    .viewer-control { position: relative; width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 0; background: rgba(9,8,7,.78); color: var(--white); backdrop-filter: blur(12px); cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+    .viewer-control:hover { transform: translateX(2px); border-color: rgba(255,255,255,.38); background: rgba(71,44,27,.92); }
+    .viewer-control:focus-visible { outline: 3px solid var(--red-bright); outline-offset: 3px; }
+    .viewer-control svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .viewer-control span { position: absolute; left: 58px; padding: 7px 9px; border-radius: 8px; background: rgba(0,0,0,.9); color: var(--white); white-space: nowrap; font-size: .68rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 850; opacity: 0; transform: translateX(-4px); pointer-events: none; transition: opacity .16s ease, transform .16s ease; }
+    .viewer-control:hover span, .viewer-control:focus-visible span { opacity: 1; transform: translateX(0); }
+    .viewer-hint { position: absolute; z-index: 3; left: 20px; bottom: 18px; max-width: calc(100% - 40px); border-radius: 999px; padding: 10px 13px; background: rgba(9,8,7,.72); border: 1px solid rgba(255,255,255,.1); backdrop-filter: blur(12px); color: rgba(255,255,255,.68); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; pointer-events: none; }
+    .viewer-section .collection-actions { border-color: rgba(255,255,255,.35); }
+    .viewer-section .btn-light:hover { background: transparent; color: var(--white); }
+    .action-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
     .anime-gallery .preview-button img { object-position: center; }
 
     .brand { padding: 120px 0; background: var(--white); border-top: 2px solid var(--ink); }
@@ -408,12 +442,21 @@
       .overview, .collection, .brand, .guidelines, .final-cta { padding: 82px 0; }
       .section-head { align-items: start; margin-bottom: 32px; }
       .section-count { display: none; }
-      .section-title { font-size: clamp(2.8rem, 15vw, 5rem); }
+      .section-head > div { min-width: 0; }
+      .section-title { font-size: clamp(2.7rem, 12vw, 4.2rem); overflow-wrap: anywhere; }
       .pack-card { display: block; }
       .pack-visual { min-height: 330px; }
       .gallery { grid-template-columns: 1fr; }
       .preview-button, .preview-button.wide { grid-column: auto; min-height: 330px; }
       .preview-button.tall { min-height: 480px; }
+      .model-stage, .model-stage model-viewer { min-height: 520px; height: 520px; }
+      .viewer-brand { left: 12px; top: 12px; }
+      .model-badge { right: 12px; top: 12px; }
+      .viewer-toolbar { left: 12px; top: auto; bottom: 12px; display: flex; transform: none; }
+      .viewer-control { width: 44px; height: 44px; border-radius: 13px; }
+      .viewer-control span { display: none; }
+      .viewer-hint { display: none; }
+      .action-buttons, .action-buttons .btn { width: 100%; }
       .collection-actions { align-items: stretch; }
       .collection-actions .btn { width: 100%; }
       .logo-board { grid-template-columns: 1fr; min-height: 680px; }
@@ -494,8 +537,8 @@
             <div class="pack-body">
               <p class="pack-kicker">High-resolution</p>
               <h3>3D Bobo</h3>
-              <p>Polished character views for posters, thumbnails, promo graphics, video, and modern edits.</p>
-              <div class="pack-meta"><span class="chip">12 files</span><span class="chip">PNG</span><span class="chip">Up to 2048px</span></div>
+              <p>A rotatable web model plus polished character views for posters, thumbnails, promo graphics, video, and modern edits.</p>
+              <div class="pack-meta"><span class="chip">GLB + 12 renders</span><span class="chip">GLB / PNG</span><span class="chip">Web-ready</span></div>
               <a class="btn btn-dark" href="downloads/3D%20Bobo.zip" download>Download 3D pack <span class="btn-arrow">↓</span></a>
             </div>
           </article>
@@ -514,33 +557,58 @@
       </div>
     </section>
 
-    <section class="collection collection-red" id="standard">
+    <section class="collection viewer-section" id="interactive-3d">
       <div class="shell">
         <div class="section-head">
           <div>
-            <p class="eyebrow">01 / Standard animated Bobo</p>
-            <h2 class="section-title">The classic meme face.</h2>
-            <p class="section-intro">Clean, familiar, and easy to drop into a reaction image. Transparent artwork keeps Bobo ready for nearly any background.</p>
+            <p class="eyebrow">01 / Interactive 3D Bobo</p>
+            <h2 class="section-title">Meet Bobo in 3D.</h2>
+            <p class="section-intro">Inspect the textured Bobo model directly in your browser. Rotate, zoom, pause the turntable, reset the camera, or expand the viewer to full screen.</p>
           </div>
-          <span class="section-count">PNG collection</span>
+          <span class="section-count">Interactive GLB viewer</span>
         </div>
 
-        <div class="gallery standard-gallery">
-          <button class="preview-button checker" type="button" data-preview="assets/standard/bobo-marquee.png" data-caption="Classic Bobo / transparent PNG" aria-label="Open classic Bobo preview"><img src="assets/standard/bobo-marquee.png" alt="Classic Bobo character with narrowed eyes" loading="lazy"><span class="preview-label">View full</span></button>
-          <button class="preview-button wide checker" type="button" data-preview="assets/standard/boboboomer2.png" data-caption="Boomer Bobo / transparent PNG" aria-label="Open Boomer Bobo preview"><img src="assets/standard/boboboomer2.png" alt="Classic Bobo character variation" loading="lazy"><span class="preview-label">View full</span></button>
-          <button class="preview-button wide checker" type="button" data-preview="assets/standard/bobo-confused.png" data-caption="Confused Bobo / transparent PNG" aria-label="Open confused Bobo preview"><img src="assets/standard/bobo-confused.png" alt="Confused Bobo character" loading="lazy"><span class="preview-label">View full</span></button>
-          <button class="preview-button checker" type="button" data-preview="assets/standard/bobo-4.png" data-caption="Full-body Bobo / transparent PNG" aria-label="Open full-body Bobo preview"><img src="assets/standard/bobo-4.png" alt="Full-body classic Bobo character" loading="lazy"><span class="preview-label">View full</span></button>
-          <button class="preview-button checker contain" type="button" data-preview="assets/standard/bobopicturememe.png" data-caption="Classic Bobo / portrait" aria-label="Open classic Bobo portrait preview"><img src="assets/standard/bobopicturememe.png" alt="Classic Bobo portrait" loading="lazy"><span class="preview-label">Portrait</span></button>
-          <button class="preview-button checker contain" type="button" data-preview="assets/standard/bobonftredshirt.png" data-caption="Classic Bobo / red shirt" aria-label="Open red-shirt Bobo preview"><img src="assets/standard/bobonftredshirt.png" alt="Classic Bobo wearing a red shirt" loading="lazy"><span class="preview-label">Red shirt</span></button>
-          <button class="preview-button checker contain" type="button" data-preview="assets/standard/bobonftbear.png" data-caption="Classic Bobo / drink reaction" aria-label="Open Bobo drink reaction preview"><img src="assets/standard/bobonftbear.png" alt="Classic Bobo holding a drink" loading="lazy"><span class="preview-label">Drink reaction</span></button>
-          <button class="preview-button checker contain" type="button" data-preview="assets/standard/bobojerk.png" data-caption="Classic Bobo / toast reaction" aria-label="Open Bobo toast reaction preview"><img src="assets/standard/bobojerk.png" alt="Classic Bobo raising a drink" loading="lazy"><span class="preview-label">Toast reaction</span></button>
-          <button class="preview-button checker contain" type="button" data-preview="assets/standard/boboglassessss.png" data-caption="Classic Bobo / formal toast" aria-label="Open formal Bobo toast preview"><img src="assets/standard/boboglassessss.png" alt="Bobo in a tuxedo holding a drink" loading="lazy"><span class="preview-label">Formal toast</span></button>
-          <button class="preview-button checker contain" type="button" data-preview="assets/standard/bobo_classic_fb.png" data-caption="Classic Bobo / full-body" aria-label="Open classic full-body Bobo preview"><img src="assets/standard/bobo_classic_fb.png" alt="Classic full-body Bobo" loading="lazy"><span class="preview-label">Full-body</span></button>
+        <div class="model-stage" id="bobo-viewer-stage">
+          <span class="viewer-brand">Bobo model viewer</span>
+          <span class="model-badge">GLB · 2.2 MB</span>
+          <div class="viewer-toolbar" aria-label="3D model controls">
+            <button class="viewer-control" type="button" data-viewer-action="reset" aria-label="Reset 3D view">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span>Reset view</span>
+            </button>
+            <button class="viewer-control" type="button" data-viewer-action="spin" aria-label="Pause automatic rotation" aria-pressed="true">
+              <svg class="spin-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7v10M15 7v10"/></svg><span>Pause spin</span>
+            </button>
+            <button class="viewer-control" type="button" data-viewer-action="fullscreen" aria-label="Open 3D viewer full screen">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg><span>Full screen</span>
+            </button>
+          </div>
+          <model-viewer
+            id="bobo-model"
+            src="assets/models/bobo-3d.glb"
+            poster="assets/3d/Bobo_1.png"
+            alt="Interactive three-dimensional model of Bobo the Bear wearing a red shirt"
+            camera-controls
+            touch-action="pan-y"
+            auto-rotate
+            auto-rotate-delay="900"
+            rotation-per-second="16deg"
+            interaction-prompt="auto"
+            shadow-intensity="1.35"
+            shadow-softness=".8"
+            exposure="1.08"
+            environment-image="neutral"
+            field-of-view="30deg"
+            loading="lazy"></model-viewer>
+          <span class="viewer-hint">Drag to rotate · Scroll or pinch to zoom · Right-drag to pan</span>
+          <noscript>JavaScript is required for the interactive model. The GLB download remains available below.</noscript>
         </div>
 
         <div class="collection-actions">
-          <p>Includes 13 original-resolution PNG files: classic expressions, portraits, full-body artwork, toast reactions, hand details, and meme-ready character variations.</p>
-          <a class="btn btn-light" href="downloads/bobo-standard-animated-pack.zip" download>Download standard pack <span class="btn-arrow">↓</span></a>
+          <p>The model is served as an optimized, textured GLB for fast viewing across modern desktop and mobile browsers.</p>
+          <div class="action-buttons">
+            <a class="btn btn-light" href="assets/models/bobo-3d.glb" download="bobo-3d.glb">Download Bobo GLB <span class="btn-arrow">↓</span></a>
+            <a class="btn btn-light" href="downloads/bobo-standard-animated-pack.zip" download>Download classic PNG pack <span class="btn-arrow">↓</span></a>
+          </div>
         </div>
       </div>
     </section>
@@ -565,8 +633,8 @@
         </div>
 
         <div class="collection-actions">
-          <p>Includes 12 PNG renders from 1024px square to 2048px square, plus wide character turnarounds. The files retain their recovered source names.</p>
-          <a class="btn btn-light" href="downloads/3D%20Bobo.zip" download>Download 3D Bobo <span class="btn-arrow">↓</span></a>
+          <p>Includes 12 full-resolution PNG renders, multiple character angles, and wide turnaround sheets for compositing and reference.</p>
+          <a class="btn btn-light" href="downloads/3D%20Bobo.zip" download>Download render pack <span class="btn-arrow">↓</span></a>
         </div>
       </div>
     </section>
@@ -669,7 +737,7 @@
         <div>
           <p class="eyebrow">Everything in one download</p>
           <h2>Take the whole cave.</h2>
-          <p>The complete package bundles Standard Bobo, all 3D renders, the complete Anime Bobo collection, official logos, the color palette, and the usage notes.</p>
+          <p>The complete package bundles Standard Bobo, the interactive 3D model and render set, the complete Anime Bobo collection, official logos, the color palette, and the usage notes.</p>
         </div>
         <a class="btn btn-light" href="downloads/bobo-media-kit-complete.zip" download>Download complete kit <span class="btn-arrow">↓</span></a>
       </div>
@@ -707,6 +775,60 @@
         }
       });
     });
+
+    const boboModel = document.querySelector('#bobo-model');
+    const boboViewerStage = document.querySelector('#bobo-viewer-stage');
+    const resetViewButton = document.querySelector('[data-viewer-action="reset"]');
+    const spinViewButton = document.querySelector('[data-viewer-action="spin"]');
+    const fullscreenViewButton = document.querySelector('[data-viewer-action="fullscreen"]');
+
+    if (window.BOBO_USE_EMBEDDED_MODEL && window.BOBO_GLB_BASE64) {
+      const binary = atob(window.BOBO_GLB_BASE64);
+      const bytes = new Uint8Array(binary.length);
+      for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+      const localModelUrl = URL.createObjectURL(new Blob([bytes], { type: 'model/gltf-binary' }));
+      boboModel.src = localModelUrl;
+      window.addEventListener('pagehide', () => URL.revokeObjectURL(localModelUrl), { once: true });
+    }
+
+    function setModelSpin(shouldSpin) {
+      const iconPath = spinViewButton.querySelector('path');
+      const label = spinViewButton.querySelector('span');
+      spinViewButton.setAttribute('aria-pressed', String(shouldSpin));
+      spinViewButton.setAttribute('aria-label', shouldSpin ? 'Pause automatic rotation' : 'Start automatic rotation');
+      label.textContent = shouldSpin ? 'Pause spin' : 'Start spin';
+      iconPath.setAttribute('d', shouldSpin ? 'M9 7v10M15 7v10' : 'M8 5v14l11-7z');
+      if (shouldSpin) boboModel.setAttribute('auto-rotate', '');
+      else boboModel.removeAttribute('auto-rotate');
+    }
+
+    resetViewButton.addEventListener('click', () => {
+      boboModel.cameraOrbit = '0deg 75deg auto';
+      boboModel.fieldOfView = '30deg';
+      if (typeof boboModel.jumpCameraToGoal === 'function') boboModel.jumpCameraToGoal();
+      showToast('3D view reset');
+    });
+
+    spinViewButton.addEventListener('click', () => {
+      setModelSpin(!boboModel.hasAttribute('auto-rotate'));
+    });
+
+    fullscreenViewButton.addEventListener('click', async () => {
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await boboViewerStage.requestFullscreen();
+      } catch {
+        showToast('Full screen is unavailable in this browser');
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      const isFullscreen = document.fullscreenElement === boboViewerStage;
+      fullscreenViewButton.setAttribute('aria-label', isFullscreen ? 'Exit full screen' : 'Open 3D viewer full screen');
+      fullscreenViewButton.querySelector('span').textContent = isFullscreen ? 'Exit full screen' : 'Full screen';
+    });
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) setModelSpin(false);
 
     const modal = document.querySelector('.modal');
     const modalImage = modal.querySelector('img');
