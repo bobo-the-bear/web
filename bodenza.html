@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Bodenza is an original, seed-based Bobo generative art preview and future mint interface on Solana.">
-  <meta property="og:title" content="Bodenza â€” Bobo Generative Art">
-  <meta property="og:description" content="Generate deterministic bear-market abstractions in the official Bobo palette.">
+  <meta name="description" content="Market Noise is a free, seed-based Bobo generative art and high-resolution PNG maker.">
+  <meta property="og:title" content="Market Noise - Bobo Art Generator">
+  <meta property="og:description" content="Make deterministic market-crash abstractions in the official Bobo palette and save them as PNGs.">
   <meta property="og:type" content="website">
-  <title>Bodenza â€” Bobo Generative Art</title>
+  <title>Market Noise - Bobo Art Generator</title>
   <link rel="icon" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/webclip.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -544,134 +544,266 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /*
+     * MARKET NOISE SINGLE-SCREEN LAYOUT
+     * The generator remains centered and contained inside the viewport.
+     */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    .market-noise-page {
+      width: min(calc(100vw - 32px), 1380px);
+      height: 100dvh;
+      margin: 0;
+      padding: 16px 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .market-noise-page .studio {
+      width: 100%;
+      height: min(860px, calc(100dvh - 32px));
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) 10px;
+      overflow: hidden;
+    }
+
+    .market-noise-page .window-bar {
+      min-height: 58px;
+      padding: 8px 18px;
+    }
+
+    .studio-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .studio-title {
+      margin: 0;
+      font: 900 clamp(1.8rem, 3vw, 2.8rem)/0.9 "Fraunces", Georgia, serif;
+      letter-spacing: -0.045em;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .studio-title em {
+      color: var(--bobo-red);
+      font-style: normal;
+    }
+
+    .studio-subtitle {
+      color: rgba(255, 255, 255, 0.62);
+      white-space: nowrap;
+    }
+
+    .market-noise-page .studio-grid {
+      min-height: 0;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    }
+
+    .market-noise-page .art-column {
+      min-width: 0;
+      min-height: 0;
+      padding: clamp(14px, 2vw, 28px);
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      justify-items: center;
+    }
+
+    .market-noise-page .canvas-shell {
+      width: min(100%, calc(100dvh - 168px));
+      max-height: 100%;
+      align-self: center;
+    }
+
+    .market-noise-page .canvas-caption {
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    .market-noise-page .control-column {
+      min-height: 0;
+      justify-content: center;
+    }
+
+    .market-noise-page .control-section {
+      padding: clamp(18px, 2.2vh, 26px);
+    }
+
+    .market-noise-page .seed-row button {
+      width: auto;
+      min-width: 88px;
+      padding: 0 12px;
+      font: 600 0.58rem/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .generator-note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font: 500 0.58rem/1.55 "IBM Plex Mono", monospace;
+    }
+
+    @media (max-width: 850px) {
+      .market-noise-page {
+        width: min(calc(100vw - 20px), 760px);
+        padding: 10px 0;
+      }
+
+      .market-noise-page .studio { height: calc(100dvh - 20px); }
+
+      .market-noise-page .studio-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+
+      .market-noise-page .art-column {
+        padding: 12px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .market-noise-page .canvas-shell {
+        width: min(100%, calc(100dvh - 340px));
+      }
+
+      .market-noise-page .canvas-caption { display: none; }
+
+      .market-noise-page .control-column {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      }
+
+      .market-noise-page .control-section {
+        padding: 13px;
+        border-right: 1px solid rgba(255, 255, 255, 0.18);
+        border-bottom: 0;
+      }
+
+      .market-noise-page .control-section:last-child { border-right: 0; }
+      .market-noise-page .traits { margin-top: 9px; }
+      .market-noise-page .traits div { padding: 7px; }
+      .market-noise-page .traits dt { margin-bottom: 4px; }
+      .market-noise-page .generator-note { margin-top: 7px; }
+    }
+
+    @media (max-width: 600px) {
+      .market-noise-page .window-bar {
+        min-height: 48px;
+        padding: 7px 12px;
+      }
+
+      .studio-title { font-size: 1.65rem; }
+      .studio-subtitle,
+      .online-state span { display: none; }
+
+      .market-noise-page .canvas-shell {
+        width: min(100%, calc(100dvh - 366px));
+      }
+
+      .market-noise-page .control-column { grid-template-columns: 1fr; }
+
+      .market-noise-page .control-section {
+        padding: 9px 10px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .market-noise-page .seed-row { margin-top: 7px; }
+      .market-noise-page .seed-row input { height: 36px; }
+      .market-noise-page .seed-row button { min-width: 78px; }
+      .market-noise-page .button-grid { margin-top: 7px; }
+      .market-noise-page .button-grid button { min-height: 36px; }
+      .market-noise-page .generator-note { display: none; }
+      .market-noise-page .traits { grid-template-columns: repeat(3, 1fr); }
+      .market-noise-page .traits div,
+      .market-noise-page .traits div:nth-child(even),
+      .market-noise-page .traits div:nth-last-child(-n + 2) {
+        padding: 6px;
+        border-right: 1px solid rgba(255, 255, 255, 0.14);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      .market-noise-page .traits div:nth-child(3n) { border-right: 0; }
+      .market-noise-page .traits div:nth-last-child(-n + 3) { border-bottom: 0; }
+      .market-noise-page .traits dt { font-size: 0.45rem; }
+      .market-noise-page .traits dd { font-size: 0.55rem; }
+    }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="index.html" aria-label="Bobo the Bear home">
-      <img src="images/logo.png" alt="">
-      <span>Bobo<br>The Bear</span>
-    </a>
-    <nav class="topbar-nav" aria-label="Bodenza navigation">
-      <a href="index.html">Home</a>
-      <a href="#studio">Studio</a>
-      <a href="#algorithm">Algorithm</a>
-    </nav>
-    <button class="wallet-button" id="connectWallet" type="button">Connect wallet</button>
-  </header>
-
-  <main>
-    <section class="intro" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow">Bobo generative works / Preview terminal</p>
-        <h1 id="page-title">Bo<em>denza.</em></h1>
-      </div>
-      <div>
-        <p class="intro-copy"><strong>Every bear market leaves a path.</strong> Generate an original, deterministic abstraction from one seed and the five official Bobo colors.</p>
-        <p class="mint-notice" id="launchNotice">Preview mode â€” mint contract not configured</p>
-      </div>
-    </section>
-
-    <section class="studio" id="studio" aria-label="Bodenza generative art studio">
+  <main class="market-noise-page">
+    <section class="studio" aria-label="Market Noise generative art studio">
       <div class="window-bar">
-        <span>BODENZA_GENERATOR.SYS / 2048 Ã— 2048</span>
-        <span class="online-state"><i aria-hidden="true"></i>Generator online</span>
+        <div class="studio-heading">
+          <h1 class="studio-title">Market <em>Noise.</em></h1>
+          <span class="studio-subtitle">Free PNG generator / 2048 x 2048</span>
+        </div>
+        <span class="online-state"><i aria-hidden="true"></i><span>Generator online</span></span>
       </div>
 
       <div class="studio-grid">
         <div class="art-column">
           <div class="canvas-shell">
-            <canvas id="artCanvas" width="2048" height="2048" role="img" aria-label="Generated Bodenza abstract artwork"></canvas>
-            <span class="canvas-badge" id="editionBadge">Preview / Not minted</span>
+            <canvas id="artCanvas" width="2048" height="2048" role="img" aria-label="Generated Market Noise abstract artwork"></canvas>
+            <span class="canvas-badge">Free PNG / 2048 x 2048</span>
           </div>
           <div class="canvas-caption">
-            <span><strong id="captionSeed">Seed â€”</strong></span>
+            <span><strong id="captionSeed">Seed —</strong></span>
             <span>Deterministic output / PNG ready</span>
           </div>
         </div>
 
-        <aside class="control-column" aria-label="Artwork and mint controls">
+        <aside class="control-column" aria-label="Artwork controls">
           <section class="control-section">
             <p class="panel-label">01 / Seed</p>
             <label class="seed-row" for="seedInput">
               <input id="seedInput" type="text" maxlength="64" autocomplete="off" spellcheck="false" aria-label="Artwork seed">
-              <button id="randomSeed" type="button" title="Create a random seed" aria-label="Create a random seed">â†»</button>
+              <button id="randomSeed" type="button" title="Create a new random seed">New seed</button>
             </label>
             <div class="button-grid">
-              <button class="primary-button" id="generateArt" type="button">Generate / Preview</button>
+              <button class="primary-button" id="generateArt" type="button">Generate new art</button>
               <button class="secondary-button" id="savePng" type="button">Save PNG</button>
             </div>
+            <p class="generator-note">Each click creates a new seed. To revisit an artwork, paste its seed and press Enter.</p>
           </section>
 
           <section class="control-section">
             <p class="panel-label">02 / Generated traits</p>
             <dl class="traits" id="traitList" aria-live="polite">
-              <div><dt>Composition</dt><dd data-trait="composition">â€”</dd></div>
-              <div><dt>Market path</dt><dd data-trait="market">â€”</dd></div>
-              <div><dt>Density</dt><dd data-trait="density">â€”</dd></div>
-              <div><dt>Texture</dt><dd data-trait="texture">â€”</dd></div>
-              <div><dt>Scale</dt><dd data-trait="scale">â€”</dd></div>
-              <div><dt>Margin</dt><dd data-trait="margin">â€”</dd></div>
+              <div><dt>Composition</dt><dd data-trait="composition">—</dd></div>
+              <div><dt>Market path</dt><dd data-trait="market">—</dd></div>
+              <div><dt>Density</dt><dd data-trait="density">—</dd></div>
+              <div><dt>Texture</dt><dd data-trait="texture">—</dd></div>
+              <div><dt>Scale</dt><dd data-trait="scale">—</dd></div>
+              <div><dt>Margin</dt><dd data-trait="margin">—</dd></div>
             </dl>
           </section>
 
-          <section class="control-section">
-            <p class="panel-label">03 / Collection progress</p>
-            <div class="progress-head"><span id="mintedCount">â€” / 1,000</span><span id="progressPercent">Awaiting contract</span></div>
-            <div class="progress-track" role="progressbar" aria-label="Mint progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progressFill"></span></div>
-          </section>
-
-          <section class="control-section">
-            <p class="panel-label">04 / Mint</p>
-            <div class="mint-meta">
-              <div><span>Price</span><strong id="mintPrice">0.25 SOL</strong><small>Network fees separate</small></div>
-              <div><span>Network</span><strong>Solana</strong><small id="networkLabel">Mainnet / unconfigured</small></div>
-            </div>
-            <button class="mint-button" id="mintButton" type="button" disabled>Mint not configured</button>
-            <p class="mint-status" id="mintStatus" role="status" aria-live="polite">Connect a wallet to preview wallet readiness. Minting stays disabled until verified collection and Candy Machine addresses are added.</p>
-          </section>
         </aside>
       </div>
       <div class="palette-strip" aria-label="Official Bobo palette: white, dark brown, brown, red, and black"><i></i><i></i><i></i><i></i><i></i></div>
     </section>
 
-    <section class="about-grid" id="algorithm" aria-labelledby="algorithm-title">
-      <div>
-        <p class="eyebrow">Original system / Market-failure logic</p>
-        <h2 id="algorithm-title">Every chart finds a bottom.</h2>
-      </div>
-      <div class="about-copy">
-        <p><strong>Bodenza uses its own code and drawing rules.</strong> Each seed chooses from six market-failure systems: collision-aware crash flows, capitulation clouds, chart scribbles, fractured order books, topographic selloffs, and distressed tape fields. Under every abstraction is a generated price path that bleeds, gaps, bounces, or capitulates.</p>
-        <p>The system uses the Bobo palette only: #FFFFFF, #472C1B, #6F452D, #B90B2A, and #000000. It studies established generative techniques while remaining an original Bobo project that is not affiliated with Tyler Hobbs, Fidenza, Art Blocks, or the artists behind any reference work.</p>
-      </div>
-    </section>
-
-    <footer class="site-footer">
-      <span>Â© 2026 Bobo the Bear</span>
-      <p>Preview artwork is generated in your browser. A wallet connection does not authorize a transaction. Always verify mint details in your wallet before signing.</p>
-    </footer>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script>
     "use strict";
-
-    /*
-     * LIVE MINT CONFIGURATION
-     * -----------------------
-     * Leave collectionAddress and candyMachineAddress empty until the deployed
-     * Metaplex Core collection and Core Candy Machine have been verified.
-     * minted may remain null; a live adapter should fetch the on-chain count.
-     */
-    const MINT_CONFIG = Object.freeze({
-      rpcEndpoint: "https://api.mainnet-beta.solana.com",
-      collectionAddress: "",
-      candyMachineAddress: "",
-      mintPriceSol: 0.25,
-      supply: 1000,
-      minted: null
-    });
 
     const COLORS = Object.freeze({
       white: "#FFFFFF",
@@ -684,14 +816,9 @@
     const canvas = document.getElementById("artCanvas");
     const ctx = canvas.getContext("2d", { alpha: false });
     const seedInput = document.getElementById("seedInput");
-    const connectWalletButton = document.getElementById("connectWallet");
-    const mintButton = document.getElementById("mintButton");
-    const mintStatus = document.getElementById("mintStatus");
     const toast = document.getElementById("toast");
     let currentSeed = "";
     let currentTraits = null;
-    let walletProvider = null;
-    let walletPublicKey = "";
     let toastTimer = 0;
 
     function hashSeed(value) {
@@ -1307,7 +1434,7 @@
       ctx.fillStyle = palette.background === COLORS.black ? COLORS.white : COLORS.black;
       ctx.font = "600 24px IBM Plex Mono, monospace";
       ctx.textAlign = "right";
-      ctx.fillText(`BODENZA / ${hashSeed(cleanSeed).toString(16).toUpperCase().padStart(8, "0")}`, canvas.width - 48, canvas.height - 42);
+      ctx.fillText(`MARKET NOISE / ${hashSeed(cleanSeed).toString(16).toUpperCase().padStart(8, "0")}`, canvas.width - 48, canvas.height - 42);
       ctx.restore();
 
       currentSeed = cleanSeed;
@@ -1338,128 +1465,6 @@
       toastTimer = window.setTimeout(() => { toast.hidden = true; }, 4200);
     }
 
-    function setMintStatus(message, kind = "info") {
-      mintStatus.textContent = message;
-      mintStatus.dataset.kind = kind;
-    }
-
-    function isPublicKeyLike(value) {
-      return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(value);
-    }
-
-    function isMintConfigured() {
-      return Boolean(
-        /^https?:\/\//.test(MINT_CONFIG.rpcEndpoint) &&
-        isPublicKeyLike(MINT_CONFIG.collectionAddress) &&
-        isPublicKeyLike(MINT_CONFIG.candyMachineAddress)
-      );
-    }
-
-    function findWalletProvider() {
-      if (window.phantom?.solana?.isPhantom) return window.phantom.solana;
-      if (window.solana?.connect) return window.solana;
-      return null;
-    }
-
-    function shortenKey(value) {
-      return `${value.slice(0, 4)}â€¦${value.slice(-4)}`;
-    }
-
-    /*
-     * SOLANA / METAPLEX CORE INTEGRATION LAYER
-     * ----------------------------------------
-     * 1. Pin browser-compatible versions of Umi, mpl-core and
-     *    mpl-core-candy-machine in this site (or bundle this page).
-     * 2. Create Umi with MINT_CONFIG.rpcEndpoint and attach a wallet adapter
-     *    identity for the provider connected below.
-     * 3. Fetch MINT_CONFIG.candyMachineAddress to replace the configured
-     *    progress placeholder with its live itemsRedeemed / supply values.
-     * 4. Implement executeCoreCandyMachineMint() with the current Metaplex
-     *    Core Candy Machine mintV1 flow and the deployed guard configuration.
-     * 5. Keep the final wallet prompt visible so collectors verify price,
-     *    collection and Candy Machine addresses before signing.
-     */
-    const MintAdapter = {
-      async connectWallet() {
-        const provider = findWalletProvider();
-        if (!provider) throw new Error("No compatible Solana wallet was found. Install Phantom or another injected Solana wallet.");
-        const response = await provider.connect();
-        const publicKey = response?.publicKey || provider.publicKey;
-        if (!publicKey) throw new Error("The wallet connected without returning a public key.");
-        walletProvider = provider;
-        walletPublicKey = publicKey.toString();
-        return walletPublicKey;
-      },
-
-      async executeCoreCandyMachineMint() {
-        throw new Error("The verified Core Candy Machine transaction builder has not been connected yet.");
-      }
-    };
-
-    function updateMintUi() {
-      const configured = isMintConfigured();
-      const minted = Number.isInteger(MINT_CONFIG.minted) ? Math.max(0, Math.min(MINT_CONFIG.minted, MINT_CONFIG.supply)) : null;
-      const percent = minted === null || !MINT_CONFIG.supply ? 0 : Math.round((minted / MINT_CONFIG.supply) * 100);
-
-      document.getElementById("mintPrice").textContent = `${MINT_CONFIG.mintPriceSol} SOL`;
-      document.getElementById("mintedCount").textContent = `${minted === null ? "â€”" : minted.toLocaleString()} / ${MINT_CONFIG.supply.toLocaleString()}`;
-      document.getElementById("progressPercent").textContent = minted === null ? "Awaiting contract" : `${percent}% minted`;
-      document.getElementById("progressFill").style.width = `${percent}%`;
-      const progress = document.querySelector(".progress-track");
-      progress.setAttribute("aria-valuenow", String(percent));
-      document.getElementById("networkLabel").textContent = configured ? "Mainnet / configured" : "Mainnet / unconfigured";
-      document.getElementById("launchNotice").textContent = configured ? "Contract configured â€” verify all addresses before minting" : "Preview mode â€” mint contract not configured";
-
-      if (!configured) {
-        mintButton.disabled = true;
-        mintButton.textContent = "Mint not configured";
-        return;
-      }
-      mintButton.disabled = !walletPublicKey;
-      mintButton.textContent = walletPublicKey ? `Mint for ${MINT_CONFIG.mintPriceSol} SOL` : "Connect wallet to mint";
-    }
-
-    async function connectWallet() {
-      connectWalletButton.disabled = true;
-      connectWalletButton.textContent = "Connectingâ€¦";
-      try {
-        const key = await MintAdapter.connectWallet();
-        connectWalletButton.textContent = shortenKey(key);
-        setMintStatus(isMintConfigured() ? "Wallet ready. Review the generated artwork and mint details before continuing." : "Wallet connected for readiness only. Minting is not live because contract addresses are not configured.", "success");
-        updateMintUi();
-      } catch (error) {
-        walletProvider = null;
-        walletPublicKey = "";
-        connectWalletButton.textContent = "Connect wallet";
-        setMintStatus(error.message || "Wallet connection failed.", "error");
-        showToast(error.message || "Wallet connection failed.");
-      } finally {
-        connectWalletButton.disabled = false;
-      }
-    }
-
-    async function mintArtwork() {
-      if (!isMintConfigured()) {
-        setMintStatus("Minting is unavailable until verified collection and Candy Machine addresses are configured.", "error");
-        return;
-      }
-      if (!walletPublicKey) {
-        await connectWallet();
-        if (!walletPublicKey) return;
-      }
-      mintButton.disabled = true;
-      mintButton.textContent = "Preparing mintâ€¦";
-      try {
-        await MintAdapter.executeCoreCandyMachineMint({ seed: currentSeed, traits: currentTraits, walletProvider });
-        setMintStatus("Mint transaction submitted. Confirm final status in your wallet and explorer.", "success");
-      } catch (error) {
-        setMintStatus(error.message || "The mint could not be prepared.", "error");
-        showToast(error.message || "The mint could not be prepared.");
-      } finally {
-        updateMintUi();
-      }
-    }
-
     function generateFromInput() {
       try {
         drawArtwork(seedInput.value);
@@ -1476,29 +1481,28 @@
       try {
         const link = document.createElement("a");
         const safeName = currentSeed.replace(/[^a-z0-9_-]+/gi, "-").replace(/^-+|-+$/g, "").slice(0, 48) || "seed";
-        link.download = `bodenza-${safeName}.png`;
+        link.download = `market-noise-${safeName}.png`;
         link.href = canvas.toDataURL("image/png");
         link.click();
-        showToast("High-resolution 2048 Ã— 2048 PNG saved.");
+        showToast("High-resolution 2048 x 2048 PNG saved.");
       } catch (error) {
         showToast("The PNG could not be saved in this browser.");
       }
     }
 
-    document.getElementById("randomSeed").addEventListener("click", () => {
+    function generateNewArtwork() {
       seedInput.value = createRandomSeed();
       generateFromInput();
-    });
-    document.getElementById("generateArt").addEventListener("click", generateFromInput);
+    }
+
+    document.getElementById("randomSeed").addEventListener("click", generateNewArtwork);
+    document.getElementById("generateArt").addEventListener("click", generateNewArtwork);
     document.getElementById("savePng").addEventListener("click", saveArtwork);
-    connectWalletButton.addEventListener("click", connectWallet);
-    mintButton.addEventListener("click", mintArtwork);
     seedInput.addEventListener("keydown", event => {
       if (event.key === "Enter") generateFromInput();
     });
 
     seedInput.value = createRandomSeed();
-    updateMintUi();
     generateFromInput();
   </script>
 </body>
