@@ -204,6 +204,39 @@
       -webkit-text-stroke: 1.5px var(--white);
     }
 
+    .hero__title-lockup {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(190px, .42fr);
+      gap: clamp(20px, 2.6vw, 44px);
+      align-items: end;
+    }
+
+    .hero__market-total {
+      margin-bottom: 8px;
+      padding: 4px 0 12px clamp(18px, 2vw, 32px);
+      border-left: 1px solid var(--white);
+    }
+
+    .hero__market-label {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 14px;
+      color: var(--gray);
+      font: 700 9px/1.3 "Courier New", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .hero__market-value {
+      margin: 0;
+      font-family: Impact, "Arial Black", Arial, sans-serif;
+      font-size: clamp(48px, 4.7vw, 82px);
+      line-height: .86;
+      letter-spacing: -.035em;
+      white-space: nowrap;
+    }
+
     .hero__deck {
       max-width: 650px;
       margin: 34px 0 0;
@@ -843,6 +876,21 @@
         font-size: clamp(78px, 25vw, 128px);
       }
 
+      .hero__title-lockup {
+        grid-template-columns: 1fr;
+      }
+
+      .hero__market-total {
+        margin: 22px 0 0;
+        padding: 18px 0 0;
+        border-top: var(--border);
+        border-left: 0;
+      }
+
+      .hero__market-value {
+        font-size: clamp(54px, 17vw, 82px);
+      }
+
       .hero__deck {
         max-width: 92%;
         margin-top: 26px;
@@ -963,7 +1011,16 @@
       <div class="hero__copy">
         <div>
           <p class="hero__eyebrow">Three archetypes / one index</p>
-          <h1 id="page-title">Dark <span>Triad</span></h1>
+          <div class="hero__title-lockup">
+            <h1 id="page-title">Dark <span>Triad</span></h1>
+            <div class="hero__market-total">
+              <p class="hero__market-label">
+                <span class="live-dot" aria-hidden="true"></span>
+                Live total market cap
+              </p>
+              <p class="hero__market-value loading" id="heroMarketCap" aria-live="polite">$—</p>
+            </div>
+          </div>
           <p class="hero__deck">WOJAK. GROYPER. BOBO. Three sovereign memes consolidated into one cold measure of cultural gravity.</p>
         </div>
         <div class="hero__footer">
@@ -1219,6 +1276,7 @@
 
       const elements = {
         total: document.querySelector("#totalMarketCap"),
+        heroTotal: document.querySelector("#heroMarketCap"),
         change: document.querySelector("#totalChange"),
         status: document.querySelector("#systemStatus"),
         syncTime: document.querySelector("#syncTime"),
@@ -1321,9 +1379,13 @@
         });
 
         const combinedChange = previousTotal > 0 ? ((total / previousTotal) - 1) * 100 : NaN;
-        elements.total.textContent = compactUsd(total);
+        const formattedTotal = compactUsd(total);
+        elements.total.textContent = formattedTotal;
+        elements.heroTotal.textContent = formattedTotal;
         elements.total.setAttribute("title", Number.isFinite(total) ? usd.format(total) : "");
+        elements.heroTotal.setAttribute("title", Number.isFinite(total) ? usd.format(total) : "");
         elements.total.classList.remove("loading");
+        elements.heroTotal.classList.remove("loading");
         elements.change.textContent = signedPercent(combinedChange);
         setDirection(elements.change, combinedChange);
 
@@ -1560,6 +1622,7 @@
           console.error(error);
           elements.status.textContent = state.live.size ? "Live / history limited" : "Signal unavailable";
           elements.total.classList.remove("loading");
+          elements.heroTotal.classList.remove("loading");
           if (!state.series.length && state.live.size) {
             state.series = fallbackHistory();
             drawChart();
