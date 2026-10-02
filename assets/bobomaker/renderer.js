@@ -126,7 +126,7 @@ class Renderer{
   ctx.save();ctx.transform((x+w-noseCenterX)/right,-fit.drop/right,0,h/im.height,noseCenterX,y+fit.drop);
   ctx.drawImage(im,bridge,0,right,im.height,0,0,right,im.height);ctx.restore();
  }
- // Drape one connected belt over the shoulder; keep the approved paw and gold art.
+ // Drape an open belt over the shoulder; keep the approved paw and gold art.
  drawChampionship(ctx,im){
   const [x,y,w,h]=placement.championship,sx=w/im.width,sy=h/im.height;
   const trace=(cx,points)=>{cx.beginPath();points.forEach(([px,py],i)=>i?cx.lineTo(px,py):cx.moveTo(px,py));cx.closePath()};
@@ -134,19 +134,27 @@ class Renderer{
   bc.globalCompositeOperation='destination-out';trace(bc,propPaws.championship);bc.fill();
   bc.globalCompositeOperation='source-over';
   const layer=this.create(1024,1024),lc=layer.getContext('2d');
-  // A continuous leather backing joins the shoulder fold to the held lower strap.
-  lc.beginPath();lc.moveTo(740,773);lc.bezierCurveTo(784,783,828,789,849,819);
-  lc.bezierCurveTo(884,850,882,901,869,945);lc.lineTo(867,1024);
-  lc.lineTo(784,1024);lc.bezierCurveTo(802,958,805,908,795,857);
-  lc.bezierCurveTo(781,824,757,795,740,773);lc.closePath();
-  const leather=lc.createLinearGradient(760,780,879,930);
-  leather.addColorStop(0,'#393533');leather.addColorStop(.35,'#171716');leather.addColorStop(1,'#292624');
-  lc.fillStyle=leather;lc.fill();lc.strokeStyle='#100f0e';lc.lineWidth=4;lc.stroke();
+  // The top strap folds over the shoulder and ends behind the center plate.
+  // Do not join its outer edge to the lower tail: that makes a closed loop.
+  lc.beginPath();lc.moveTo(741,770);lc.bezierCurveTo(776,769,818,780,851,805);
+  lc.bezierCurveTo(873,822,885,836,888,851);lc.lineTo(870,861);
+  lc.bezierCurveTo(849,837,820,822,779,820);
+  lc.bezierCurveTo(763,804,751,787,741,770);lc.closePath();
+  const leatherTop=lc.createLinearGradient(748,776,894,856);
+  leatherTop.addColorStop(0,'#3a3634');leatherTop.addColorStop(.38,'#171615');leatherTop.addColorStop(1,'#292624');
+  lc.fillStyle=leatherTop;lc.fill();lc.strokeStyle='#0f0e0d';lc.lineWidth=4;lc.stroke();
+  // A separate open tail hangs below the plate and behind the gripping paw.
+  lc.beginPath();lc.moveTo(795,949);lc.bezierCurveTo(823,944,857,947,884,957);
+  lc.lineTo(895,1024);lc.lineTo(783,1024);
+  lc.bezierCurveTo(786,998,790,974,795,949);lc.closePath();
+  const leatherTail=lc.createLinearGradient(791,948,893,1024);
+  leatherTail.addColorStop(0,'#34302e');leatherTail.addColorStop(.45,'#151514');leatherTail.addColorStop(1,'#262321');
+  lc.fillStyle=leatherTail;lc.fill();lc.strokeStyle='#0f0e0d';lc.lineWidth=4;lc.stroke();
   // Original shoulder fold and lower strap, underneath the single center plate.
-  lc.save();lc.translate(797,822);lc.rotate(.22);
-  lc.drawImage(belt,200,0,480,210,-63,-36,126,72);lc.restore();
-  lc.save();trace(lc,[[791,930],[882,930],[878,1024],[783,1024]]);lc.clip();
-  lc.drawImage(belt,0,850,im.width,im.height-850,710,925,w,(im.height-850)*sy);lc.restore();
+  lc.save();lc.translate(807,800);lc.rotate(.2);
+  lc.drawImage(belt,200,0,480,210,-72,-40,146,78);lc.restore();
+  lc.save();trace(lc,[[792,946],[890,946],[895,1024],[783,1024]]);lc.clip();
+  lc.drawImage(belt,0,850,im.width,im.height-850,710,915,w,(im.height-850)*sy);lc.restore();
   const plate=this.create(im.width,im.height),pc=plate.getContext('2d');
   trace(pc,[[415,134],[340,147],[317,177],[288,196],[232,212],[203,240],
    [170,257],[132,267],[113,296],[86,318],[46,339],[24,356],[14,400],
@@ -158,7 +166,7 @@ class Renderer{
    [508,188],[494,159]]);pc.clip();pc.drawImage(belt,0,0);
   // Keep the sideways championship orientation without compressing the logo.
   // Its upper edge meets the shoulder; the complete lettering clears the paw.
-  lc.save();lc.translate(792,892);lc.rotate(-1.38);
+  lc.save();lc.translate(790,889);lc.rotate(-1.38);
   lc.drawImage(plate,0,135,805,745,-114,-105.5,228,211);lc.restore();
   ctx.drawImage(layer,0,0);
   ctx.save();trace(ctx,propPaws.championship.map(([px,py])=>[x+px*sx,y+py*sy]));
