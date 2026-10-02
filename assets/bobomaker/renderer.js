@@ -126,20 +126,27 @@ class Renderer{
   ctx.save();ctx.transform((x+w-noseCenterX)/right,-fit.drop/right,0,h/im.height,noseCenterX,y+fit.drop);
   ctx.drawImage(im,bridge,0,right,im.height,0,0,right,im.height);ctx.restore();
  }
- // Refit the approved belt artwork rather than rotating the bear's gripping paw.
- // The front plate and its lettering now run sideways along the shoulder strap.
+ // Drape one connected belt over the shoulder; keep the approved paw and gold art.
  drawChampionship(ctx,im){
   const [x,y,w,h]=placement.championship,sx=w/im.width,sy=h/im.height;
   const trace=(cx,points)=>{cx.beginPath();points.forEach(([px,py],i)=>i?cx.lineTo(px,py):cx.moveTo(px,py));cx.closePath()};
-  // Separate the original leather from the gripping paw before refitting it.
   const belt=this.create(im.width,im.height),bc=belt.getContext('2d');bc.drawImage(im,0,0);
   bc.globalCompositeOperation='destination-out';trace(bc,propPaws.championship);bc.fill();
   bc.globalCompositeOperation='source-over';
-  ctx.save();trace(ctx,[[811,937],[882,937],[869,1024],[796,1024],[796,952]]);ctx.clip();
-  ctx.drawImage(belt,0,850,im.width,im.height-850,x+42,y+840*sy,w,(im.height-850)*sy);ctx.restore();
-  ctx.save();trace(ctx,[[844,701],[921,701],[935,765],[826,765],[839,739]]);ctx.clip();
-  ctx.drawImage(belt,0,0,im.width,190,710,705,300,61.75);ctx.restore();
-  // Follow the plate's leather outline, excluding the old vertical strap ends.
+  const layer=this.create(1024,1024),lc=layer.getContext('2d');
+  // A continuous leather backing joins the shoulder fold to the held lower strap.
+  lc.beginPath();lc.moveTo(740,773);lc.bezierCurveTo(784,783,828,789,849,819);
+  lc.bezierCurveTo(884,850,882,901,869,945);lc.lineTo(867,1024);
+  lc.lineTo(784,1024);lc.bezierCurveTo(802,958,805,908,795,857);
+  lc.bezierCurveTo(781,824,757,795,740,773);lc.closePath();
+  const leather=lc.createLinearGradient(760,780,879,930);
+  leather.addColorStop(0,'#393533');leather.addColorStop(.35,'#171716');leather.addColorStop(1,'#292624');
+  lc.fillStyle=leather;lc.fill();lc.strokeStyle='#100f0e';lc.lineWidth=4;lc.stroke();
+  // Original shoulder fold and lower strap, underneath the single center plate.
+  lc.save();lc.translate(797,822);lc.rotate(.22);
+  lc.drawImage(belt,200,0,480,210,-63,-36,126,72);lc.restore();
+  lc.save();trace(lc,[[791,930],[882,930],[878,1024],[783,1024]]);lc.clip();
+  lc.drawImage(belt,0,850,im.width,im.height-850,710,925,w,(im.height-850)*sy);lc.restore();
   const plate=this.create(im.width,im.height),pc=plate.getContext('2d');
   trace(pc,[[415,134],[340,147],[317,177],[288,196],[232,212],[203,240],
    [170,257],[132,267],[113,296],[86,318],[46,339],[24,356],[14,400],
@@ -149,9 +156,11 @@ class Renderer{
    [711,724],[762,696],[778,678],[783,420],[763,387],[745,354],
    [701,316],[684,282],[649,274],[612,255],[583,218],[537,205],
    [508,188],[494,159]]);pc.clip();pc.drawImage(belt,0,0);
-  ctx.save();ctx.translate(862,854);ctx.rotate(-Math.PI/2+.15);
-  ctx.drawImage(plate,0,135,805,745,-124.64,-80.20,249.28,160.41);ctx.restore();
-  // Keep the existing bear paw in front, including its selected fur color.
+  // Keep the sideways championship orientation without compressing the logo.
+  // Its upper edge meets the shoulder; the complete lettering clears the paw.
+  lc.save();lc.translate(792,892);lc.rotate(-1.38);
+  lc.drawImage(plate,0,135,805,745,-114,-105.5,228,211);lc.restore();
+  ctx.drawImage(layer,0,0);
   ctx.save();trace(ctx,propPaws.championship.map(([px,py])=>[x+px*sx,y+py*sy]));
   ctx.clip();ctx.drawImage(im,x,y,w,h);ctx.restore();
  }
