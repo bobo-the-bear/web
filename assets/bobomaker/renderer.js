@@ -43,8 +43,33 @@ const noseCenterX=546;
 const ids=category=>categories.find(c=>c.id===category).options.map(x=>x[0]).filter(id=>id!=='none');
 const outfits=ids('outfit'),props=ids('prop'),headwear=ids('headwear'),neckwear=ids('neck');
 class Renderer{
- constructor(images,createCanvas){this.images=images;this.create=createCanvas||((w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c});this.cache=new Map();this.raw={};for(const key of ['base','panda',...outfits,...props]){const im=images[key];if(!im)continue;const c=this.create(props.includes(key)?im.width:1024,props.includes(key)?im.height:1024);c.getContext('2d').drawImage(im,0,0,c.width,c.height);this.raw[key]=c}this.headMask=this.create(1024,1024);this.headMask.getContext('2d').drawImage(images.headmask,0,0,1024,1024);this.colorMasks=this.makeColorMasks();this.earMask=this.makeEarMask()}
+ constructor(images,createCanvas){this.images=images;this.create=createCanvas||((w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c});this.cache=new Map();this.raw={};for(const key of ['base','panda',...outfits,...props]){const im=images[key];if(!im)continue;const c=this.create(props.includes(key)?im.width:1024,props.includes(key)?im.height:1024);c.getContext('2d').drawImage(im,0,0,c.width,c.height);this.raw[key]=c}this.headMask=this.create(1024,1024);this.headMask.getContext('2d').drawImage(images.headmask,0,0,1024,1024);this.cleanHeadMask();this.colorMasks=this.makeColorMasks();this.earMask=this.makeEarMask()}
  remember(key,c){if(this.cache.size>=24)this.cache.delete(this.cache.keys().next().value);this.cache.set(key,c);return c}
+ // Keep the shared head cutout on the jaw, not the neck/shoulder pixels.
+ // Preview, thumbnails and both layer exports all use this same clean mask.
+ cleanHeadMask(){
+  const clip=this.create(1024,1024),ctx=clip.getContext('2d');
+  ctx.fillStyle='white';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(1024,0);
+  ctx.lineTo(1024,744);ctx.lineTo(846,744);
+  ctx.bezierCurveTo(817,767,783,775,742,785);
+  ctx.bezierCurveTo(671,798,597,803,520,803);
+  ctx.bezierCurveTo(444,803,372,797,307,783);
+  ctx.bezierCurveTo(267,773,222,761,185,741);
+  ctx.lineTo(0,741);ctx.closePath();ctx.fill();
+  const mask=this.headMask.getContext('2d');mask.globalCompositeOperation='destination-in';
+  mask.drawImage(clip,0,0);mask.globalCompositeOperation='source-over';
+  // Replace, rather than intersect, the noisy old lower-edge pixels.
+  mask.clearRect(0,735,1024,289);mask.save();mask.beginPath();
+  mask.rect(0,735,1024,289);mask.clip();mask.drawImage(clip,0,0);mask.restore();
+  mask.globalCompositeOperation='destination-in';mask.drawImage(this.raw.base,0,0);
+  mask.globalCompositeOperation='source-over';
+  // A two-pixel underlap prevents a transparent seam when head and outfit PNGs
+  // are composited. Do not subtract the same antialiased edge twice.
+  this.bodyCutMask=this.create(1024,1024);const cut=this.bodyCutMask.getContext('2d');
+  cut.drawImage(this.headMask,0,0);cut.globalCompositeOperation='destination-in';
+  for(const [dx,dy]of [[-2,0],[2,0],[0,-2],[0,2]])cut.drawImage(this.headMask,dx,dy);
+  cut.globalCompositeOperation='source-over';
+ }
  makeEarMask(){
   const c=this.create(1024,1024),ctx=c.getContext('2d');ctx.fillStyle='white';
   const outlines=[[[175,261],[218,220],[263,210],[309,238],[334,278],[292,295],[234,331],[218,343],[183,306]],[[693,278],[715,237],[765,210],[811,228],[848,261],[841,304],[804,341],[789,331],[737,296]]];
@@ -90,7 +115,7 @@ class Renderer{
 
  base(colors){const key='base/'+JSON.stringify(colors);if(this.cache.has(key))return this.cache.get(key);const panda=colors.pattern==='panda';return this.remember(key,this.recolor(this.raw[panda?'panda':'base'],colors,panda))}
  head(colors){const key='head/'+JSON.stringify(colors);if(this.cache.has(key))return this.cache.get(key);const c=this.create(1024,1024),ctx=c.getContext('2d');ctx.drawImage(this.base(colors),0,0);ctx.globalCompositeOperation='destination-in';ctx.drawImage(this.headMask,0,0);ctx.globalCompositeOperation='source-over';return this.remember(key,c)}
- body(s){const key='body/'+s.outfit+'/'+JSON.stringify(s.colors);if(this.cache.has(key))return this.cache.get(key);const c=this.create(1024,1024),ctx=c.getContext('2d');if(s.outfit==='none'){ctx.drawImage(this.base(s.colors),0,0)}else{ctx.drawImage(this.recolor(this.raw[s.outfit],s.colors,false,s.outfit),0,0);ctx.clearRect(0,0,1024,735)}ctx.globalCompositeOperation='destination-out';ctx.drawImage(s.outfit==='none'?this.headMask:this.head(s.colors),0,0);ctx.globalCompositeOperation='source-over';return this.remember(key,c)}
+ body(s){const key='body/'+s.outfit+'/'+JSON.stringify(s.colors);if(this.cache.has(key))return this.cache.get(key);const c=this.create(1024,1024),ctx=c.getContext('2d');if(s.outfit==='none'){ctx.drawImage(this.base(s.colors),0,0)}else{ctx.drawImage(this.recolor(this.raw[s.outfit],s.colors,false,s.outfit),0,0);ctx.clearRect(0,0,1024,735)}ctx.globalCompositeOperation='destination-out';ctx.drawImage(this.bodyCutMask,0,0);ctx.globalCompositeOperation='source-over';return this.remember(key,c)}
  background(ctx,id){const item=categories[0].options.find(x=>x[0]===id)||categories[0].options[0];ctx.fillStyle=item[2];ctx.fillRect(0,0,1024,1024);if(id==='check'){ctx.fillStyle='#f9f8f5';for(let y=0;y<8;y++)for(let x=0;x<8;x++)if((x+y)%2===0)ctx.fillRect(x*128,y*128,128,128)}}
  drawEyewear(ctx,im,id){
   const [x,y,w,h]=placement[id],fit=eyewearFits[id],bridge=im.width*fit.bridge;
@@ -101,7 +126,37 @@ class Renderer{
   ctx.save();ctx.transform((x+w-noseCenterX)/right,-fit.drop/right,0,h/im.height,noseCenterX,y+fit.drop);
   ctx.drawImage(im,bridge,0,right,im.height,0,0,right,im.height);ctx.restore();
  }
- asset(ctx,id,s){if(id==='none'||!this.images[id])return;const key='asset/'+id+'/'+JSON.stringify(s?.colors||{});let c=this.cache.get(key);if(!c){c=this.create(1024,1024);const cx=c.getContext('2d');let im=this.images[id];if(props.includes(id))im=this.recolor(this.raw[id],s.colors,false,false,id);if(id in eyewearFits){this.drawEyewear(cx,im,id)}else cx.drawImage(im,...placement[id]);if(headwear.includes(id)&&!['cap','captain','cowboy','bucket','durag'].includes(id)){cx.globalCompositeOperation='destination-out';cx.drawImage(this.earMask,0,0);cx.globalCompositeOperation='source-over'}if(neckwear.includes(id)||id==='championship'){cx.globalCompositeOperation='destination-out';cx.drawImage(this.headMask,0,0);cx.globalCompositeOperation='source-over'}const contact=this.create(1024,1024),sc=contact.getContext('2d');sc.shadowColor='rgba(28,18,12,.28)';sc.shadowBlur=6;sc.shadowOffsetY=4;sc.drawImage(c,0,0);sc.globalCompositeOperation='destination-in';sc.drawImage(this.raw.base,0,0);sc.globalCompositeOperation='source-over';sc.drawImage(c,0,0);c=contact;this.remember(key,c)}ctx.drawImage(c,0,0)}
+ // Refit the approved belt artwork rather than rotating the bear's gripping paw.
+ // The front plate and its lettering now run sideways along the shoulder strap.
+ drawChampionship(ctx,im){
+  const [x,y,w,h]=placement.championship,sx=w/im.width,sy=h/im.height;
+  const trace=(cx,points)=>{cx.beginPath();points.forEach(([px,py],i)=>i?cx.lineTo(px,py):cx.moveTo(px,py));cx.closePath()};
+  // Separate the original leather from the gripping paw before refitting it.
+  const belt=this.create(im.width,im.height),bc=belt.getContext('2d');bc.drawImage(im,0,0);
+  bc.globalCompositeOperation='destination-out';trace(bc,propPaws.championship);bc.fill();
+  bc.globalCompositeOperation='source-over';
+  ctx.save();trace(ctx,[[811,937],[882,937],[869,1024],[796,1024],[796,952]]);ctx.clip();
+  ctx.drawImage(belt,0,850,im.width,im.height-850,x+42,y+840*sy,w,(im.height-850)*sy);ctx.restore();
+  ctx.save();trace(ctx,[[844,701],[921,701],[935,765],[826,765],[839,739]]);ctx.clip();
+  ctx.drawImage(belt,0,0,im.width,190,710,705,300,61.75);ctx.restore();
+  // Follow the plate's leather outline, excluding the old vertical strap ends.
+  const plate=this.create(im.width,im.height),pc=plate.getContext('2d');
+  trace(pc,[[415,134],[340,147],[317,177],[288,196],[232,212],[203,240],
+   [170,257],[132,267],[113,296],[86,318],[46,339],[24,356],[14,400],
+   [0,435],[0,657],[8,685],[51,707],[95,718],[122,747],[168,758],
+   [195,774],[220,802],[275,816],[311,841],[337,859],[416,877],
+   [493,865],[520,840],[574,820],[600,790],[628,769],[693,749],
+   [711,724],[762,696],[778,678],[783,420],[763,387],[745,354],
+   [701,316],[684,282],[649,274],[612,255],[583,218],[537,205],
+   [508,188],[494,159]]);pc.clip();pc.drawImage(belt,0,0);
+  ctx.save();ctx.translate(862,854);ctx.rotate(-Math.PI/2+.15);
+  ctx.drawImage(plate,0,135,805,745,-124.64,-80.20,249.28,160.41);ctx.restore();
+  // Keep the existing bear paw in front, including its selected fur color.
+  ctx.save();trace(ctx,propPaws.championship.map(([px,py])=>[x+px*sx,y+py*sy]));
+  ctx.clip();ctx.drawImage(im,x,y,w,h);ctx.restore();
+ }
+
+ asset(ctx,id,s){if(id==='none'||!this.images[id])return;const key='asset/'+id+'/'+JSON.stringify(s?.colors||{});let c=this.cache.get(key);if(!c){c=this.create(1024,1024);const cx=c.getContext('2d');let im=this.images[id];if(props.includes(id))im=this.recolor(this.raw[id],s.colors,false,false,id);if(id in eyewearFits){this.drawEyewear(cx,im,id)}else if(id==='championship'){this.drawChampionship(cx,im)}else cx.drawImage(im,...placement[id]);if(headwear.includes(id)&&!['cap','captain','cowboy','bucket','durag'].includes(id)){cx.globalCompositeOperation='destination-out';cx.drawImage(this.earMask,0,0);cx.globalCompositeOperation='source-over'}if(neckwear.includes(id)||id==='championship'){cx.globalCompositeOperation='destination-out';cx.drawImage(this.headMask,0,0);cx.globalCompositeOperation='source-over'}const contact=this.create(1024,1024),sc=contact.getContext('2d');sc.shadowColor='rgba(28,18,12,.28)';sc.shadowBlur=6;sc.shadowOffsetY=4;sc.drawImage(c,0,0);sc.globalCompositeOperation='destination-in';sc.drawImage(this.raw.base,0,0);sc.globalCompositeOperation='source-over';sc.drawImage(c,0,0);c=contact;this.remember(key,c)}ctx.drawImage(c,0,0)}
 text(ctx,s){const family=s.font==='serif'?'Georgia,serif':s.font==='sans'?'Arial,sans-serif':'Impact,Arial Black,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';ctx.lineJoin='round';ctx.fillStyle='white';ctx.strokeStyle='#181818';const blocks=[s.top,s.bottom].map(t=>s.caps?t.toUpperCase():t);for(let pos=0;pos<2;pos++){if(!blocks[pos])continue;let size=s.textSize;let lines=[];function wrap(){ctx.font=`900 ${size}px ${family}`;lines=[];for(const paragraph of blocks[pos].split('\n')){let line='';for(const word of paragraph.split(/\s+/)){const next=(line?line+' ':'')+word;if(ctx.measureText(next).width>930&&line){lines.push(line);line=word}else line=next;}lines.push(line)}}wrap();while((lines.length>3||lines.some(l=>ctx.measureText(l).width>930))&&size>20){size-=2;wrap()}const start=pos===0?30:1024-30-lines.length*size*1.05;ctx.lineWidth=Math.max(3,size*.075);lines.forEach((l,i)=>{ctx.strokeText(l,512,start+i*size*1.05,940);ctx.fillText(l,512,start+i*size*1.05,940)})}}
  draw(ctx,s,only){ctx.clearRect(0,0,1024,1024);if(only==='background'){if(!s.transparent)this.background(ctx,s.background);return}if(only==='meme'){this.text(ctx,s);return}if(only==='fur'){ctx.drawImage(this.head(s.colors),0,0);return}if(only==='outfit'){ctx.drawImage(this.body(s),0,0);return}if(only){this.asset(ctx,s[only],s);return}if(!s.transparent)this.background(ctx,s.background);ctx.drawImage(this.body(s),0,0);ctx.drawImage(this.head(s.colors),0,0);this.asset(ctx,s.neck,s);this.asset(ctx,s.headwear,s);this.asset(ctx,s.eyewear,s);this.asset(ctx,s.prop,s);this.text(ctx,s)}
  thumbnail(ctx,cat,id){ctx.clearRect(0,0,220,180);const s=defaults();s[cat]=id;if(cat==='fur')s.colors=palettes.find(x=>x.id===id);const c=this.create(1024,1024);this.draw(c.getContext('2d'),s);ctx.drawImage(c,0,0,1024,1024,20,0,180,180)}
