@@ -145,7 +145,7 @@ with sync_playwright() as p:
             sheet.paste(crop,(x,y));labels.text((x+10,y+218),fur+' / '+name,fill='#26211e')
         print('Rendered all palettes for '+prop,flush=True)
     sheet.save(args.output/'paw-palette-contact-sheet.jpg',quality=95)
-    check('All 48 prop/palette combinations render', not errors, errors)
+    check(f'All {len(props)*len(palettes_data)} prop/palette combinations render', not errors, errors)
 
     # Ensure a complete composition equals reusable layers for every outfit
     # and palette. Include a hat, eyewear, neck trait and handheld item.

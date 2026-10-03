@@ -36,6 +36,17 @@ layer ZIPs all use the same renderer.
   texture underneath the grip, and clips to a smooth forearm exit. New sources
   should include the complete wrist through the bottom of the frame so they
   do not require this correction. Do not apply a rectangular cut to the paw.
+- The five v7 props use separate object art and the existing v5 coffee grip.
+  `grip` clips only the rounded paw, `drawNewProp` fits the object without
+  stretching its aspect ratio, and the newspaper mirrors that same grip for
+  the second paw. Recolor only the grip; silver, gold and paper keep their
+  source colors. The champagne stem must meet the inner finger edge.
+- v7 red puffer and jersey are new garment sources; the v5 originals are
+  retained. The puffer source is fitted vertically to the existing shoulder
+  and bottom anchors. The shared approved head replaces both source heads.
+  Sleeve and trim revisions must not change head, cap, crown or belt geometry.
+  Protect the red fabric and shaded gold trim from fur tinting; only the
+  puffer's small exposed neckline and the jersey's bare arms follow the fur.
 - Color masks must match the **current source dimensions**. The cash polygon
   uses the v5 1222 × 1144 artwork; the older v3 coordinates are incompatible.
   Verify light, dark and Panda paws while checking that bills, honey, coffee,
@@ -64,10 +75,11 @@ python assets/bobomaker/tests/verify.py --output bobo-review
 # Focused crown geometry, combinations and PNG/layer export checks:
 python assets/bobomaker/tests/verify_crown.py --output crown-review
 python assets/bobomaker/tests/verify_cap.py --output cap-review
+python assets/bobomaker/tests/verify_new_traits.py --output new-traits-review
 ```
 
 Checks include keyboard focus/navigation, trait selection, undo/redo, locks,
-randomize, reset, Original/Panda/custom palettes, meme controls, all 48 prop/fur
+randomize, reset, Original/Panda/custom palettes, meme controls, all 78 prop/fur
 combinations, all 66 outfit/fur layer reconstructions, crown integrity, actual
 opaque/transparent PNG downloads, metadata, both ZIP exports, manifest paths,
 archive CRCs, and layouts at 320/390/768/1024/1440px. `--skip-kit` skips only the
