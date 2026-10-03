@@ -173,6 +173,21 @@ class Renderer{
   ctx.clip();ctx.drawImage(im,x,y,w,h);ctx.restore();
  }
 
+ drawCrown(ctx,im){
+  // This source includes the back of the circlet. Only its front-facing band
+  // and three main points belong in front of Bobo's head. Clip in source space
+  // so the two rear prongs/returns disappear without cutting around the ears
+  // or sacrificing the front points, jewels and lower gold rim.
+  const [x,y,w,h]=placement.crown;
+  ctx.save();ctx.translate(x,y);ctx.scale(w/1650,h/600);
+  ctx.beginPath();ctx.moveTo(0,346);
+  ctx.bezierCurveTo(50,356,108,360,156,355);
+  ctx.lineTo(336,65);ctx.lineTo(336,0);ctx.lineTo(1314,0);
+  ctx.lineTo(1314,65);ctx.lineTo(1494,355);
+  ctx.bezierCurveTo(1542,360,1600,356,1650,346);
+  ctx.lineTo(1650,600);ctx.lineTo(0,600);ctx.closePath();ctx.clip();
+  ctx.drawImage(im,0,0,1650,600);ctx.restore();
+ }
  fitWrist(ctx,id){
   // Preserve the complete object and rounded grip. At the wrist, constrain the
   // outer edge to Bobo's original arm. This removes exposed source-image cuts
@@ -203,6 +218,7 @@ class Renderer{
    if(props.includes(id))im=this.recolor(this.raw[id],s.colors,false,false,id);
    if(id in eyewearFits)this.drawEyewear(cx,im,id);
    else if(id==='championship')this.drawChampionship(cx,im);
+   else if(id==='crown')this.drawCrown(cx,im);
    else cx.drawImage(im,...placement[id]);
    // Headwear sits in front of the ears. Subtracting the ear silhouettes from
    // the hat itself punches holes through crown points and knitted hat edges.

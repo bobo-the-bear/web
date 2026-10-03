@@ -21,9 +21,12 @@ layer ZIPs all use the same renderer.
   garment must include its own torso and meet the existing jaw mask. Keep the
   two-pixel body underlap: subtracting the exact same antialiased edge from both
   layers makes a transparent neckline seam.
-- Hats sit **in front of** the ears. Do not subtract ear shapes from the hat:
-  this cut through the crown points. Leave deliberate ear exposure at the
-  sides of caps/beanies and keep complete brims and ties within the frame.
+- The visible front of a hat sits **in front of** the ears. Do not subtract ear
+  shapes from an entire hat: this cut through the crown's front points. The
+  crown source also includes two rear prongs and inward returns; `drawCrown`
+  hides those in source coordinates, retaining the three front points, jewels
+  and lower band. Leave deliberate ear exposure at the sides of caps/beanies
+  and keep complete brims and ties within the frame.
 - A held item includes its approved rounded bear grip. Preserve the object,
   normalize only the paw to the selected fur, and join its wrist to the arm.
   `fitWrist` detects an exposed source edge, continues only its narrow wrist
@@ -55,6 +58,8 @@ review evidence to the requested directory.
 python -m pip install playwright Pillow
 python -m playwright install chromium
 python assets/bobomaker/tests/verify.py --output bobo-review
+# Focused crown geometry, combinations and PNG/layer export checks:
+python assets/bobomaker/tests/verify_crown.py --output crown-review
 ```
 
 Checks include keyboard focus/navigation, trait selection, undo/redo, locks,

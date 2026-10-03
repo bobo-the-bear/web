@@ -112,10 +112,17 @@ with sync_playwright() as p:
       expected.getContext('2d').drawImage(renderer.images.crown,...BoboEngine.placement.crown);
       renderer.asset(actual.getContext('2d'),'crown',s);
       const a=expected.getContext('2d').getImageData(0,0,1024,1024).data,b=actual.getContext('2d').getImageData(0,0,1024,1024).data;
-      let clipped=0;for(let i=3;i<a.length;i+=4)if(a[i]>128&&b[i]<a[i]-2)clipped++;
+      const [px,py,pw,ph]=BoboEngine.placement.crown;
+      // Only the front must remain visible: rear prongs/returns intentionally
+      // disappear behind the head. Protect all three point tips and the band.
+      const front=[[330,65,50,60],[780,0,85,120],[1270,60,55,85],[0,375,1650,225]];
+      let clipped=0;for(let i=3;i<a.length;i+=4){
+        const pixel=(i-3)/4,sx=(pixel%1024-px)*1650/pw,sy=(Math.floor(pixel/1024)-py)*600/ph;
+        if(front.some(([x,y,w,h])=>sx>=x&&sx<x+w&&sy>=y&&sy<y+h)&&a[i]>128&&b[i]<a[i]-2)clipped++;
+      }
       return clipped;
     }''')
-    check('Crown artwork retains all opaque pixels (no ear cutouts)', crown_pixels == 0, crown_pixels)
+    check('Crown retains its three front point tips and complete lower band', crown_pixels == 0, crown_pixels)
 
     # Every prop in every palette: contact sheets expose missed paw pixels or
     # accidental recoloring of the object, at useful review resolution.
