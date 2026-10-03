@@ -27,6 +27,9 @@ layer ZIPs all use the same renderer.
   hides those in source coordinates, retaining the three front points, jewels
   and lower band. Leave deliberate ear exposure at the sides of caps/beanies
   and keep complete brims and ties within the frame.
+- The red cap uses the user's compact, centered fit: both ears stay fully
+  visible, the source aspect ratio is retained, and the brim overlaps the
+  central forehead cleft so no background gap appears underneath it.
 - A held item includes its approved rounded bear grip. Preserve the object,
   normalize only the paw to the selected fur, and join its wrist to the arm.
   `fitWrist` detects an exposed source edge, continues only its narrow wrist
@@ -60,6 +63,7 @@ python -m playwright install chromium
 python assets/bobomaker/tests/verify.py --output bobo-review
 # Focused crown geometry, combinations and PNG/layer export checks:
 python assets/bobomaker/tests/verify_crown.py --output crown-review
+python assets/bobomaker/tests/verify_cap.py --output cap-review
 ```
 
 Checks include keyboard focus/navigation, trait selection, undo/redo, locks,
