@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-03",
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "assets": [
+    {
+      "file": "cowboy.png",
+      "reference": "../v6-refit/cowboy.png",
+      "sha256": "8bf24205528193d547875af5ede8d0b68021192663b84bfe16c07bdb1825884b",
+      "prompt": "Edit the attached transparent black cowboy hat asset. Preserve the same straight-on symmetrical camera angle, black felt texture, complete curved upward side brim, and existing silver floral concho leather band including all five conchos and two little studs. Redesign only the crown/top into a recognizable traditional western cattleman crown: TWO raised rounded longitudinal side ridges framing a deep, clearly visible CENTRAL VALLEY/crease that runs front to back. The top silhouette must visibly dip in the center between those raised ridges, instead of the current broad flat chopped-off top. A slightly taller, shaped and tapered upper crown, with natural softly rounded felt creases, not a balloon and not a flat cylinder. Preserve a broad lower crown above the band so it can cover bear ears underneath. Keep a clean continuous hat surface with no holes. Fit the entire hat inside the image with generous transparent padding on all sides and no clipping. Isolated hat only, no bear, no head, no added words, no added logos. High quality 3D illustrated collectible accessory matching original artwork. Transparent background required."
+    },
+    {
+      "file": "bucket.png",
+      "reference": "../v6-refit/bucket.png",
+      "sha256": "6c6447f65805f3cd16ff4445c7fe1a1a712aef89c6a11a84b3c16d018e48f075",
+      "prompt": "Recolor this exact isolated olive-green bucket hat to BLACK. Preserve its exact front-facing low wide silhouette, curved brim, shape, fabric weave, diagonal texture and seam placements. Charcoal-black fabric with natural subtle black/gray highlights; stitches should be dark graphite gray instead of the current olive-gold. Do not change the shape or design. No logo and no text for now; keep the broad front center panel blank for a real brand mark that will be added separately. Whole hat visible, transparent background, accessory only. Preserve every brim edge, no crop, no head."
+    }
+  ],
+  "notes": "Original v6-refit sources remain unchanged. Artwork fits and ear occlusion are defined in the shared renderer so previews and exports agree."
+}

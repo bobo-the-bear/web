@@ -15,20 +15,22 @@ const categories=[
 {id:'background',name:'Backdrop',help:'Choose a color or a scene.',options:[['sage','Council green','#ccd9b3'],['white','Studio white','#ffffff'],['pink','Rose','#e9c1c1'],['blue','Blue hour','#9eb6d3'],['yellow','Honey yellow','#ecc968'],['red','Bobo red','#b90b2a'],['ink','After hours','#242321'],['lavender','Lilac','#c4b6d4'],['check','Checkerboard','#dedcd7'],...Object.entries(imageBackgrounds)]},
 {id:'fur',name:'Fur',help:'The same bear, a different coat.',options:palettes.map(x=>[x.id,x.name])},
 {id:'outfit',name:'Outfit',help:'Dress for the market you deserve.',options:[['tee-red','Bobo red tee'],['hoodie','Black hoodie'],['puffer','Blue puffer'],['suit','Council suit'],['tee-white','White tee'],['bomber','Black bomber'],['red-puffer','Red puffer'],['varsity','Council varsity'],['jersey','Courtside jersey'],['denim','Denim jacket'],['none','Bare bear']]},
-{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['cap','Red cap'],['cowboy','Black cowboy'],['bucket','Green bucket'],['captain','Captain’s hat'],['durag','Black durag']]},
+{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['cap','Red cap'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['durag','Black durag']]},
 {id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming']]},
 {id:'neck',name:'Neck',help:'The finishing touch.',options:[['none','None'],['gold-chain','Gold Cuban'],['silver-chain','Silver Cuban'],['bandana','Red bandana'],['pendant','Honey pendant'],['diamond-chain','Diamond Cuban']]},
 {id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice']]},
 {id:'meme',name:'Meme',help:'Say it with your whole bear.',options:[]}];
 const placement={
  'tee-red':[0,0,1024,1024],hoodie:[0,0,1024,1024],puffer:[0,0,1024,1024],suit:[0,0,1024,1024],'tee-white':[0,0,1024,1024],bomber:[0,0,1024,1024],'red-puffer':[0,0,1024,1024],varsity:[0,0,1024,1024],jersey:[0,0,1024,1024],denim:[0,0,1024,1024],
- crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],durag:[98,152,920,350],beanie:[160,227,704,220],cap:[52,125,920,345],
+ crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],durag:[98,152,920,350],beanie:[160,227,704,220],cap:[132,140,760,260],
  shades:[120,470,800,143],glasses:[120,470,800,143],visor:[121,475,798,127],
  'pit-viper':[120,440,800,206],oakley:[120,471,800,155],rayban:[120,466,800,166],meta:[120,466,800,166],
  'gold-chain':[330,775,364,201],'silver-chain':[330,775,364,201],bandana:[318,775,388,216],pendant:[350,782,324,233],'diamond-chain':[316,775,392,218],
  honey:[699,828,244,244],cash:[665,830,300,222],coffee:[705,785,244,268],phone:[710,775,234,279],microphone:[690,738,282,312],rose:[731,718,206,338],flipoff:[730,763,227,291],championship:[670,720,330,400]
 };
 const newProps=['beras-can','champagne','eviction'];
+// Ears tuck inside these fitted hats. Other headwear keeps the original ears.
+const tuckedEarHeadwear=['cap','durag','cowboy'];
 for(const id of newProps)placement[id]=[728,800,234,261];
 const assetSources={base:'assets/v2/base.png',panda:'assets/v2/panda.png',headmask:'assets/v2/head-mask.png',baseRegions:'assets/v3/base-regions.png',pandaRegions:'assets/v3/panda-regions.png',polarRegions:'assets/v5/polar-regions.png'};
 for(const id of Object.keys(placement))assetSources[id]=['gold-chain','silver-chain','bandana','pendant'].includes(id)?'assets/'+id+'.png':'assets/v2/'+id+'.png';
@@ -40,6 +42,7 @@ for(const id of ['cap','cowboy','bucket','durag','microphone','championship'])as
 for(const id of ['cowboy','bucket','durag','crown'])assetSources[id]='assets/v6-refit/'+id+'.png';
 for(const id of [...newProps,'red-puffer','jersey'])assetSources[id]='assets/v7/'+id+'.png';
 assetSources['beras-can']='assets/v8/beras-can.png';
+for(const id of ['cowboy','bucket'])assetSources[id]='assets/v9/'+id+'.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
 const defaults=()=>({background:'sage',fur:'classic',outfit:'tee-red',headwear:'none',eyewear:'none',neck:'none',prop:'none',colors:{...palettes[0]},transparent:false,top:'',bottom:'',caps:true,textSize:64,font:'impact'});
@@ -129,7 +132,18 @@ class Renderer{
  }
 
  base(colors){const key='base/'+JSON.stringify(colors);if(this.cache.has(key))return this.cache.get(key);const panda=colors.pattern==='panda';return this.remember(key,this.recolor(this.raw[panda?'panda':'base'],colors,panda))}
- head(colors){const key='head/'+JSON.stringify(colors);if(this.cache.has(key))return this.cache.get(key);const c=this.create(1024,1024),ctx=c.getContext('2d');ctx.drawImage(this.base(colors),0,0);ctx.globalCompositeOperation='destination-in';ctx.drawImage(this.headMask,0,0);ctx.globalCompositeOperation='source-over';return this.remember(key,c)}
+ head(colors,headwear='none'){
+  const tucked=tuckedEarHeadwear.includes(headwear),key='head/'+tucked+'/'+JSON.stringify(colors);
+  if(this.cache.has(key))return this.cache.get(key);
+  const c=this.create(1024,1024),ctx=c.getContext('2d');ctx.drawImage(this.base(colors),0,0);
+  ctx.globalCompositeOperation='destination-in';ctx.drawImage(this.headMask,0,0);
+  ctx.globalCompositeOperation='source-over';
+  // Remove only the source ears behind the fabric. The lower edges fall under
+  // the complete hat band/brim, so the forehead and all facial pixels survive.
+  // This belongs in the head layer; cutting the hat creates visible ear holes.
+  if(tucked){ctx.clearRect(140,175,205,215);ctx.clearRect(680,175,205,215)}
+  return this.remember(key,c);
+ }
  body(s){const key='body/'+s.outfit+'/'+JSON.stringify(s.colors);if(this.cache.has(key))return this.cache.get(key);const c=this.create(1024,1024),ctx=c.getContext('2d');if(s.outfit==='none'){ctx.drawImage(this.base(s.colors),0,0)}else{ctx.drawImage(this.recolor(this.raw[s.outfit],s.colors,false,s.outfit),0,0);ctx.clearRect(0,0,1024,735)}ctx.globalCompositeOperation='destination-out';ctx.drawImage(this.bodyCutMask,0,0);ctx.globalCompositeOperation='source-over';return this.remember(key,c)}
  background(ctx,id){
   const item=categories[0].options.find(x=>x[0]===id)||categories[0].options[0];
@@ -146,6 +160,16 @@ class Renderer{
   }
  }
 
+ drawDurag(ctx,im){
+  // Fit the fabric independently of the tie. The old left band overhung the
+  // head; pin its seam to the head center, keeping the right knot/tails intact.
+  const [x,y,w,h]=placement.durag,seam=900,join=1700;
+  const sx=w/im.width,center=anchors.headCenter;
+  const bandLeft=158,knot=x+join*sx;
+  ctx.drawImage(im,0,0,seam,im.height,bandLeft,y,center-bandLeft,h);
+  ctx.drawImage(im,seam,0,join-seam,im.height,center,y,knot-center,h);
+  ctx.drawImage(im,join,0,im.width-join,im.height,knot,y,w-join*sx,h);
+ }
  drawEyewear(ctx,im,id){
   const [x,y,w,h]=placement[id],fit=eyewearFits[id],bridge=im.width*fit.bridge;
   // Pin the bridge to the actual nose, preserving both approved outer frame edges.
@@ -287,6 +311,7 @@ class Renderer{
    else if(id in eyewearFits)this.drawEyewear(cx,im,id);
    else if(id==='championship')this.drawChampionship(cx,im);
    else if(id==='crown')this.drawCrown(cx,im);
+   else if(id==='durag')this.drawDurag(cx,im);
    else cx.drawImage(im,...placement[id]);
    // Headwear sits in front of the ears. Subtracting the ear silhouettes from
    // the hat itself punches holes through crown points and knitted hat edges.
@@ -298,8 +323,7 @@ class Renderer{
    const contact=this.create(1024,1024),sc=contact.getContext('2d');
    sc.shadowColor='rgba(28,18,12,.28)';sc.shadowBlur=6;sc.shadowOffsetY=4;
    sc.drawImage(c,0,0);
-   // Keep the red cap pixel-identical to its production v6.3 appearance.
-   if(id!=='cap')sc.shadowColor='transparent';
+   sc.shadowColor='transparent';
    sc.globalCompositeOperation='destination-in';
    sc.drawImage(this.raw.base,0,0);sc.globalCompositeOperation='source-over';
    sc.drawImage(c,0,0);
@@ -308,8 +332,8 @@ class Renderer{
   ctx.drawImage(c,0,0);
  }
 text(ctx,s){const family=s.font==='serif'?'Georgia,serif':s.font==='sans'?'Arial,sans-serif':'Impact,Arial Black,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';ctx.lineJoin='round';ctx.fillStyle='white';ctx.strokeStyle='#181818';const blocks=[s.top,s.bottom].map(t=>s.caps?t.toUpperCase():t);for(let pos=0;pos<2;pos++){if(!blocks[pos])continue;let size=s.textSize;let lines=[];function wrap(){ctx.font=`900 ${size}px ${family}`;lines=[];for(const paragraph of blocks[pos].split('\n')){let line='';for(const word of paragraph.split(/\s+/)){const next=(line?line+' ':'')+word;if(ctx.measureText(next).width>930&&line){lines.push(line);line=word}else line=next;}lines.push(line)}}wrap();while((lines.length>3||lines.some(l=>ctx.measureText(l).width>930))&&size>20){size-=2;wrap()}const start=pos===0?30:1024-30-lines.length*size*1.05;ctx.lineWidth=Math.max(3,size*.075);lines.forEach((l,i)=>{ctx.strokeText(l,512,start+i*size*1.05,940);ctx.fillText(l,512,start+i*size*1.05,940)})}}
- draw(ctx,s,only){ctx.clearRect(0,0,1024,1024);if(only==='background'){if(!s.transparent)this.background(ctx,s.background);return}if(only==='meme'){this.text(ctx,s);return}if(only==='fur'){ctx.drawImage(this.head(s.colors),0,0);return}if(only==='outfit'){ctx.drawImage(this.body(s),0,0);return}if(only){this.asset(ctx,s[only],s);return}if(!s.transparent)this.background(ctx,s.background);ctx.drawImage(this.body(s),0,0);ctx.drawImage(this.head(s.colors),0,0);this.asset(ctx,s.neck,s);this.asset(ctx,s.headwear,s);this.asset(ctx,s.eyewear,s);this.asset(ctx,s.prop,s);this.text(ctx,s)}
+ draw(ctx,s,only){ctx.clearRect(0,0,1024,1024);if(only==='background'){if(!s.transparent)this.background(ctx,s.background);return}if(only==='meme'){this.text(ctx,s);return}if(only==='fur'){ctx.drawImage(this.head(s.colors,s.headwear),0,0);return}if(only==='outfit'){ctx.drawImage(this.body(s),0,0);return}if(only){this.asset(ctx,s[only],s);return}if(!s.transparent)this.background(ctx,s.background);ctx.drawImage(this.body(s),0,0);ctx.drawImage(this.head(s.colors,s.headwear),0,0);this.asset(ctx,s.neck,s);this.asset(ctx,s.headwear,s);this.asset(ctx,s.eyewear,s);this.asset(ctx,s.prop,s);this.text(ctx,s)}
  thumbnail(ctx,cat,id,current){ctx.clearRect(0,0,220,180);const s={...defaults(),...current,top:'',bottom:''};s[cat]=id;if(cat==='background')s.transparent=false;if(cat==='fur')s.colors=palettes.find(x=>x.id===id);const c=this.create(1024,1024);this.draw(c.getContext('2d'),s);ctx.drawImage(c,0,0,1024,1024,20,0,180,180)}
 }
-root.BoboEngine={Renderer,categories,palettes,placement,anchors,assetSources,imageBackgrounds,defaults};if(typeof module!=='undefined')module.exports=root.BoboEngine;
+root.BoboEngine={Renderer,categories,palettes,placement,anchors,assetSources,imageBackgrounds,tuckedEarHeadwear,defaults};if(typeof module!=='undefined')module.exports=root.BoboEngine;
 })(typeof window==='undefined'?globalThis:window);

@@ -25,11 +25,18 @@ layer ZIPs all use the same renderer.
   shapes from an entire hat: this cut through the crown's front points. The
   crown source also includes two rear prongs and inward returns; `drawCrown`
   hides those in source coordinates, retaining the three front points, jewels
-  and lower band. Leave deliberate ear exposure at the sides of caps/beanies
-  and keep complete brims and ties within the frame.
-- The red cap retains its production v6.3 fit `[52, 125, 920, 345]`, v6 source
-  and original contact-shadow behavior. Its regression check compares pixels
-  with the production renderer and captured live cap across all fur palettes.
+  and lower band. Keep complete brims and ties within the frame.
+- The red cap uses its original v6 art at `[132, 140, 760, 260]`: a lower crown
+  and smaller brim, seated over both ears. Durag fitting pins the center seam
+  and narrows the left fabric panel independently of the unchanged right tie.
+- Cap, durag and cowboy tuck the ears inside the hat. `head(colors, headwear)`
+  removes only those source ears; it never changes the face or other headwear.
+  Current-layer exports use the same fitted head. Full kits include six extra
+  `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
+  the manifest identify which head PNG each hat requires. Do not composite a
+  standard head under these three hats or the ears will protrude again.
+- v9 cowboy has a traditional dipped crown and the silver concho band. v9
+  bucket is black with graphite stitching, preserving the approved placement.
 - A held item includes its approved rounded bear grip. Preserve the object,
   normalize only the paw to the selected fur, and join its wrist to the arm.
   `fitWrist` detects an exposed source edge, continues only its narrow wrist
@@ -57,7 +64,6 @@ layer ZIPs all use the same renderer.
   logo and contact at the shoulder. Do not route it through generic wrist fit.
 - Contact shadows stay on the bear silhouette. Reset canvas shadow state before
   the final artwork pass to prevent a second unmasked shadow outside the bear.
-  The red cap intentionally preserves its existing production shadow pass.
 
 Composite exported layers bottom to top: `background`, `outfit`, `fur` (head),
 `neck`, `headwear`, `eyewear`, `prop`, `meme`. Outfit and prop layers have one
@@ -92,6 +98,7 @@ python assets/bobomaker/tests/verify.py --output bobo-review
 # Focused crown geometry, combinations and PNG/layer export checks:
 python assets/bobomaker/tests/verify_crown.py --output crown-review
 python assets/bobomaker/tests/verify_cap.py --output cap-review
+python assets/bobomaker/tests/verify_headwear.py --output headwear-review
 python assets/bobomaker/tests/verify_new_traits.py --output new-traits-review
 python assets/bobomaker/tests/verify_backdrops.py --output backdrop-review
 ```
@@ -102,6 +109,12 @@ combinations, all 66 outfit/fur layer reconstructions, crown integrity, actual
 opaque/transparent PNG downloads, metadata, both ZIP exports, manifest paths,
 archive CRCs, and layouts at 320/390/768/1024/1440px. `--skip-kit` skips only the
 long full-kit download when it is unrelated to a change.
+
+The headwear suite checks 192 hat/palette/eyewear combinations, actual opaque
+and transparent PNGs, current-layer reconstruction for all four revised hats,
+and all 24 hat/palette reconstructions from the downloaded full kit. Pass
+`--baseline-renderer PATH` to compare every unaffected trait against a prior
+release and generate before/after review sheets.
 
 Visually inspect the generated paw contact sheet and layout screenshots as well
 as full-size and small PFP previews. Automated layer parity verifies compositing,

@@ -113,7 +113,7 @@ with sync_playwright() as p:
     path=args.output/'bobo-layer-kit.zip';dl.value.save_as(path)
     with zipfile.ZipFile(path) as z:
         m=json.loads(z.read('manifest.json'));backgrounds=next(c for c in m['categories'] if c['id']=='background')['traits']
-        check('Full kit contains 24 background options and 181 layer PNGs with valid CRCs',len(backgrounds)==24 and len([n for n in z.namelist() if n.startswith('layers/') and n.endswith('.png')])==181 and z.testzip() is None)
+        check('Full kit contains 24 background options and 187 layer PNGs with valid CRCs',len(backgrounds)==24 and len([n for n in z.namelist() if n.startswith('layers/') and n.endswith('.png')])==187 and z.testzip() is None)
         for a in assets:
             exported=Image.open(io.BytesIO(z.read('layers/background/'+a['id']+'.png'))).convert('RGBA')
             assert equal(exported,references[a['id']]),a['id']
