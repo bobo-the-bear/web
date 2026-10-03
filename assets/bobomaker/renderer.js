@@ -6,14 +6,19 @@ const palettes=[
 {id:'polar',name:'Polar',fur:'#e4dbcc',muzzle:'#8c7867',ears:'#cda18d'},
 {id:'panda',name:'Panda',fur:'#e4dfd3',muzzle:'#393632',ears:'#9e8682',pattern:'panda'},
 {id:'red',name:'Red market',fur:'#b34649',muzzle:'#672b32',ears:'#dc8a85'}];
+const imageBackgrounds=Object.fromEntries([
+ '100','Based','Bitcoin Orange','Blue Screen of Death','Forest Fire','Forest',
+ 'Genesis','Grim','Guppy Stonk','Heat Map','NPC','Rainbow Chart','Rug Pull',
+ 'Yotsuba B','Yotsuba'
+].map(name=>['bg-'+name.toLowerCase().replaceAll(' ','-'),name]));
 const categories=[
-{id:'background',name:'Backdrop',help:'Set the scene.',options:[['sage','Council green','#ccd9b3'],['white','Studio white','#ffffff'],['pink','Rose','#e9c1c1'],['blue','Blue hour','#9eb6d3'],['yellow','Honey yellow','#ecc968'],['red','Bobo red','#b90b2a'],['ink','After hours','#242321'],['lavender','Lilac','#c4b6d4'],['check','Checkerboard','#dedcd7']]},
+{id:'background',name:'Backdrop',help:'Choose a color or a scene.',options:[['sage','Council green','#ccd9b3'],['white','Studio white','#ffffff'],['pink','Rose','#e9c1c1'],['blue','Blue hour','#9eb6d3'],['yellow','Honey yellow','#ecc968'],['red','Bobo red','#b90b2a'],['ink','After hours','#242321'],['lavender','Lilac','#c4b6d4'],['check','Checkerboard','#dedcd7'],...Object.entries(imageBackgrounds)]},
 {id:'fur',name:'Fur',help:'The same bear, a different coat.',options:palettes.map(x=>[x.id,x.name])},
 {id:'outfit',name:'Outfit',help:'Dress for the market you deserve.',options:[['tee-red','Bobo red tee'],['hoodie','Black hoodie'],['puffer','Blue puffer'],['suit','Council suit'],['tee-white','White tee'],['bomber','Black bomber'],['red-puffer','Red puffer'],['varsity','Council varsity'],['jersey','Courtside jersey'],['denim','Denim jacket'],['none','Bare bear']]},
 {id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['cap','Red cap'],['cowboy','Black cowboy'],['bucket','Green bucket'],['captain','Captain’s hat'],['durag','Black durag']]},
 {id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming']]},
 {id:'neck',name:'Neck',help:'The finishing touch.',options:[['none','None'],['gold-chain','Gold Cuban'],['silver-chain','Silver Cuban'],['bandana','Red bandana'],['pendant','Honey pendant'],['diamond-chain','Diamond Cuban']]},
-{id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice'],['feel-the-boom','Feel the Boom'],['daily-bobo','The Daily Bobo']]},
+{id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice']]},
 {id:'meme',name:'Meme',help:'Say it with your whole bear.',options:[]}];
 const placement={
  'tee-red':[0,0,1024,1024],hoodie:[0,0,1024,1024],puffer:[0,0,1024,1024],suit:[0,0,1024,1024],'tee-white':[0,0,1024,1024],bomber:[0,0,1024,1024],'red-puffer':[0,0,1024,1024],varsity:[0,0,1024,1024],jersey:[0,0,1024,1024],denim:[0,0,1024,1024],
@@ -23,7 +28,7 @@ const placement={
  'gold-chain':[330,775,364,201],'silver-chain':[330,775,364,201],bandana:[318,775,388,216],pendant:[350,782,324,233],'diamond-chain':[316,775,392,218],
  honey:[699,828,244,244],cash:[665,830,300,222],coffee:[705,785,244,268],phone:[710,775,234,279],microphone:[690,738,282,312],rose:[731,718,206,338],flipoff:[730,763,227,291],championship:[670,720,330,400]
 };
-const newProps=['beras-can','champagne','eviction','feel-the-boom','daily-bobo'];
+const newProps=['beras-can','champagne','eviction'];
 for(const id of newProps)placement[id]=[728,800,234,261];
 const assetSources={base:'assets/v2/base.png',panda:'assets/v2/panda.png',headmask:'assets/v2/head-mask.png',baseRegions:'assets/v3/base-regions.png',pandaRegions:'assets/v3/panda-regions.png',polarRegions:'assets/v5/polar-regions.png'};
 for(const id of Object.keys(placement))assetSources[id]=['gold-chain','silver-chain','bandana','pendant'].includes(id)?'assets/'+id+'.png':'assets/v2/'+id+'.png';
@@ -34,7 +39,9 @@ assetSources['pit-viper']='assets/v4/pit-viper.png';
 for(const id of ['cap','cowboy','bucket','durag','microphone','championship'])assetSources[id]='assets/v6/'+id+'.png';
 for(const id of ['cowboy','bucket','durag','crown'])assetSources[id]='assets/v6-refit/'+id+'.png';
 for(const id of [...newProps,'red-puffer','jersey'])assetSources[id]='assets/v7/'+id+'.png';
+assetSources['beras-can']='assets/v8/beras-can.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
+for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
 const defaults=()=>({background:'sage',fur:'classic',outfit:'tee-red',headwear:'none',eyewear:'none',neck:'none',prop:'none',colors:{...palettes[0]},transparent:false,top:'',bottom:'',caps:true,textSize:64,font:'impact'});
 const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const inside=(x,y,ps)=>{let c=false;for(let i=0,j=ps.length-1;i<ps.length;j=i++){if(((ps[i][1]>y)!=(ps[j][1]>y))&&(x<(ps[j][0]-ps[i][0])*(y-ps[i][1])/(ps[j][1]-ps[i][1])+ps[i][0]))c=!c}return c};
@@ -124,7 +131,21 @@ class Renderer{
  base(colors){const key='base/'+JSON.stringify(colors);if(this.cache.has(key))return this.cache.get(key);const panda=colors.pattern==='panda';return this.remember(key,this.recolor(this.raw[panda?'panda':'base'],colors,panda))}
  head(colors){const key='head/'+JSON.stringify(colors);if(this.cache.has(key))return this.cache.get(key);const c=this.create(1024,1024),ctx=c.getContext('2d');ctx.drawImage(this.base(colors),0,0);ctx.globalCompositeOperation='destination-in';ctx.drawImage(this.headMask,0,0);ctx.globalCompositeOperation='source-over';return this.remember(key,c)}
  body(s){const key='body/'+s.outfit+'/'+JSON.stringify(s.colors);if(this.cache.has(key))return this.cache.get(key);const c=this.create(1024,1024),ctx=c.getContext('2d');if(s.outfit==='none'){ctx.drawImage(this.base(s.colors),0,0)}else{ctx.drawImage(this.recolor(this.raw[s.outfit],s.colors,false,s.outfit),0,0);ctx.clearRect(0,0,1024,735)}ctx.globalCompositeOperation='destination-out';ctx.drawImage(this.bodyCutMask,0,0);ctx.globalCompositeOperation='source-over';return this.remember(key,c)}
- background(ctx,id){const item=categories[0].options.find(x=>x[0]===id)||categories[0].options[0];ctx.fillStyle=item[2];ctx.fillRect(0,0,1024,1024);if(id==='check'){ctx.fillStyle='#f9f8f5';for(let y=0;y<8;y++)for(let x=0;x<8;x++)if((x+y)%2===0)ctx.fillRect(x*128,y*128,128,128)}}
+ background(ctx,id){
+  const item=categories[0].options.find(x=>x[0]===id)||categories[0].options[0];
+  ctx.fillStyle=item[2]||'#ffffff';ctx.fillRect(0,0,1024,1024);
+  if(id in imageBackgrounds){
+   const im=this.images[id];if(!im)return;
+   // Center-cover without stretching. The 15 originals are square, so their
+   // entire image is retained. The white underlay keeps opaque exports opaque
+   // even where the source has slightly translucent pixels.
+   const side=Math.min(im.width,im.height);
+   ctx.drawImage(im,(im.width-side)/2,(im.height-side)/2,side,side,0,0,1024,1024);
+  }else if(id==='check'){
+   ctx.fillStyle='#f9f8f5';for(let y=0;y<8;y++)for(let x=0;x<8;x++)if((x+y)%2===0)ctx.fillRect(x*128,y*128,128,128);
+  }
+ }
+
  drawEyewear(ctx,im,id){
   const [x,y,w,h]=placement[id],fit=eyewearFits[id],bridge=im.width*fit.bridge;
   // Pin the bridge to the actual nose, preserving both approved outer frame edges.
@@ -247,7 +268,7 @@ class Renderer{
   return this.bounds[id]=[x0,y0,x1-x0+1,y1-y0+1];
  }
  drawNewProp(ctx,id,s){
-  const frames={'beras-can':[700,768,166,282],champagne:[686,714,276,342],eviction:[656,781,227,301],'feel-the-boom':[741,748,117,315],'daily-bobo':[178,812,668,320]};
+  const frames={'beras-can':[700,768,166,282],champagne:[686,714,276,342],eviction:[656,781,227,301]};
   const [x,y,w,h]=frames[id],bounds=this.objectBounds(id),scale=Math.min(w/bounds[2],h/bounds[3]);
   const dw=bounds[2]*scale,dh=bounds[3]*scale;
   ctx.save();if(id==='eviction'){ctx.translate(x+w/2,y+h/2);ctx.rotate(-.12);ctx.translate(-x-w/2,-y-h/2)}
@@ -255,7 +276,6 @@ class Renderer{
   const paw=this.create(1024,1024),pc=paw.getContext('2d');
   pc.drawImage(this.grip(s.colors),...placement[id]);this.fitWrist(pc,id);
   ctx.drawImage(paw,0,0);
-  if(id==='daily-bobo'){ctx.save();ctx.translate(1024,0);ctx.scale(-1,1);ctx.drawImage(paw,0,0);ctx.restore()}
  }
  asset(ctx,id,s){
   if(id==='none'||!this.images[id])return;
@@ -286,7 +306,7 @@ class Renderer{
  }
 text(ctx,s){const family=s.font==='serif'?'Georgia,serif':s.font==='sans'?'Arial,sans-serif':'Impact,Arial Black,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';ctx.lineJoin='round';ctx.fillStyle='white';ctx.strokeStyle='#181818';const blocks=[s.top,s.bottom].map(t=>s.caps?t.toUpperCase():t);for(let pos=0;pos<2;pos++){if(!blocks[pos])continue;let size=s.textSize;let lines=[];function wrap(){ctx.font=`900 ${size}px ${family}`;lines=[];for(const paragraph of blocks[pos].split('\n')){let line='';for(const word of paragraph.split(/\s+/)){const next=(line?line+' ':'')+word;if(ctx.measureText(next).width>930&&line){lines.push(line);line=word}else line=next;}lines.push(line)}}wrap();while((lines.length>3||lines.some(l=>ctx.measureText(l).width>930))&&size>20){size-=2;wrap()}const start=pos===0?30:1024-30-lines.length*size*1.05;ctx.lineWidth=Math.max(3,size*.075);lines.forEach((l,i)=>{ctx.strokeText(l,512,start+i*size*1.05,940);ctx.fillText(l,512,start+i*size*1.05,940)})}}
  draw(ctx,s,only){ctx.clearRect(0,0,1024,1024);if(only==='background'){if(!s.transparent)this.background(ctx,s.background);return}if(only==='meme'){this.text(ctx,s);return}if(only==='fur'){ctx.drawImage(this.head(s.colors),0,0);return}if(only==='outfit'){ctx.drawImage(this.body(s),0,0);return}if(only){this.asset(ctx,s[only],s);return}if(!s.transparent)this.background(ctx,s.background);ctx.drawImage(this.body(s),0,0);ctx.drawImage(this.head(s.colors),0,0);this.asset(ctx,s.neck,s);this.asset(ctx,s.headwear,s);this.asset(ctx,s.eyewear,s);this.asset(ctx,s.prop,s);this.text(ctx,s)}
- thumbnail(ctx,cat,id,current){ctx.clearRect(0,0,220,180);const s={...defaults(),...current,top:'',bottom:''};s[cat]=id;if(cat==='fur')s.colors=palettes.find(x=>x.id===id);const c=this.create(1024,1024);this.draw(c.getContext('2d'),s);ctx.drawImage(c,0,0,1024,1024,20,0,180,180)}
+ thumbnail(ctx,cat,id,current){ctx.clearRect(0,0,220,180);const s={...defaults(),...current,top:'',bottom:''};s[cat]=id;if(cat==='background')s.transparent=false;if(cat==='fur')s.colors=palettes.find(x=>x.id===id);const c=this.create(1024,1024);this.draw(c.getContext('2d'),s);ctx.drawImage(c,0,0,1024,1024,20,0,180,180)}
 }
-root.BoboEngine={Renderer,categories,palettes,placement,anchors,assetSources,defaults};if(typeof module!=='undefined')module.exports=root.BoboEngine;
+root.BoboEngine={Renderer,categories,palettes,placement,anchors,assetSources,imageBackgrounds,defaults};if(typeof module!=='undefined')module.exports=root.BoboEngine;
 })(typeof window==='undefined'?globalThis:window);

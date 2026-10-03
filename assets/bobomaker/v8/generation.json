@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-03",
+  "tool": "image_gen.imagegen",
+  "file": "beras-can.png",
+  "reference": "../v7/beras-can.png",
+  "transparent_background": true,
+  "prompt": "Redesign the displayed Bera's silver beverage can as a polished original bear-themed cold beverage label. Keep an upright isolated silver aluminum can with visible pull-tab top, full object within transparent square canvas, no hands or character. Replace the plain black label with rich cold silver/red/blue graphics: sweeping LARGE rich red cursive text exactly \"Bera's\" across the upper-middle front; bold dark gray condensed secondary text \"ICE COLD\" directly below it; lower half has a crisp icy cobalt-and-pale-blue illustration combining a stylized bold bear head silhouette with blue mountain peaks, subtle bear paw medallion, and tiny footer \"BREWED FOR BEARS\". Lots of glistening condensation droplets and embossed brushed metallic shading, convincing cold can highlights. Keep the label front-facing and readable when the can is small in an avatar. The large Bera's red script must dominate the upper-middle above where a hand would grip lower right. Moderately faceted polished 3D game/NFT illustration compatible with a brown faceted toy bear; detailed but no photoreal scene. Preserve original can's width-to-height proportion, same upright angle, centered full can with clear padding, transparent background. No Coors name or logo, no other brands, no background or cast shadow.",
+  "notes": "Original bear-themed silver/red/blue label. Existing fitted coffee grip and fur palette handling are unchanged. Earlier can remains in v7 for provenance."
+}

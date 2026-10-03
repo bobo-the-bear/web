@@ -20,7 +20,7 @@ class Handler(SimpleHTTPRequestHandler):
     def log_message(self,*a):pass
 server=ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(repo)))
 threading.Thread(target=server.serve_forever,daemon=True).start()
-props=['beras-can','champagne','eviction','feel-the-boom','daily-bobo']
+props=['beras-can','champagne','eviction']
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True)
     page=browser.new_page(viewport={'width':1440,'height':1000});errors=[];failures=[]
@@ -28,7 +28,7 @@ with sync_playwright() as p:
     page.on('response',lambda r:failures.append(r.url) if r.status>=400 and '/bobomaker/' in r.url else None)
     page.goto(f'http://127.0.0.1:{server.server_port}/bobomaker.html',wait_until='domcontentloaded')
     page.wait_for_function('ready',timeout=60000)
-    check('New artwork loads and all five prop controls are registered',page.evaluate('(ids)=>ids.every(id=>categories.find(c=>c.id==="prop").options.some(o=>o[0]===id))',props) and not failures,failures)
+    check('New artwork loads and all three prop controls are registered',page.evaluate('(ids)=>ids.every(id=>categories.find(c=>c.id==="prop").options.some(o=>o[0]===id))',props) and not failures,failures)
     if args.baseline_renderer:
         page.evaluate('window.currentEngine=BoboEngine')
         page.add_script_tag(content=args.baseline_renderer.read_text(encoding='utf-8-sig'))
@@ -92,7 +92,7 @@ with sync_playwright() as p:
         await new Promise(r=>setTimeout(r,0));
       }return results;
     }''',props)
-    check('150 new prop / outfit / palette combinations recompose exactly',len(parity)==150 and all(x['diff']==0 for x in parity),{'combinations':len(parity)})
+    check('90 new prop / outfit / palette combinations recompose exactly',len(parity)==90 and all(x['diff']==0 for x in parity),{'combinations':len(parity)})
     # Object pixels above the grip must keep their original material colors.
     invariant=page.evaluate('''ids=>{
       const a=document.createElement('canvas');a.width=a.height=1024;
@@ -109,7 +109,7 @@ with sync_playwright() as p:
         path=args.output/(prop+'-download.png');dl.value.save_as(path)
         exported=Image.open(path).convert('RGBA')
         check(prop+' PNG matches preview with transparency and custom fur',ImageChops.difference(preview,exported).getbbox() is None and exported.getchannel('A').getextrema()==(0,255))
-    sheet=Image.new('RGB',(5*320,3*365),'#f5f3ed');draw=ImageDraw.Draw(sheet)
+    sheet=Image.new('RGB',(len(props)*320,3*365),'#f5f3ed');draw=ImageDraw.Draw(sheet)
     try:font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',18)
     except OSError:font=ImageFont.load_default()
     for row,(fur,outfit) in enumerate([('classic','tee-red'),('panda','red-puffer'),('polar','jersey')]):
@@ -120,7 +120,7 @@ with sync_playwright() as p:
     sheet.save(args.output/'new-props-palettes.jpg',quality=95)
     for width in [320,390,768,1024,1440]:
         page.set_viewport_size({'width':width,'height':1000});page.evaluate('selectCategory("prop")')
-        check(f'New props remain usable without horizontal overflow at {width}px',page.evaluate('document.documentElement.scrollWidth<=innerWidth+1') and page.get_by_role('button',name='The Daily Bobo',exact=True).is_visible())
+        check(f'New props remain usable without horizontal overflow at {width}px',page.evaluate('document.documentElement.scrollWidth<=innerWidth+1') and page.get_by_role('button',name='Eviction notice',exact=True).is_visible())
     check('No browser errors or failed artwork requests',not errors and not failures,{'errors':errors,'failures':failures})
     browser.close()
 server.shutdown();print(f'Completed {len(checks)} focused checks. Evidence: {args.output.resolve()}',flush=True)
