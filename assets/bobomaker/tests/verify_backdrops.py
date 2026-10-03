@@ -57,10 +57,10 @@ with sync_playwright() as p:
         unchanged=page.evaluate('''()=>{
           const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=a.height=b.width=b.height=1024;
           const cases=categories[0].options.slice(0,9).map(([background])=>({...defaults(),background}));
-          for(const colors of palettes)for(const [category,id]of [['headwear','cap'],['headwear','crown'],['prop','championship'],['outfit','red-puffer'],['outfit','jersey']])cases.push({...defaults(),colors:{...colors},fur:colors.id,[category]:id});
+          for(const colors of palettes)for(const [category,id]of [['headwear','crown'],['prop','championship'],['outfit','red-puffer'],['outfit','jersey']])cases.push({...defaults(),colors:{...colors},fur:colors.id,[category]:id});
           return cases.map(s=>{renderer.draw(a.getContext('2d'),s);baseline.draw(b.getContext('2d'),s);const x=a.getContext('2d').getImageData(0,0,1024,1024).data,y=b.getContext('2d').getImageData(0,0,1024,1024).data;let diff=0;for(let i=0;i<x.length;i++)if(x[i]!==y[i])diff++;return diff});
         }''')
-        check('Nine existing backdrops and approved cap/crown/belt/garments remain pixel-identical',len(unchanged)==39 and max(unchanged)==0,{'comparisons':len(unchanged)})
+        check('Nine existing backdrops and approved crown/belt/garments remain pixel-identical',len(unchanged)==33 and max(unchanged)==0,{'comparisons':len(unchanged)})
     references={};sheet=Image.new('RGB',(5*320,3*370),'#f5f3ed');d=ImageDraw.Draw(sheet)
     try:font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',19)
     except OSError:font=ImageFont.load_default()

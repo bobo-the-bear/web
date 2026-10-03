@@ -22,7 +22,7 @@ const categories=[
 {id:'meme',name:'Meme',help:'Say it with your whole bear.',options:[]}];
 const placement={
  'tee-red':[0,0,1024,1024],hoodie:[0,0,1024,1024],puffer:[0,0,1024,1024],suit:[0,0,1024,1024],'tee-white':[0,0,1024,1024],bomber:[0,0,1024,1024],'red-puffer':[0,0,1024,1024],varsity:[0,0,1024,1024],jersey:[0,0,1024,1024],denim:[0,0,1024,1024],
- crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],durag:[98,152,920,350],beanie:[160,227,704,220],cap:[345,180,334,181],
+ crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],durag:[98,152,920,350],beanie:[160,227,704,220],cap:[52,125,920,345],
  shades:[120,470,800,143],glasses:[120,470,800,143],visor:[121,475,798,127],
  'pit-viper':[120,440,800,206],oakley:[120,471,800,155],rayban:[120,466,800,166],meta:[120,466,800,166],
  'gold-chain':[330,775,364,201],'silver-chain':[330,775,364,201],bandana:[318,775,388,216],pendant:[350,782,324,233],'diamond-chain':[316,775,392,218],
@@ -297,7 +297,10 @@ class Renderer{
    }
    const contact=this.create(1024,1024),sc=contact.getContext('2d');
    sc.shadowColor='rgba(28,18,12,.28)';sc.shadowBlur=6;sc.shadowOffsetY=4;
-   sc.drawImage(c,0,0);sc.shadowColor='transparent';sc.globalCompositeOperation='destination-in';
+   sc.drawImage(c,0,0);
+   // Keep the red cap pixel-identical to its production v6.3 appearance.
+   if(id!=='cap')sc.shadowColor='transparent';
+   sc.globalCompositeOperation='destination-in';
    sc.drawImage(this.raw.base,0,0);sc.globalCompositeOperation='source-over';
    sc.drawImage(c,0,0);
    c=contact;this.remember(key,c);

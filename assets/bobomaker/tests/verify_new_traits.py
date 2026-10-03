@@ -35,14 +35,14 @@ with sync_playwright() as p:
         page.evaluate('window.baseline=new BoboEngine.Renderer(renderer.images);window.BoboEngine=window.currentEngine')
         unchanged=page.evaluate('''()=>{
           const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=a.height=b.width=b.height=1024;
-          const cases=[];for(const color of palettes)for(const [category,ids]of [['headwear',['cap','crown']],['prop',['championship','coffee','phone','rose','cash','honey','flipoff','microphone']]])for(const id of ids){
+          const cases=[];for(const color of palettes)for(const [category,ids]of [['headwear',['crown']],['prop',['championship','coffee','phone','rose','cash','honey','flipoff','microphone']]])for(const id of ids){
             const s={...defaults(),colors:{...color},fur:color.id,[category]:id};
             renderer.draw(a.getContext('2d'),s,category);baseline.draw(b.getContext('2d'),s,category);
             const x=a.getContext('2d').getImageData(0,0,1024,1024).data,y=b.getContext('2d').getImageData(0,0,1024,1024).data;
             let diff=0;for(let i=0;i<x.length;i++)if(x[i]!==y[i])diff++;cases.push({fur:color.id,id,diff});
           }return cases;
         }''')
-        check('Approved cap, crown and eight existing props remain pixel-identical in all six palettes',all(x['diff']==0 for x in unchanged),{'combinations':len(unchanged)})
+        check('Approved crown and eight existing props remain pixel-identical in all six palettes',all(x['diff']==0 for x in unchanged),{'combinations':len(unchanged)})
     garments=page.evaluate('''()=>{
       const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=a.height=b.width=b.height=1024;
       const results=[];for(const color of palettes)for(const outfit of ['red-puffer','jersey']){

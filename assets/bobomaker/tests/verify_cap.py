@@ -1,4 +1,4 @@
-"""Focused cap fit/export checks; uses the same dependencies as verify.py.
+"""Production cap preservation/export checks; uses the same dependencies as verify.py.
 
 python assets/bobomaker/tests/verify_cap.py --output cap-review
 Optional: --baseline-renderer PATH to compare unrelated traits with an earlier renderer.
@@ -12,6 +12,8 @@ from playwright.sync_api import sync_playwright
 parser=argparse.ArgumentParser()
 parser.add_argument('--output',type=Path,default=Path('cap-review'))
 parser.add_argument('--baseline-renderer',type=Path)
+parser.add_argument('--production-renderer',type=Path)
+parser.add_argument('--live-baseline-dir',type=Path)
 args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
 repo=Path(__file__).resolve().parents[3];checks=[]
 def check(name,passed,details=None):
@@ -30,26 +32,25 @@ with sync_playwright() as p:
     errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(f'http://127.0.0.1:{server.server_port}/bobomaker.html',wait_until='domcontentloaded')
     page.wait_for_function('ready',timeout=60000)
-    geometry=page.evaluate('''()=>{
-      const bare=document.createElement('canvas'),capped=document.createElement('canvas'),layer=document.createElement('canvas');
-      bare.width=bare.height=capped.width=capped.height=layer.width=layer.height=1024;
-      const s={...defaults(),transparent:true};renderer.draw(bare.getContext('2d'),s);
-      s.headwear='cap';renderer.draw(capped.getContext('2d'),s);renderer.draw(layer.getContext('2d'),s,'headwear');
-      const a=bare.getContext('2d').getImageData(0,0,1024,1024).data,b=capped.getContext('2d').getImageData(0,0,1024,1024).data,l=layer.getContext('2d').getImageData(0,0,1024,1024).data;
-      const ears=[[[175,261],[218,220],[263,210],[309,238],[334,278],[292,295],[234,331],[218,343],[183,306]],[[693,278],[715,237],[765,210],[811,228],[848,261],[841,304],[804,341],[789,331],[737,296]]];
-      const inside=(x,y,p)=>{let c=false;for(let i=0,j=p.length-1;i<p.length;j=i++){if(((p[i][1]>y)!=(p[j][1]>y))&&(x<(p[j][0]-p[i][0])*(y-p[i][1])/(p[j][1]-p[i][1])+p[i][0]))c=!c}return c};
-      let changedEarPixels=0,minX=1024,maxX=0,contactGaps=0;
-      for(let y=0;y<1024;y++)for(let x=0;x<1024;x++){
-        const i=(y*1024+x)*4;
-        if(l[i+3]>128){minX=Math.min(minX,x);maxX=Math.max(maxX,x)}
-        if(a[i+3]>128&&ears.some(p=>inside(x,y,p))&&[0,1,2,3].some(k=>a[i+k]!==b[i+k]))changedEarPixels++;
-      }
-      for(const x of [503,512,521])for(let y=250;y<430;y++)if(b[(y*1024+x)*4+3]<64)contactGaps++;
-      return {changedEarPixels,contactGaps,minX,maxX,center:(minX+maxX)/2,width:maxX-minX+1};
-    }''')
-    check('Both ears remain fully visible and unchanged',geometry['changedEarPixels']==0,geometry)
-    check('Cap is compact and centered between the ears',abs(geometry['center']-512)<=3 and geometry['width']<=360,geometry)
-    check('Cap rests on forehead without a transparent gap',geometry['contactGaps']==0,geometry)
+    check('Cap retains the production v6.3 fit and source',page.evaluate('JSON.stringify(BoboEngine.placement.cap)==="[52,125,920,345]" && BoboEngine.assetSources.cap==="assets/bobomaker/v6/cap.png"'))
+    if args.production_renderer:
+        comparison=page.evaluate('''source=>{
+          const old=(new Function('window',source+';return window.BoboEngine;'))({});
+          const previous=new old.Renderer(renderer.images),a=document.createElement('canvas'),b=document.createElement('canvas');a.width=a.height=b.width=b.height=1024;
+          const results=[];for(const colors of palettes)for(const only of [null,'headwear']){
+            const s={...defaults(),colors:{...colors},fur:colors.id,headwear:'cap'};
+            previous.draw(a.getContext('2d'),s,only);renderer.draw(b.getContext('2d'),s,only);
+            results.push({fur:colors.id,only,identical:a.toDataURL()===b.toDataURL()});
+          }return results;
+        }''',args.production_renderer.read_text(encoding='utf-8-sig'))
+        check('All six cap compositions and layers are pixel-identical to production',all(x['identical'] for x in comparison),comparison)
+    if args.live_baseline_dir:
+        identical=[]
+        for fur in page.evaluate('palettes.map(p=>p.id)'):
+            data=page.evaluate('''fur=>{const s={...defaults(),headwear:'cap',fur,colors:{...palettes.find(p=>p.id===fur)}};const c=document.createElement('canvas');c.width=c.height=1024;renderer.draw(c.getContext('2d'),s);return c.toDataURL()}''',fur)
+            current=decode(data);baseline=Image.open(args.live_baseline_dir/('live-baseline-cap-'+fur+'.png')).convert('RGBA')
+            identical.append({'fur':fur,'difference':diff(current,baseline)})
+        check('Restored cap matches actual captured live PNGs in every palette',all(x['difference']==0 for x in identical),identical)
 
     if args.baseline_renderer:
         unchanged=page.evaluate('''source=>{

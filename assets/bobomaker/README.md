@@ -27,9 +27,9 @@ layer ZIPs all use the same renderer.
   hides those in source coordinates, retaining the three front points, jewels
   and lower band. Leave deliberate ear exposure at the sides of caps/beanies
   and keep complete brims and ties within the frame.
-- The red cap uses the user's compact, centered fit: both ears stay fully
-  visible, the source aspect ratio is retained, and the brim overlaps the
-  central forehead cleft so no background gap appears underneath it.
+- The red cap retains its production v6.3 fit `[52, 125, 920, 345]`, v6 source
+  and original contact-shadow behavior. Its regression check compares pixels
+  with the production renderer and captured live cap across all fur palettes.
 - A held item includes its approved rounded bear grip. Preserve the object,
   normalize only the paw to the selected fur, and join its wrist to the arm.
   `fitWrist` detects an exposed source edge, continues only its narrow wrist
@@ -57,6 +57,7 @@ layer ZIPs all use the same renderer.
   logo and contact at the shoulder. Do not route it through generic wrist fit.
 - Contact shadows stay on the bear silhouette. Reset canvas shadow state before
   the final artwork pass to prevent a second unmasked shadow outside the bear.
+  The red cap intentionally preserves its existing production shadow pass.
 
 Composite exported layers bottom to top: `background`, `outfit`, `fur` (head),
 `neck`, `headwear`, `eyewear`, `prop`, `meme`. Outfit and prop layers have one
