@@ -1,7 +1,7 @@
 """Compatibility entry point for the fitted-headwear regression suite.
 
-The old cap pixel-preservation target was superseded by the smaller fit.
-Checks now include tucked ears and both layer export formats.
+The former cap is now replaced by the fitted Pump.fun trucker.
+Checks include legacy selection mapping, ear handling and both layer exports.
 """
 import runpy
 from pathlib import Path

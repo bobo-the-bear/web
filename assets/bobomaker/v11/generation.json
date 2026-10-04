@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-04",
+  "tool": "image_gen.imagegen",
+  "file": "trucker.png",
+  "reference": "Bobo character without headwear",
+  "transparent_background": true,
+  "sha256": "8bd528b48fb1f198967f1fb669bae2748de96ffc3438d6d029cd8e96d7bf6dcf",
+  "prompt": "Design a new purpose-built TRUCKER HAT accessory for the broad low-poly bear in the reference. Output ONLY THE HAT on transparent background; do not include the bear, ears, head, face, clothing or background. Match its front-facing camera and softly faceted 3D collectible texture. A believable wearable trucker hat: warm ivory canvas front panel, deep forest-green mesh side/back panels with clearly visible fine mesh construction, green sewn seams and button, and a SHORT curved dark-green bill with curved parallel stitch rows. Front panel blank and clean for a separate exact logo overlay. The hat is tailored to a WIDE BEAR head: broad and rounded from side to side, moderate LOW crown, no high human-shaped narrow dome, no tall foam billboard, no large wing-like brim. The body/crown accounts for about 84 percent of total hat width, the short bill only slightly wider. Real curved bill, visibly projecting forward and wrapping the temples; soft underside, no flat slab. The band hugs a rounded forehead and has no scalloped empty gap under it. Aim for a natural 2.4-to-1 overall width-to-height silhouette, not an extremely squashed pancake. Entire accessory fully visible with transparent padding. Rich convincing cloth, stitched edges, soft studio illumination matching the reference. Completely isolated hat, no logo/text, no bear pixels, transparent PNG.",
+  "branding": {
+    "file": "pump-fun-logo.png",
+    "source_filename": "pump_fun-logo_brandlogos.net_nfy5u.png",
+    "source": "User-supplied local PNG, copied unchanged",
+    "sha256": "e341c92bed286bd78dbe9828878002e3acd385747c5f9dc405dc737df07d3701",
+    "size": [
+      1271,
+      1314
+    ],
+    "alpha_bounds": [
+      56,
+      3,
+      1271,
+      1256
+    ],
+    "fit": "Uniformly scaled on the ivory front panel; no generated or redrawn logo"
+  },
+  "notes": "Replaces the former cap. All prior sources are retained for rollback. Bandana revision reuses v10 cloth/tie with a curved fabric fit; it does not alter the original source PNG."
+}

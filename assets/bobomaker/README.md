@@ -26,14 +26,21 @@ layer ZIPs all use the same renderer.
   crown source also includes two rear prongs and inward returns; `drawCrown`
   hides those in source coordinates, retaining the three front points, jewels
   and lower band. Keep complete brims and ties within the frame.
-- The red cap uses its original v6 art at `[132, 158, 760, 260]`: the reviewed
-  size, lowered 18 pixels so the brim overlaps the forehead without a gap.
+- The Pump.fun trucker replaces the red cap. Its v11 artwork has an ivory
+  front panel, forest-green mesh sides and a short curved brim, fitted at
+  `[152, 140, 720, 300]`. The supplied Pump.fun logo is copied unchanged and
+  scaled uniformly on the front. Legacy `cap` selections map to `trucker`;
+  the picker, metadata and exported layer paths use the new name.
 - The red ninja bandana replaces the durag. Its narrow forehead band leaves
   the top of the head and both ears exposed, with a knot/tails at viewer-right.
   The old sources stay in the repository for rollback. Legacy `durag` renderer
   selections map to `ninja-bandana`; catalog, metadata and kit paths use the new
   name. This is separate from the existing red neck `bandana`.
-- Cap and cowboy tuck the ears inside the hat. `head(colors, headwear)`
+  `drawNinjaBandana` fits the original cloth between curved upper/lower hems,
+  tapering both ends upward/inward to the temples. The original knot/tails are
+  separately seated at the right seam. Preserve this shaping when adjusting
+  height; translating a rectangular strip leaves protruding side corners.
+- Trucker and cowboy tuck the ears inside the hat. `head(colors, headwear)`
   removes only those source ears; it never changes the face or other headwear.
   Current-layer exports use the same fitted head. Full kits include six extra
   `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
@@ -121,8 +128,8 @@ long full-kit download when it is unrelated to a change.
 The headwear suite checks 192 hat/palette/eyewear combinations, actual opaque
 and transparent PNGs, current-layer reconstruction for all four revised hats,
 and all 24 hat/palette reconstructions from the downloaded full kit. It also
-measures opaque forehead contact below the cap, verifies exposed ears and eye
-clearance for the ninja bandana, and checks legacy durag selection handling. Pass
+checks that the trucker adds no forehead transparency gaps, verifies exposed ears and
+eye clearance for the ninja bandana, and checks legacy cap/durag handling. Pass
 `--baseline-renderer PATH` to compare every unaffected trait against a prior
 release and generate before/after review sheets.
 

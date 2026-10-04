@@ -236,7 +236,7 @@ with sync_playwright() as p:
 
     page.locator('#reset').click()
     page.get_by_role('tab',name='Headwear',exact=True).click()
-    page.get_by_role('button',name='Red cap',exact=True).click()
+    page.get_by_role('button',name='Pump.fun trucker',exact=True).click()
     page.get_by_role('tab',name='Props',exact=True).click()
     page.get_by_role('button',name='Mic check',exact=True).click()
     page.wait_for_function("!document.querySelector('#toast').classList.contains('show')")
