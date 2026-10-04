@@ -30,9 +30,10 @@ layer ZIPs all use the same renderer.
   rounded ivory foam crown, forest-green mesh sides and a deeper projecting
   bill with curved stitch rows, fitted at `[152, 80, 720, 380]`. Its lowest bill
   edge stays at the previous forehead height while the crown gains volume.
-  `drawTrucker` rounds the lower mesh into the front bill with a tangent
-  source-space curve, hiding rear returns without cutting into the front
-  panel or stitching. The original head shows through the temple wedges,
+  `drawTrucker` keeps the outer mesh sides nearly straight from the rounded
+  shoulders to the front bill, removing lower side bulges and rear returns
+  without cutting into the front panel or stitching. The original head shows
+  through the temple wedges,
   preserving its fur texture and all palette variants; no fur or green filler
   patches are drawn. Previous v11 art and v12/v13 material studies stay in the
   repository for provenance but are no longer loaded or composited.
@@ -138,8 +139,10 @@ and transparent PNGs, current-layer reconstruction for all four revised hats,
 and all 24 hat/palette reconstructions from the downloaded full kit. It also
 checks that the trucker adds no forehead transparency gaps, verifies exposed ears and
 eye clearance for the ninja bandana, and checks legacy cap/durag handling. Trucker
-checks also protect the exposed fur temples, clear eyes, tall crown and arched
-bill; baseline comparison verifies the original head pixels stay unchanged. Pass
+checks also protect the exposed fur temples, clear eyes, tall crown, straight
+mesh sides and arched bill. Baseline comparison verifies the original head
+pixels stay unchanged and, when reusing the same hat artwork, protects every
+pixel outside the two mesh-side regions. Pass
 `--baseline-renderer PATH` to compare every unaffected trait against a prior
 release and generate before/after review sheets.
 

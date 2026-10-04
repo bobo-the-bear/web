@@ -214,8 +214,8 @@ class Renderer{
  }
  drawTrucker(ctx,im){
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;
-  // v14 has a taller foam crown and a deeper curved bill. Round the mesh ends
-  // into the bill with a tangent curve, exposing the actual fur at the temples.
+  // v14 has a taller foam crown and a deeper curved bill. Keep the mesh sides
+  // nearly straight below the shoulders, exposing the actual fur at the temples.
   // The source front panel, bill and stitching stay intact; no filler is drawn.
   ctx.save();ctx.translate(x,y);ctx.scale(w/1318,h/880);ctx.translate(-193,-22);
   ctx.beginPath();ctx.rect(193,22,1318,880);ctx.clip();
@@ -223,6 +223,16 @@ class Renderer{
   ctx.bezierCurveTo(1484,566,1496,638,1430,704);ctx.lineTo(1430,940);
   ctx.lineTo(274,940);ctx.lineTo(274,704);ctx.bezierCurveTo(208,638,220,566,242,500);
   ctx.lineTo(0,500);ctx.closePath();ctx.clip();ctx.drawImage(im,0,0);ctx.restore();
+  // Trim only the side lobes after rasterizing the approved hat. Altering its
+  // image clip changes sampling-rounding inside the ivory panel on Chromium.
+  ctx.save();ctx.translate(x,y);ctx.scale(w/1318,h/880);ctx.translate(-193,-22);
+  ctx.globalCompositeOperation='destination-out';ctx.fillStyle='#000';
+  ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  ctx.beginPath();ctx.moveTo(0,250);ctx.lineTo(364,250);
+  ctx.bezierCurveTo(337,280,325,302,321,335);ctx.lineTo(274,704);ctx.lineTo(0,704);ctx.closePath();
+  ctx.moveTo(1705,250);ctx.lineTo(1340,250);
+  ctx.bezierCurveTo(1367,280,1379,302,1383,335);ctx.lineTo(1430,704);ctx.lineTo(1705,704);ctx.closePath();
+  ctx.fill();ctx.restore();
   const lw=118,lh=lw*1253/1215;
   ctx.save();ctx.shadowColor='rgba(23,49,40,.22)';ctx.shadowBlur=.7;ctx.shadowOffsetY=.7;
   ctx.drawImage(logo,56,3,1215,1253,x+w/2-lw/2,y+h*.25,lw,lh);ctx.restore();
