@@ -26,16 +26,16 @@ layer ZIPs all use the same renderer.
   crown source also includes two rear prongs and inward returns; `drawCrown`
   hides those in source coordinates, retaining the three front points, jewels
   and lower band. Keep complete brims and ties within the frame.
-- The Pump.fun trucker replaces the red cap. Its v11 artwork has an ivory
-  front panel, forest-green mesh sides and a short curved brim, fitted at
-  `[152, 160, 720, 300]`. `drawTrucker` hides the rear-facing returns and lower
-  outer side extensions with a source-space clip. The mesh ends above the
-  bear's temples and the curved woven brim ends inward of them. The original
-  head layer shows through those wedges, preserving its fur texture and all
-  palette variants; no flat-color fur patches are drawn. The supplied v11 art
-  and the hat's height, width and position remain unchanged. Earlier v12/v13
-  material studies stay in the repository for provenance but are no longer
-  loaded or composited.
+- The Pump.fun trucker replaces the red cap. Its v14 artwork has a taller,
+  rounded ivory foam crown, forest-green mesh sides and a deeper projecting
+  bill with curved stitch rows, fitted at `[152, 80, 720, 380]`. Its lowest bill
+  edge stays at the previous forehead height while the crown gains volume.
+  `drawTrucker` rounds the lower mesh into the front bill with a tangent
+  source-space curve, hiding rear returns without cutting into the front
+  panel or stitching. The original head shows through the temple wedges,
+  preserving its fur texture and all palette variants; no fur or green filler
+  patches are drawn. Previous v11 art and v12/v13 material studies stay in the
+  repository for provenance but are no longer loaded or composited.
   The supplied Pump.fun logo is copied unchanged and
   scaled uniformly on the front. Legacy `cap` selections map to `trucker`;
   the picker, metadata and exported layer paths use the new name.
@@ -137,7 +137,9 @@ The headwear suite checks 192 hat/palette/eyewear combinations, actual opaque
 and transparent PNGs, current-layer reconstruction for all four revised hats,
 and all 24 hat/palette reconstructions from the downloaded full kit. It also
 checks that the trucker adds no forehead transparency gaps, verifies exposed ears and
-eye clearance for the ninja bandana, and checks legacy cap/durag handling. Pass
+eye clearance for the ninja bandana, and checks legacy cap/durag handling. Trucker
+checks also protect the exposed fur temples, clear eyes, tall crown and arched
+bill; baseline comparison verifies the original head pixels stay unchanged. Pass
 `--baseline-renderer PATH` to compare every unaffected trait against a prior
 release and generate before/after review sheets.
 

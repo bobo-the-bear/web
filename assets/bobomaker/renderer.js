@@ -22,7 +22,7 @@ const categories=[
 {id:'meme',name:'Meme',help:'Say it with your whole bear.',options:[]}];
 const placement={
  'tee-red':[0,0,1024,1024],hoodie:[0,0,1024,1024],puffer:[0,0,1024,1024],suit:[0,0,1024,1024],'tee-white':[0,0,1024,1024],bomber:[0,0,1024,1024],'red-puffer':[0,0,1024,1024],varsity:[0,0,1024,1024],jersey:[0,0,1024,1024],denim:[0,0,1024,1024],
- crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],'ninja-bandana':[158,345,850,175],beanie:[160,227,704,220],trucker:[152,160,720,300],
+ crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],'ninja-bandana':[158,345,850,175],beanie:[160,227,704,220],trucker:[152,80,720,380],
  shades:[120,470,800,143],glasses:[120,470,800,143],visor:[121,475,798,127],
  'pit-viper':[120,440,800,206],oakley:[120,471,800,155],rayban:[120,466,800,166],meta:[120,466,800,166],
  'gold-chain':[330,775,364,201],'silver-chain':[330,775,364,201],bandana:[318,775,388,216],pendant:[350,782,324,233],'diamond-chain':[316,775,392,218],
@@ -46,7 +46,7 @@ assetSources['beras-can']='assets/v8/beras-can.png';
 for(const id of ['cowboy','bucket'])assetSources[id]='assets/v9/'+id+'.png';
 assetSources['bucket-wordmark']='assets/v9/bobo-wordmark.png';
 assetSources['ninja-bandana']='assets/v10/ninja-bandana.png';
-assetSources.trucker='assets/v11/trucker.png';
+assetSources.trucker='assets/v14/trucker.png';
 assetSources['pump-fun-logo']='assets/v11/pump-fun-logo.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
@@ -214,18 +214,18 @@ class Renderer{
  }
  drawTrucker(ctx,im){
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;
-  // Hide the rear-facing returns and round the mesh into the front brim.
-  // Use source coordinates so the original fabric, seams and front bill stay intact.
-  ctx.save();const transform=ctx.getTransform();
-  ctx.translate(x,y);ctx.scale(w/1380,h/770);ctx.translate(-281,-6);
-  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(1942,0);ctx.lineTo(1942,480);ctx.lineTo(1631,480);
-  ctx.bezierCurveTo(1631,535,1609,568,1556,613);ctx.lineTo(1556,809);
-  ctx.lineTo(386,809);ctx.lineTo(386,613);ctx.bezierCurveTo(333,568,311,535,311,480);
-  ctx.lineTo(0,480);ctx.closePath();ctx.clip();ctx.setTransform(transform);
-  ctx.drawImage(im,281,6,1380,770,x,y,w,h);ctx.restore();
-  const lw=w*.161,lh=lw*1253/1215;
+  // v14 has a taller foam crown and a deeper curved bill. Round the mesh ends
+  // into the bill with a tangent curve, exposing the actual fur at the temples.
+  // The source front panel, bill and stitching stay intact; no filler is drawn.
+  ctx.save();ctx.translate(x,y);ctx.scale(w/1318,h/880);ctx.translate(-193,-22);
+  ctx.beginPath();ctx.rect(193,22,1318,880);ctx.clip();
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(1705,0);ctx.lineTo(1705,500);ctx.lineTo(1462,500);
+  ctx.bezierCurveTo(1484,566,1496,638,1430,704);ctx.lineTo(1430,940);
+  ctx.lineTo(274,940);ctx.lineTo(274,704);ctx.bezierCurveTo(208,638,220,566,242,500);
+  ctx.lineTo(0,500);ctx.closePath();ctx.clip();ctx.drawImage(im,0,0);ctx.restore();
+  const lw=118,lh=lw*1253/1215;
   ctx.save();ctx.shadowColor='rgba(23,49,40,.22)';ctx.shadowBlur=.7;ctx.shadowOffsetY=.7;
-  ctx.drawImage(logo,56,3,1215,1253,x+w/2-lw/2,y+h*.17,lw,lh);ctx.restore();
+  ctx.drawImage(logo,56,3,1215,1253,x+w/2-lw/2,y+h*.25,lw,lh);ctx.restore();
  }
  drawEyewear(ctx,im,id){
   const [x,y,w,h]=placement[id],fit=eyewearFits[id],bridge=im.width*fit.bridge;

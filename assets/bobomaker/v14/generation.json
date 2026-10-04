@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-04",
+  "tool": "image_gen.imagegen",
+  "file": "trucker.png",
+  "reference": "Existing v11 ivory/green trucker; requested taller structured shape guided by parent's inspection of the user's photo",
+  "transparent_background": true,
+  "sha256": "0de86498415d4b93619c053b95bd3cd14b85be70e3b6e6753511e44916ae04e6",
+  "size": [
+    1705,
+    923
+  ],
+  "prompt": "Redesign ONLY the isolated trucker hat from the reference into a much more structured, dimensional version, preserving its warm ivory front panel, dark forest-green mesh sides and green bill. Output only the complete hat on a transparent background, NO head, bear, ears, body or shadow backdrop. Straight-on front view, appropriate for Bobo's broad bear head. The current hat is too squat and flat. Give it a TALL ROUNDED FOAM FRONT CROWN with fuller upright volume and smoothly tapered curved shoulders flowing into mesh side panels. The crown should look sculptural and domed, about 45% taller relative to its width than this reference, but still broad. Make a substantial visibly PROJECTING CURVED BILL, not a flat stripe. The center front lip of the bill arches upward; both rounded outer ends bend down clearly. Curved concentric stitch rows describe this three-dimensional bill, visible upper cloth surface and subtly shaded lower rim. Soft directional studio lighting, tactile ivory fabric, dark green fine woven mesh and cloth, restrained realistic collectible 3D material. Hat silhouette overall width to height approximately 1.85:1 (taller than source); maximum width at the crown shoulders with the bill slightly narrower, softly rounded tips. Side mesh MUST terminate into the rear bill seam above the dangling front tips; no low rear return strips, no green side flaps protruding below brim. Convex smooth crown, natural seams, believable depth. Front ivory panel completely blank for a separate exact logo overlay; NO generated logo, NO text. Full accessory visible with generous transparent padding and clean antialiased edges. Preserve the palette while substantially improving crown and bill shape.",
+  "fit": {
+    "sourceCrop": [
+      193,
+      22,
+      1318,
+      880
+    ],
+    "placement": [
+      152,
+      80,
+      720,
+      380
+    ],
+    "notes": "Taller rounded foam crown and deeply curved projecting bill. Source-space tangent clip rounds lower mesh into brim; original fur is revealed at the temples. Logo uses unchanged v11/pump-fun-logo.png, uniformly scaled."
+  },
+  "preserved": "All previous artwork remains unchanged. User photo could not be materialized on Windows; the parent inspected its actual pixels."
+}
