@@ -28,7 +28,10 @@ layer ZIPs all use the same renderer.
   and lower band. Keep complete brims and ties within the frame.
 - The Pump.fun trucker replaces the red cap. Its v11 artwork has an ivory
   front panel, forest-green mesh sides and a short curved brim, fitted at
-  `[152, 140, 720, 300]`. The supplied Pump.fun logo is copied unchanged and
+  `[152, 160, 720, 300]`. `drawTrucker` hides the two rear-facing returns and
+  rounds the mesh sides into the front brim, using a source-space clip. The
+  lower placement overlaps the forehead at both temples without pale gaps.
+  The supplied Pump.fun logo is copied unchanged and
   scaled uniformly on the front. Legacy `cap` selections map to `trucker`;
   the picker, metadata and exported layer paths use the new name.
 - The red ninja bandana replaces the durag. Its narrow forehead band leaves

@@ -22,7 +22,7 @@ const categories=[
 {id:'meme',name:'Meme',help:'Say it with your whole bear.',options:[]}];
 const placement={
  'tee-red':[0,0,1024,1024],hoodie:[0,0,1024,1024],puffer:[0,0,1024,1024],suit:[0,0,1024,1024],'tee-white':[0,0,1024,1024],bomber:[0,0,1024,1024],'red-puffer':[0,0,1024,1024],varsity:[0,0,1024,1024],jersey:[0,0,1024,1024],denim:[0,0,1024,1024],
- crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],'ninja-bandana':[158,345,850,175],beanie:[160,227,704,220],trucker:[152,140,720,300],
+ crown:[161,199,702,255],cowboy:[18,102,988,360],bucket:[79,144,866,331],captain:[57,125,910,350],'ninja-bandana':[158,345,850,175],beanie:[160,227,704,220],trucker:[152,160,720,300],
  shades:[120,470,800,143],glasses:[120,470,800,143],visor:[121,475,798,127],
  'pit-viper':[120,440,800,206],oakley:[120,471,800,155],rayban:[120,466,800,166],meta:[120,466,800,166],
  'gold-chain':[330,775,364,201],'silver-chain':[330,775,364,201],bandana:[318,775,388,216],pendant:[350,782,324,233],'diamond-chain':[316,775,392,218],
@@ -213,8 +213,16 @@ class Renderer{
   ctx.lineTo(1945,750);ctx.lineTo(1730,750);ctx.lineTo(1680,425);ctx.lineTo(1650,405);ctx.closePath();ctx.clip();ctx.drawImage(im,0,0);ctx.restore();
  }
  drawTrucker(ctx,im){
-  ctx.drawImage(im,281,6,1380,770,...placement.trucker);
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;
+  // Hide the rear-facing returns and round the mesh into the front brim.
+  // Use source coordinates so the original fabric, seams and front bill stay intact.
+  ctx.save();const transform=ctx.getTransform();
+  ctx.translate(x,y);ctx.scale(w/1380,h/770);ctx.translate(-281,-6);
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(1942,0);ctx.lineTo(1942,480);ctx.lineTo(1631,480);
+  ctx.bezierCurveTo(1631,535,1609,568,1556,613);ctx.lineTo(1556,809);
+  ctx.lineTo(386,809);ctx.lineTo(386,613);ctx.bezierCurveTo(333,568,311,535,311,480);
+  ctx.lineTo(0,480);ctx.closePath();ctx.clip();ctx.setTransform(transform);
+  ctx.drawImage(im,281,6,1380,770,x,y,w,h);ctx.restore();
   const lw=w*.161,lh=lw*1253/1215;
   ctx.save();ctx.shadowColor='rgba(23,49,40,.22)';ctx.shadowBlur=.7;ctx.shadowOffsetY=.7;
   ctx.drawImage(logo,56,3,1215,1253,x+w/2-lw/2,y+h*.17,lw,lh);ctx.restore();

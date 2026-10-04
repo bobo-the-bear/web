@@ -41,6 +41,7 @@ with sync_playwright() as p:
     check('All artwork loads and the 70-trait catalog stays complete',page.evaluate("Object.values(renderer.images).every(i=>i.complete&&i.naturalWidth>0)&&document.querySelector('#asset-count').textContent==='70 TRAITS'"))
     check('Wordmark is the exact supplied PNG, unchanged',hashlib.sha256((repo/'assets/bobomaker/v9/bobo-wordmark.png').read_bytes()).hexdigest()=='34594934bf651df08ec22c1b8f5ad3eadbff264b3b56a8e683af858360db6e72')
     check('Pump.fun logo is the exact supplied PNG, unchanged',hashlib.sha256((repo/'assets/bobomaker/v11/pump-fun-logo.png').read_bytes()).hexdigest()=='e341c92bed286bd78dbe9828878002e3acd385747c5f9dc405dc737df07d3701')
+    check('Original trucker artwork remains unchanged',hashlib.sha256((repo/'assets/bobomaker/v11/trucker.png').read_bytes()).hexdigest()=='8bd528b48fb1f198967f1fb669bae2748de96ffc3438d6d029cd8e96d7bf6dcf')
     logo_colors=page.evaluate('''()=>{const c=reviewCanvas(),s={...defaults(),headwear:'bucket'};renderer.draw(c.getContext('2d'),s,'headwear');const expected=c.toDataURL();return [...palettes,{fur:'#00ff00',muzzle:'#ff00ff',ears:'#00ffff'}].every(colors=>{renderer.draw(c.getContext('2d'),{...s,colors},'headwear');return c.toDataURL()===expected})}''')
     check('Black fabric and wordmark colors are identical across all palettes and custom colors',logo_colors)
     if args.fit_baseline_renderer:
@@ -55,14 +56,15 @@ with sync_playwright() as p:
         raise SystemExit(0)
     if args.baseline_renderer:
         page.evaluate('''async source=>{const old=(new Function('window',source+';return window.BoboEngine;'))({}),images={...renderer.images};for(const[id,src]of Object.entries(old.assetSources)){if(src===BoboEngine.assetSources[id])continue;const im=new Image();im.src=src;await im.decode();images[id]=im}window.previousEngine=old;window.previousRenderer=new old.Renderer(images)}''',args.baseline_renderer.read_text(encoding='utf-8-sig'))
-        unchanged=page.evaluate('''()=>{const a=reviewCanvas(),b=reviewCanvas(),results=[];for(const colors of palettes)for(const cat of categories.filter(c=>c.id!=='meme'&&c.id!=='fur'))for(const[id]of cat.options){if(cat.id==='headwear'&&['trucker','ninja-bandana'].includes(id))continue;const s={...defaults(),colors:{...colors},fur:colors.id,[cat.id]:id};previousRenderer.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);results.push({fur:colors.id,category:cat.id,id,identical:a.toDataURL()===b.toDataURL()})}return results}''')
+        unchanged=page.evaluate('''()=>{const a=reviewCanvas(),b=reviewCanvas(),results=[];for(const colors of palettes)for(const cat of categories.filter(c=>c.id!=='meme'&&c.id!=='fur'))for(const[id]of cat.options){if(cat.id==='headwear'&&id==='trucker')continue;const s={...defaults(),colors:{...colors},fur:colors.id,[cat.id]:id};previousRenderer.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);results.push({fur:colors.id,category:cat.id,id,identical:a.toDataURL()===b.toDataURL()})}return results}''')
         check('All unaffected palettes, outfits, props, backdrops, eyewear, neckwear and approved crown are pixel-identical',all(x['identical'] for x in unchanged),{'combinations':len(unchanged),'failures':[x for x in unchanged if not x['identical']]})
+        previous_cap=page.evaluate("!!previousEngine.assetSources.cap")
         font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',26)
         for hat,name in zip(hats,names):
             before=decode(page.evaluate('(hat)=>reviewRender(hat==="trucker"&&previousEngine.assetSources.cap?"cap":hat,"classic","none",null,true)',hat));after=decode(page.evaluate('(hat)=>reviewRender(hat)',hat))
             sheet=Image.new('RGB',(1200,1140),'#f5f3ed');d=ImageDraw.Draw(sheet)
             for col,(im,label) in enumerate([(before,'Previous review'),(after,'Private revision')]):
-                d.text((col*600+24,18),('Red cap' if hat=='trucker' and col==0 else name)+' / '+label,font=font,fill='#26211e')
+                d.text((col*600+24,18),('Red cap' if hat=='trucker' and col==0 and previous_cap else name)+' / '+label,font=font,fill='#26211e')
                 sheet.paste(im.crop((0,60,1024,520)).resize((580,261)),(col*600+10,66))
                 sheet.paste(im.resize((560,560)),(col*600+20,355));sheet.paste(im.resize((144,144)),(col*600+28,957))
                 d.text((col*600+190,1002),'144px profile preview',font=font,fill='#57524e')
@@ -83,7 +85,7 @@ with sync_playwright() as p:
     check('Facial artwork is unchanged by ear occlusion',all(x['same'] for x in face),face)
     # Source fur has a few 249/255 alpha pixels. Compare to that original alpha
     # so a real gap from fitting is detected without changing approved fur art.
-    contact=page.evaluate('''()=>{const c=reviewCanvas(),cx=c.getContext('2d'),results=[];for(const colors of palettes){const s={...defaults(),headwear:'trucker',colors,transparent:true};const native=renderer.head(colors).getContext('2d').getImageData(0,0,1024,1024).data;renderer.draw(cx,s);const full=cx.getImageData(0,0,1024,1024).data;renderer.draw(cx,s,'headwear');const hat=cx.getImageData(0,0,1024,1024).data;let gaps=0;for(let x=220;x<=804;x++){let bottom=0;for(let y=250;y<450;y++)if(hat[(y*1024+x)*4+3]>250)bottom=y;for(let y=bottom+1;y<bottom+9;y++)if(full[(y*1024+x)*4+3]+1<native[(y*1024+x)*4+3])gaps++}results.push({fur:colors.id,gaps})}return results}''')
+    contact=page.evaluate('''()=>{const c=reviewCanvas(),cx=c.getContext('2d'),results=[];for(const colors of palettes){const s={...defaults(),headwear:'trucker',colors,transparent:true};const native=renderer.head(colors).getContext('2d').getImageData(0,0,1024,1024).data;renderer.draw(cx,s);const full=cx.getImageData(0,0,1024,1024).data;renderer.draw(cx,s,'headwear');const hat=cx.getImageData(0,0,1024,1024).data;let gaps=0;for(let x=220;x<=804;x++){let bottom=0;for(let y=250;y<465;y++)if(hat[(y*1024+x)*4+3]>250)bottom=y;for(let y=bottom+1;y<bottom+9;y++)if(full[(y*1024+x)*4+3]+1<native[(y*1024+x)*4+3])gaps++}results.push({fur:colors.id,gaps})}return results}''')
     check('Trucker adds no transparent gaps under the brim relative to the original forehead',all(x['gaps']==0 for x in contact),contact)
     bandana=page.evaluate('''()=>{const a=reviewCanvas(),b=reviewCanvas(),results=[];for(const colors of palettes){const s={...defaults(),colors};renderer.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),{...s,headwear:'ninja-bandana'});const equal=(x,y,w,h)=>{const da=a.getContext('2d').getImageData(x,y,w,h).data,db=b.getContext('2d').getImageData(x,y,w,h).data;return da.every((v,i)=>v===db[i])};results.push({fur:colors.id,headAndEars:equal(0,0,1024,325),eyes:equal(220,480,660,95)})}return results}''')
     check('Ninja bandana exposes the original head and ears and leaves both eyes clear',all(x['headAndEars'] and x['eyes'] for x in bandana),bandana)
