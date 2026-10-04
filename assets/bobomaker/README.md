@@ -26,15 +26,19 @@ layer ZIPs all use the same renderer.
   crown source also includes two rear prongs and inward returns; `drawCrown`
   hides those in source coordinates, retaining the three front points, jewels
   and lower band. Keep complete brims and ties within the frame.
-- The red cap uses its original v6 art at `[132, 140, 760, 260]`: a lower crown
-  and smaller brim, seated over both ears. Durag fitting pins the center seam
-  and narrows the left fabric panel independently of the unchanged right tie.
-- Cap, durag and cowboy tuck the ears inside the hat. `head(colors, headwear)`
+- The red cap uses its original v6 art at `[132, 158, 760, 260]`: the reviewed
+  size, lowered 18 pixels so the brim overlaps the forehead without a gap.
+- The red ninja bandana replaces the durag. Its narrow forehead band leaves
+  the top of the head and both ears exposed, with a knot/tails at viewer-right.
+  The old sources stay in the repository for rollback. Legacy `durag` renderer
+  selections map to `ninja-bandana`; catalog, metadata and kit paths use the new
+  name. This is separate from the existing red neck `bandana`.
+- Cap and cowboy tuck the ears inside the hat. `head(colors, headwear)`
   removes only those source ears; it never changes the face or other headwear.
   Current-layer exports use the same fitted head. Full kits include six extra
   `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
   the manifest identify which head PNG each hat requires. Do not composite a
-  standard head under these three hats or the ears will protrude again.
+  standard head under these two hats or the ears will protrude again.
 - v9 cowboy has a traditional dipped crown and the silver concho band. v9
   bucket is black with graphite stitching, preserving the approved placement.
   `v9/bobo-wordmark.png` is the exact user-supplied logo, copied unchanged.
@@ -116,7 +120,9 @@ long full-kit download when it is unrelated to a change.
 
 The headwear suite checks 192 hat/palette/eyewear combinations, actual opaque
 and transparent PNGs, current-layer reconstruction for all four revised hats,
-and all 24 hat/palette reconstructions from the downloaded full kit. Pass
+and all 24 hat/palette reconstructions from the downloaded full kit. It also
+measures opaque forehead contact below the cap, verifies exposed ears and eye
+clearance for the ninja bandana, and checks legacy durag selection handling. Pass
 `--baseline-renderer PATH` to compare every unaffected trait against a prior
 release and generate before/after review sheets.
 

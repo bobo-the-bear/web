@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-04",
+  "tool": "image_gen.imagegen",
+  "file": "ninja-bandana.png",
+  "reference": "../v6-refit/durag.png",
+  "transparent_background": true,
+  "sha256": "765d605cfec715dc95c66c0a307cbf02f30370e665d1d1354889f20de4f77161",
+  "prompt": "Transform the attached isolated durag accessory into a RED NINJA HEADBAND / BANDANA for a stylized 3D bear. REMOVE THE ENTIRE UPPER CROWN: no dome, no cap, no ear-shaped bulges, no material covering the top of the head. Keep ONLY a narrow wrapped fabric band with a small tied knot on the viewer-right and two short tapered flowing fabric tails extending to the right and downward. The main band has a gently curved top and bottom edge to wrap snugly across a broad forehead, shallow red fabric folds, subtle low-poly planes and fine fabric texture matching the original collectible art. Rich Bobo red / crimson cloth, soft matte satin highlights, darker red shading, no black fabric, no metal, no printed logo or text, no paisley. Front-facing accessory only, no bear, no head, no eyes, no eye mask. At full width, the main band should be roughly 7 times as wide as its height, and the knot/tails add about one fifth of the total width on the right. Keep the complete band and both tails inside frame. All space above and below the red band must be fully TRANSPARENT. PNG with transparent background.",
+  "notes": "Replaces the former durag with a forehead-only band. Prior source remains untouched for rollback. Renderer crops transparent padding and fits the band independently of Bobo's unchanged exposed head and ears."
+}
