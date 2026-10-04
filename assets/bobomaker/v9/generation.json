@@ -16,5 +16,16 @@
       "prompt": "Recolor this exact isolated olive-green bucket hat to BLACK. Preserve its exact front-facing low wide silhouette, curved brim, shape, fabric weave, diagonal texture and seam placements. Charcoal-black fabric with natural subtle black/gray highlights; stitches should be dark graphite gray instead of the current olive-gold. Do not change the shape or design. No logo and no text for now; keep the broad front center panel blank for a real brand mark that will be added separately. Whole hat visible, transparent background, accessory only. Preserve every brim edge, no crop, no head."
     }
   ],
-  "notes": "Original v6-refit sources remain unchanged. Artwork fits and ear occlusion are defined in the shared renderer so previews and exports agree."
+  "branding": {
+    "date": "2026-10-04",
+    "file": "bobo-wordmark.png",
+    "source_filename": "bobologositeabouyt.png",
+    "source": "User-supplied local PNG, copied byte-for-byte; not generated",
+    "size": [1500, 500],
+    "sha256": "34594934bf651df08ec22c1b8f5ad3eadbff264b3b56a8e683af858360db6e72",
+    "alpha_bounds": [144, 30, 1357, 450],
+    "fit": "Front-center at x=382, y=251; width 260; original aspect ratio retained",
+    "finish": "Subtle diagonal thread shading clipped to original alpha; small contact shadow"
+  },
+  "notes": "Original v6-refit sources remain unchanged. Artwork fits, logo compositing and ear occlusion are defined in the shared renderer so previews and exports agree."
 }

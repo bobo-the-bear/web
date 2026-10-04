@@ -37,6 +37,10 @@ layer ZIPs all use the same renderer.
   standard head under these three hats or the ears will protrude again.
 - v9 cowboy has a traditional dipped crown and the silver concho band. v9
   bucket is black with graphite stitching, preserving the approved placement.
+  `v9/bobo-wordmark.png` is the exact user-supplied logo, copied unchanged.
+  `drawBucket` crops only its transparent padding and scales it uniformly onto
+  the front center panel. Thread shading is clipped to the original alpha;
+  the white lettering and fine red edge never receive fur-palette tinting.
 - A held item includes its approved rounded bear grip. Preserve the object,
   normalize only the paw to the selected fur, and join its wrist to the arm.
   `fitWrist` detects an exposed source edge, continues only its narrow wrist

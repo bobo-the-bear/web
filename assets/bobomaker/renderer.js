@@ -43,6 +43,7 @@ for(const id of ['cowboy','bucket','durag','crown'])assetSources[id]='assets/v6-
 for(const id of [...newProps,'red-puffer','jersey'])assetSources[id]='assets/v7/'+id+'.png';
 assetSources['beras-can']='assets/v8/beras-can.png';
 for(const id of ['cowboy','bucket'])assetSources[id]='assets/v9/'+id+'.png';
+assetSources['bucket-wordmark']='assets/v9/bobo-wordmark.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
 const defaults=()=>({background:'sage',fur:'classic',outfit:'tee-red',headwear:'none',eyewear:'none',neck:'none',prop:'none',colors:{...palettes[0]},transparent:false,top:'',bottom:'',caps:true,textSize:64,font:'impact'});
@@ -160,6 +161,20 @@ class Renderer{
   }
  }
 
+ drawBucket(ctx,im){
+  ctx.drawImage(im,...placement.bucket);
+  // Keep the user's exact white wordmark, including its fine red edge. Crop
+  // transparent padding only and scale uniformly; never regenerate lettering.
+  const logo=this.images['bucket-wordmark'],sw=1213,sh=420,w=260,h=w*sh/sw;
+  const mark=this.create(w,Math.ceil(h)),mc=mark.getContext('2d');
+  mc.drawImage(logo,144,30,sw,sh,0,0,w,h);
+  // Fine thread shading stays inside the existing mark's alpha silhouette.
+  mc.globalCompositeOperation='source-atop';mc.strokeStyle='rgba(30,27,25,.085)';
+  mc.lineWidth=.65;
+  for(let x=-h;x<w;x+=2.5){mc.beginPath();mc.moveTo(x,0);mc.lineTo(x+h,h);mc.stroke()}
+  ctx.save();ctx.shadowColor='rgba(0,0,0,.6)';ctx.shadowBlur=1.2;
+  ctx.shadowOffsetY=1.1;ctx.drawImage(mark,anchors.headCenter-w/2,251);ctx.restore();
+ }
  drawDurag(ctx,im){
   // Fit the fabric independently of the tie. The old left band overhung the
   // head; pin its seam to the head center, keeping the right knot/tails intact.
@@ -312,6 +327,7 @@ class Renderer{
    else if(id==='championship')this.drawChampionship(cx,im);
    else if(id==='crown')this.drawCrown(cx,im);
    else if(id==='durag')this.drawDurag(cx,im);
+   else if(id==='bucket')this.drawBucket(cx,im);
    else cx.drawImage(im,...placement[id]);
    // Headwear sits in front of the ears. Subtracting the ear silhouettes from
    // the hat itself punches holes through crown points and knitted hat edges.

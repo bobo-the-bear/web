@@ -3,7 +3,7 @@
 Run with the same Pillow/Playwright dependencies as verify.py. The optional
 baseline renderer compares every unaffected trait against an earlier release.
 """
-import argparse,base64,functools,io,json,threading,zipfile
+import argparse,base64,functools,hashlib,io,json,threading,zipfile
 from pathlib import Path
 from http.server import SimpleHTTPRequestHandler,ThreadingHTTPServer
 from PIL import Image,ImageDraw,ImageChops,ImageFont
@@ -12,7 +12,9 @@ from playwright.sync_api import sync_playwright
 parser=argparse.ArgumentParser()
 parser.add_argument('--output',type=Path,default=Path('headwear-review'))
 parser.add_argument('--baseline-renderer',type=Path)
+parser.add_argument('--fit-baseline-renderer',type=Path,help='Pre-branding renderer to protect the reviewed hat fits')
 parser.add_argument('--skip-kit',action='store_true')
+parser.add_argument('--branding-only',action='store_true',help='Run only source, color and reviewed-fit branding checks')
 args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
 repo=Path(__file__).resolve().parents[3];checks=[]
 hats=['cap','durag','cowboy','bucket'];names=['Red cap','Black durag','Black cowboy','Black Bobo bucket']
@@ -37,6 +39,19 @@ with sync_playwright() as p:
     page.wait_for_function('ready',timeout=60000)
     page.evaluate('''()=>{window.reviewCanvas=()=>{const c=document.createElement('canvas');c.width=c.height=1024;return c};window.reviewRender=(hat,fur='classic',eye='none',only=null,old=false)=>{const c=reviewCanvas(),s={...defaults(),headwear:hat,fur,eyewear:eye,colors:{...palettes.find(p=>p.id===fur)}};(old?previousRenderer:renderer).draw(c.getContext('2d'),s,only);return c.toDataURL()}}''')
     check('All artwork loads and the 70-trait catalog stays complete',page.evaluate("Object.values(renderer.images).every(i=>i.complete&&i.naturalWidth>0)&&document.querySelector('#asset-count').textContent==='70 TRAITS'"))
+    check('Wordmark is the exact supplied PNG, unchanged',hashlib.sha256((repo/'assets/bobomaker/v9/bobo-wordmark.png').read_bytes()).hexdigest()=='34594934bf651df08ec22c1b8f5ad3eadbff264b3b56a8e683af858360db6e72')
+    logo_colors=page.evaluate('''()=>{const c=reviewCanvas(),s={...defaults(),headwear:'bucket'};renderer.draw(c.getContext('2d'),s,'headwear');const expected=c.toDataURL();return [...palettes,{fur:'#00ff00',muzzle:'#ff00ff',ears:'#00ffff'}].every(colors=>{renderer.draw(c.getContext('2d'),{...s,colors},'headwear');return c.toDataURL()===expected})}''')
+    check('Black fabric and wordmark colors are identical across all palettes and custom colors',logo_colors)
+    if args.fit_baseline_renderer:
+        fit=page.evaluate('''source=>{const old=(new Function('window',source+';return window.BoboEngine;'))({}),previous=new old.Renderer(renderer.images),a=reviewCanvas(),b=reviewCanvas(),results=[];
+          for(const colors of palettes)for(const[id]of categories.find(c=>c.id==='headwear').options){const s={...defaults(),headwear:id,colors,fur:colors.id};previous.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);const ca=a.getContext('2d'),cb=b.getContext('2d');
+            if(id==='bucket'){ca.clearRect(375,245,275,105);cb.clearRect(375,245,275,105)}results.push({hat:id,fur:colors.id,identical:a.toDataURL()===b.toDataURL()})}
+          return results}''',args.fit_baseline_renderer.read_text(encoding='utf-8-sig'))
+        check('Reviewed hat fits are pixel-identical; bucket changes stay within the front branding panel',all(x['identical'] for x in fit),{'combinations':len(fit),'failures':[x for x in fit if not x['identical']]})
+    if args.branding_only:
+        browser.close();server.shutdown()
+        print('Completed',len(checks),'branding checks.',flush=True)
+        raise SystemExit(0)
     if args.baseline_renderer:
         page.evaluate('''async source=>{const old=(new Function('window',source+';return window.BoboEngine;'))({}),images={...renderer.images};for(const id of ['cowboy','bucket']){const im=new Image();im.src=old.assetSources[id];await im.decode();images[id]=im}window.previousRenderer=new old.Renderer(images)}''',args.baseline_renderer.read_text(encoding='utf-8-sig'))
         unchanged=page.evaluate('''()=>{const a=reviewCanvas(),b=reviewCanvas(),results=[];for(const colors of palettes)for(const cat of categories.filter(c=>c.id!=='meme'&&c.id!=='fur'))for(const[id]of cat.options){if(cat.id==='headwear'&&['cap','durag','cowboy','bucket'].includes(id))continue;const s={...defaults(),colors:{...colors},fur:colors.id,[cat.id]:id};previousRenderer.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);results.push({fur:colors.id,category:cat.id,id,identical:a.toDataURL()===b.toDataURL()})}return results}''')
