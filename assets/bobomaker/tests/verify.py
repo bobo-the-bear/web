@@ -165,7 +165,7 @@ with sync_playwright() as p:
         await new Promise(resolve=>setTimeout(resolve,0));
       }return results;
     }''')
-    check('All 66 outfit/palette combinations recompose exactly from layers', all(x['diff']==0 for x in comparisons), comparisons)
+    check(f'All {len(comparisons)} outfit/palette combinations recompose exactly from layers', all(x['diff']==0 for x in comparisons), comparisons)
 
     # Actual downloadable PNGs, metadata and ZIP contents (not just toDataURL).
     page.evaluate("state={...defaults(),headwear:'crown',prop:'championship',outfit:'suit'};render();renderPanel()")

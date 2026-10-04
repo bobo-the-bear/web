@@ -14,11 +14,11 @@ const imageBackgrounds=Object.fromEntries([
 const categories=[
 {id:'background',name:'Backdrop',help:'Choose a color or a scene.',options:[['sage','Council green','#ccd9b3'],['white','Studio white','#ffffff'],['pink','Rose','#e9c1c1'],['blue','Blue hour','#9eb6d3'],['yellow','Honey yellow','#ecc968'],['red','Bobo red','#b90b2a'],['ink','After hours','#242321'],['lavender','Lilac','#c4b6d4'],['check','Checkerboard','#dedcd7'],...Object.entries(imageBackgrounds)]},
 {id:'fur',name:'Fur',help:'The same bear, a different coat.',options:palettes.map(x=>[x.id,x.name])},
-{id:'outfit',name:'Outfit',help:'Dress for the market you deserve.',options:[['tee-red','Bobo red tee'],['hoodie','Black hoodie'],['puffer','Blue puffer'],['suit','Council suit'],['tee-white','White tee'],['bomber','Black bomber'],['red-puffer','Red puffer'],['varsity','Council varsity'],['jersey','Courtside jersey'],['denim','Denim jacket'],['none','Bare bear']]},
-{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['trucker','Pump.fun trucker'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['ninja-bandana','Red ninja bandana']]},
-{id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming']]},
-{id:'neck',name:'Neck',help:'The finishing touch.',options:[['none','None'],['gold-chain','Gold Cuban'],['silver-chain','Silver Cuban'],['bandana','Red bandana'],['pendant','Honey pendant'],['diamond-chain','Diamond Cuban']]},
-{id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice']]},
+{id:'outfit',name:'Outfit',help:'Dress for the market you deserve.',options:[['tee-red','Bobo red tee'],['hoodie','Black hoodie'],['puffer','Blue puffer'],['suit','Council suit'],['tee-white','White tee'],['bomber','Black bomber'],['red-puffer','Red puffer'],['varsity','Council varsity'],['jersey','Courtside jersey'],['denim','Denim jacket'],['none','Bare bear'],["rugby", "Rugby club"],["rider", "Night rider"],["cardigan", "Council cardigan"]]},
+{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['trucker','Pump.fun trucker'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['ninja-bandana','Red ninja bandana'],["beret", "Burgundy beret"],["builder", "Builder helmet"],["headphones", "Studio headphones"]]},
+{id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming'],["rounds", "Honey rounds"],["pixel", "Pixel shades"],["hearts", "Heart eyes"]]},
+{id:'neck',name:'Neck',help:'The finishing touch.',options:[['none','None'],['gold-chain','Gold Cuban'],['silver-chain','Silver Cuban'],['bandana','Red bandana'],['pendant','Honey pendant'],['diamond-chain','Diamond Cuban'],["pearls", "Council pearls"],["tie", "Closing bell tie"],["scarf", "Checkmate scarf"]]},
+{id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice'],["diamond", "Diamond hands"],["plunger", "Rug-pull plunger"],["honey-pop", "Honey pop"]]},
 {id:'meme',name:'Meme',help:'Say it with your whole bear.',options:[]}];
 const placement={
  'tee-red':[0,0,1024,1024],hoodie:[0,0,1024,1024],puffer:[0,0,1024,1024],suit:[0,0,1024,1024],'tee-white':[0,0,1024,1024],bomber:[0,0,1024,1024],'red-puffer':[0,0,1024,1024],varsity:[0,0,1024,1024],jersey:[0,0,1024,1024],denim:[0,0,1024,1024],
@@ -28,9 +28,13 @@ const placement={
  'gold-chain':[330,775,364,201],'silver-chain':[330,775,364,201],bandana:[318,775,388,216],pendant:[350,782,324,233],'diamond-chain':[316,775,392,218],
  honey:[699,828,244,244],cash:[665,830,300,222],coffee:[705,785,244,268],phone:[710,775,234,279],microphone:[690,738,282,312],rose:[731,718,206,338],flipoff:[730,763,227,291],championship:[670,720,330,400]
 };
-const newProps=['beras-can','champagne','eviction'];
+const newProps=['beras-can','champagne','eviction','diamond','plunger','honey-pop'];
+const expansionOutfits={rugby:720,rider:840,cardigan:680};
+// Trim transparent padding in memory; retain every generated source unchanged.
+const expansionCrops={"beret": [213, 49, 1747, 627], "builder": [83, 51, 1734, 714], "headphones": [42, 218, 1856, 461], "rounds": [85, 105, 1733, 594], "pixel": [68, 153, 1870, 485], "hearts": [60, 154, 1783, 541], "pearls": [133, 120, 1266, 822], "tie": [208, 145, 632, 1301], "scarf": [167, 107, 988, 1057]};
+Object.assign(placement,{rugby:[0,0,1024,1024],rider:[0,0,1024,1024],cardigan:[0,0,1024,1024],beret:[130,215,765,240],builder:[145,120,735,335],headphones:[122,190,780,194],rounds:[143,442,760,218],pixel:[136,467,778,158],hearts:[143,450,760,210],pearls:[315,761,398,242],tie:[409,759,220,265],scarf:[314,740,396,284]});
 // Ears tuck inside these fitted hats. Other headwear keeps the original ears.
-const tuckedEarHeadwear=['trucker','cowboy'];
+const tuckedEarHeadwear=['trucker','cowboy','builder','beret'];
 const normalizeHeadwear=id=>id==='durag'?'ninja-bandana':id==='cap'?'trucker':id;
 for(const id of newProps)placement[id]=[728,800,234,261];
 const assetSources={base:'assets/v2/base.png',panda:'assets/v2/panda.png',headmask:'assets/v2/head-mask.png',baseRegions:'assets/v3/base-regions.png',pandaRegions:'assets/v3/panda-regions.png',polarRegions:'assets/v5/polar-regions.png'};
@@ -48,6 +52,7 @@ assetSources['bucket-wordmark']='assets/v9/bobo-wordmark.png';
 assetSources['ninja-bandana']='assets/v10/ninja-bandana.png';
 assetSources.trucker='assets/v14/trucker.png';
 assetSources['pump-fun-logo']='assets/v11/pump-fun-logo.png';
+for(const id of ["rugby", "rider", "cardigan", "beret", "builder", "headphones", "rounds", "pixel", "hearts", "pearls", "tie", "scarf", "diamond", "plunger", "honey-pop"])assetSources[id]='assets/v15/'+id+'.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
 const defaults=()=>({background:'sage',fur:'classic',outfit:'tee-red',headwear:'none',eyewear:'none',neck:'none',prop:'none',colors:{...palettes[0]},transparent:false,top:'',bottom:'',caps:true,textSize:64,font:'impact'});
@@ -59,6 +64,7 @@ const propPaws={honey:[[1050,627],[1065,723],[929,732],[907,740],[900,768],[878,
 propPaws.cash=[[851,400],[746,416],[692,442],[665,472],[658,521],[677,542],[637,558],[612,603],[610,664],[632,705],[605,737],[596,781],[601,824],[616,865],[614,904],[646,962],[713,996],[836,1020],[971,1060],[1090,1144],[1222,1144],[1222,524],[1091,489],[990,441]];
 propPaws.championship=[[567, 867], [547, 884], [459, 918], [432, 937], [391, 960], [373, 981], [373, 1020], [406, 1047], [376, 1072], [352, 1109], [354, 1147], [393, 1182], [360, 1197], [339, 1226], [350, 1273], [379, 1304], [373, 1324], [399, 1357], [440, 1380], [477, 1392], [871, 1528], [871, 1172], [732, 1102], [683, 1012], [645, 937], [607, 898]];
 const eyewearFits={shades:{bridge:.5,drop:12},glasses:{bridge:.5,drop:10},visor:{bridge:.502,drop:16},'pit-viper':{bridge:.5,drop:14},oakley:{bridge:.5,drop:10},rayban:{bridge:.5,drop:10},meta:{bridge:.5,drop:10}};
+Object.assign(eyewearFits,{rounds:{bridge:.5,drop:10},pixel:{bridge:.5,drop:8},hearts:{bridge:.5,drop:10}});
 const noseCenterX=546;
 // All traits use this 1024px character frame. A held item's wrist joins the
 // existing arm silhouette below the grip, never the rectangular source edge.
@@ -66,7 +72,7 @@ const anchors={headCenter:512,noseCenter:noseCenterX,hatBand:458,wristJoin:925,a
 const ids=category=>categories.find(c=>c.id===category).options.map(x=>x[0]).filter(id=>id!=='none');
 const outfits=ids('outfit'),props=ids('prop'),neckwear=ids('neck');
 class Renderer{
- constructor(images,createCanvas){this.images=images;this.create=createCanvas||((w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c});this.cache=new Map();this.raw={};for(const key of ['base','panda',...outfits,...props]){const im=images[key];if(!im)continue;const c=this.create(props.includes(key)?im.width:1024,props.includes(key)?im.height:1024);const cy=key==='red-puffer'?230:0,ch=key==='red-puffer'?794:c.height;c.getContext('2d').drawImage(im,0,cy,c.width,ch);this.raw[key]=c}this.headMask=this.create(1024,1024);this.headMask.getContext('2d').drawImage(images.headmask,0,0,1024,1024);this.cleanHeadMask();this.colorMasks=this.makeColorMasks()}
+ constructor(images,createCanvas){this.images=images;this.create=createCanvas||((w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c});this.cache=new Map();this.raw={};for(const key of ['base','panda',...outfits,...props]){const im=images[key];if(!im)continue;const c=this.create(props.includes(key)?im.width:1024,props.includes(key)?im.height:1024);const cy=key==='red-puffer'?230:0,ch=key==='red-puffer'?794:c.height;if(key in expansionOutfits){const top=expansionOutfits[key];c.getContext('2d').drawImage(im,0,top,im.width,im.height-top,0,735,1024,289)}else c.getContext('2d').drawImage(im,0,cy,c.width,ch);this.raw[key]=c}this.headMask=this.create(1024,1024);this.headMask.getContext('2d').drawImage(images.headmask,0,0,1024,1024);this.cleanHeadMask();this.colorMasks=this.makeColorMasks()}
  remember(key,c){if(this.cache.size>=24)this.cache.delete(this.cache.keys().next().value);this.cache.set(key,c);return c}
  // Keep the shared head cutout on the jaw, not the neck/shoulder pixels.
  // Preview, thumbnails and both layer exports all use this same clean mask.
@@ -116,6 +122,9 @@ class Renderer{
     // These revised garments contain warm fabric shadows near the fur hue.
     // The full-sleeve puffer exposes only its small neckline; jersey gold is
     // a material color, including its darker shaded pixels.
+    // These three garments have full sleeves and no exposed source fur. Keep
+    // leather, horn buttons and warm knit shadows invariant across palettes.
+    if(bodyOnly in expansionOutfits)continue;
     if(bodyOnly==='red-puffer'&&!inside(x,y,[[450,780],[590,780],[532,836]]))continue;
     if(bodyOnly==='jersey'&&g>r*.62&&b<g*.65)continue;
     if(bodyOnly&&x>320&&x<710&&(y>840||bodyOnly==='suit'))continue;
@@ -359,7 +368,7 @@ class Renderer{
   return this.bounds[id]=[x0,y0,x1-x0+1,y1-y0+1];
  }
  drawNewProp(ctx,id,s){
-  const frames={'beras-can':[700,768,166,282],champagne:[686,714,276,342],eviction:[656,781,227,301]};
+  const frames={'beras-can':[700,768,166,282],champagne:[686,714,276,342],eviction:[656,781,227,301],diamond:[732,762,204,226],plunger:[756,696,168,340],'honey-pop':[742,732,184,322]};
   const [x,y,w,h]=frames[id],bounds=this.objectBounds(id),scale=Math.min(w/bounds[2],h/bounds[3]);
   const dw=bounds[2]*scale,dh=bounds[3]*scale;
   ctx.save();if(id==='eviction'){ctx.translate(x+w/2,y+h/2);ctx.rotate(-.12);ctx.translate(-x-w/2,-y-h/2)}
@@ -374,6 +383,7 @@ class Renderer{
   const key='asset/'+id+'/'+JSON.stringify(s?.colors||{});let c=this.cache.get(key);
   if(!c){
    c=this.create(1024,1024);const cx=c.getContext('2d');let im=this.images[id];
+   if(id in expansionCrops){const [x,y,w,h]=expansionCrops[id],trim=this.create(w,h);trim.getContext('2d').drawImage(im,x,y,w,h,0,0,w,h);im=trim}
    if(props.includes(id)&&!newProps.includes(id))im=this.recolor(this.raw[id],s.colors,false,false,id);
    if(newProps.includes(id))this.drawNewProp(cx,id,s);
    else if(id in eyewearFits)this.drawEyewear(cx,im,id);

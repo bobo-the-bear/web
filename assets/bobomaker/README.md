@@ -49,12 +49,12 @@ layer ZIPs all use the same renderer.
   tapering both ends upward/inward to the temples. The original knot/tails are
   separately seated at the right seam. Preserve this shaping when adjusting
   height; translating a rectangular strip leaves protruding side corners.
-- Trucker and cowboy tuck the ears inside the hat. `head(colors, headwear)`
+- Trucker, cowboy, builder and beret tuck the ears inside the hat. `head(colors, headwear)`
   removes only those source ears; it never changes the face or other headwear.
   Current-layer exports use the same fitted head. Full kits include six extra
   `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
   the manifest identify which head PNG each hat requires. Do not composite a
-  standard head under these two hats or the ears will protrude again.
+  standard head under these four hats or the ears will protrude again.
 - v9 cowboy has a traditional dipped crown and the silver concho band. v9
   bucket is black with graphite stitching, preserving the approved placement.
   `v9/bobo-wordmark.png` is the exact user-supplied logo, copied unchanged.
@@ -153,3 +153,53 @@ against short sleeves, long sleeves and bare arms before adding more traits.
 
 Keep changes scoped to this maker. The main site navigation and `index.html` are
 unrelated. Review the local result before authorizing a production release.
+
+
+## v6.11 expansion
+
+The v15 sources add exactly three choices in each clothing/accessory category:
+
+| Category | New choices |
+| --- | --- |
+| Outfit | Rugby club, Night rider, Council cardigan |
+| Headwear | Burgundy beret, Builder helmet, Studio headphones |
+| Eyewear | Honey rounds, Pixel shades, Heart eyes |
+| Neck | Council pearls, Closing bell tie, Checkmate scarf |
+| Props | Diamond hands, Rug-pull plunger, Honey pop |
+
+The catalog has 85 non-None traits, including 24 backdrops and six fur palettes.
+Outfit/headwear/eyewear/neck/prop option counts are 14/11/11/9/15 including
+Bare bear or None. The full kit contains 232 named PNG layers plus its preview,
+manifest and README (235 ZIP entries). Metadata and kit version is 6.11.0.
+
+- `expansionOutfits` crops the three source torsos to the shared shoulder line.
+  They have complete sleeves and no exposed source fur; all fabric, leather,
+  horn buttons and undershirts stay invariant when the fur palette changes.
+- `expansionCrops` removes transparent padding in memory. Source PNGs stay
+  intact; generation prompts, dimensions and hashes are in `v15/generation.json`.
+- The beret and builder use the existing tucked head variant. The headphones
+  use the standard head: compact cups cover the high ears directly, while the
+  shallow padded band rests on the crown. Do not apply the hat's rectangular
+  ear clearance to headphones; it would expose holes in the forehead.
+- All three new glasses pin their bridge to the existing nose anchor. Neck
+  layers use the shared chin mask. The new props use the original coffee paw,
+  with each object's lower tip/handle seated behind the grip. Only the paw is
+  tinted; the glass, wood, rubber and honey retain their generated colors.
+
+Expansion regression and review images (local headless Chromium):
+
+```sh
+python assets/bobomaker/tests/verify_expansion.py --output expansion-review --baseline-renderer previous-renderer.js
+python assets/bobomaker/tests/verify.py --output regression-review --skip-kit
+```
+
+The baseline argument should be `renderer.js` from published commit
+`22ab442f6d80d5691e1e8e206417dcd5c72576ce`. The expansion suite compares every
+previous trait in all six palettes, covers new combinations and actual PNG,
+metadata/current-layer/full-kit downloads, and saves labeled review sheets.
+
+The layer export canvas temporarily joins the document with `hidden=true`.
+This inherits the preview's `font-synthesis:none`; detached canvases otherwise
+synthesize a heavier Impact weight for meme captions. The canvas is removed
+on both success and failure. Current-layer and full-kit preview PNGs therefore
+match the on-screen caption weight as well as the selected artwork.
