@@ -32,6 +32,10 @@ layer ZIPs all use the same renderer.
   extends the brim's own fabric into continuous curved side panels behind the
   front bill. Source-space clips join the mesh and brim without pinched notches
   or curled flaps. The lower placement overlaps the forehead at both temples.
+  The v12 material repair continues the mesh and woven cloth through those side
+  panels. `drawTrucker` blends only the two edited corners into the v11 artwork,
+  retaining every original alpha value and the central front/logo pixels. The
+  generated source's unused background and front panel never replace the hat.
   The supplied Pump.fun logo is copied unchanged and
   scaled uniformly on the front. Legacy `cap` selections map to `trucker`;
   the picker, metadata and exported layer paths use the new name.

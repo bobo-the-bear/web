@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-04",
+  "tool": "image_gen.imagegen",
+  "file": "trucker-material.png",
+  "sha256": "1c7736c4a70706d82de35621affbb76883c57cc913188eb7ba601ed1de83c99c",
+  "reference": "1536 x 1024 isolated render of the approved 18f3af9 trucker shape; logo omitted from reference and retained exactly by the renderer",
+  "prompt": "Edit this exact hat in place. The two outer lower corners currently have conspicuously smooth, blurry green filler. REPLACE THE UPPER TWO-THIRDS OF THOSE SIDE FILLERS WITH CONTINUOUS OPEN MESH, matching the existing mesh immediately above: same small holes, spacing, thread scale, perspective and dark green color. On the far left, extend the mesh holes down through the smooth patch at x=78..155, y=610..735. On the far right, do the corresponding extension at x=1380..1458, y=610..735. The mesh should now wrap much farther down both rounded temple edges, behind the front bill. Carry the neighboring mesh grid naturally into these additions; it must not stop at its old diagonal edge. The lowest thin part of each corner is woven bill fabric: repair its blurry stretched grain into sharp woven cloth, continue the curved parallel stitching around the corners, and blend it into the unchanged front brim. Keep the rounded fuller outer silhouette and exact current height/width/framing. Keep the entire ivory front, button and central brim unchanged. Same 1536x1024 frame, same position, NO zoom, NO recentering, NO new shapes or flaps. Do not just add vertical stitch lines to the old smooth patches: the key change is CLEAR MESH HOLES continuing down both side-fill patches. Fine realistic sewn construction, no patch borders, matching neighboring materials and illumination. Transparent background, no glow or shadow outside the object.",
+  "transparent_background_requested": true,
+  "notes": "Only RGB in feathered temple-corner regions is used. The renderer preserves the approved original alpha at every pixel, the [152,160,720,300] placement, central ivory, supplied Pump.fun logo and central brim. The generated background and other generated pixels are unused."
+}
