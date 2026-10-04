@@ -29,8 +29,9 @@ layer ZIPs all use the same renderer.
 - The Pump.fun trucker replaces the red cap. Its v11 artwork has an ivory
   front panel, forest-green mesh sides and a short curved brim, fitted at
   `[152, 160, 720, 300]`. `drawTrucker` hides the two rear-facing returns and
-  rounds the mesh sides into the front brim, using a source-space clip. The
-  lower placement overlaps the forehead at both temples without pale gaps.
+  extends the brim's own fabric into continuous curved side panels behind the
+  front bill. Source-space clips join the mesh and brim without pinched notches
+  or curled flaps. The lower placement overlaps the forehead at both temples.
   The supplied Pump.fun logo is copied unchanged and
   scaled uniformly on the front. Legacy `cap` selections map to `trucker`;
   the picker, metadata and exported layer paths use the new name.

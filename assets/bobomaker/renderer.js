@@ -214,10 +214,17 @@ class Renderer{
  }
  drawTrucker(ctx,im){
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;
-  // Hide the rear-facing returns and round the mesh into the front brim.
-  // Use source coordinates so the original fabric, seams and front bill stay intact.
+  // Continue the green fabric around both temples, behind the original front bill.
+  // Sample the bill's own weave so the filled sides retain its material and color.
   ctx.save();const transform=ctx.getTransform();
   ctx.translate(x,y);ctx.scale(w/1380,h/770);ctx.translate(-281,-6);
+  for(const mirror of [false,true]){
+   ctx.save();if(mirror){ctx.translate(1942,0);ctx.scale(-1,1)}
+   ctx.beginPath();ctx.moveTo(342,410);ctx.bezierCurveTo(313,476,306,560,311,604);
+   ctx.bezierCurveTo(321,673,364,734,449,769);ctx.lineTo(510,760);ctx.lineTo(464,530);
+   ctx.closePath();ctx.clip();ctx.drawImage(im,420,660,180,100,300,400,230,390);ctx.restore();
+  }
+  // Hide rear-facing returns while retaining the approved mesh, front and stitching.
   ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(1942,0);ctx.lineTo(1942,480);ctx.lineTo(1631,480);
   ctx.bezierCurveTo(1631,535,1609,568,1556,613);ctx.lineTo(1556,809);
   ctx.lineTo(386,809);ctx.lineTo(386,613);ctx.bezierCurveTo(333,568,311,535,311,480);
