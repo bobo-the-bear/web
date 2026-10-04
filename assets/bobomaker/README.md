@@ -36,6 +36,10 @@ layer ZIPs all use the same renderer.
   panels. `drawTrucker` blends only the two edited corners into the v11 artwork,
   retaining every original alpha value and the central front/logo pixels. The
   generated source's unused background and front panel never replace the hat.
+  v13 uses independent close-up references for each temple: the outer wedge is
+  mesh crown all the way to the projecting brim, while the brim remains woven
+  cloth with curved stitching. Its second localized RGB blend retains the
+  approved v12 silhouette, alpha, placement and protected front pixels exactly.
   The supplied Pump.fun logo is copied unchanged and
   scaled uniformly on the front. Legacy `cap` selections map to `trucker`;
   the picker, metadata and exported layer paths use the new name.

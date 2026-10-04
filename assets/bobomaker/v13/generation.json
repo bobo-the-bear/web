@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-04",
+  "tool": "image_gen.imagegen",
+  "geometry_baseline": "d11e36aa51d698ecbf7ff491d2f1b00ad8271e4d",
+  "files": [
+    {
+      "file": "trucker-left-material.png",
+      "sha256": "7d6a54ce321b36e7a2ee52ddc8132f5072f773db27f646a2d0bc4e6a2b456a2a",
+      "reference_crop": [
+        135,
+        285,
+        200,
+        200
+      ],
+      "prompt": "Precision localized TEXTURE edit of this exact close-up, same crop, same geometry. There are TWO DISTINCT hat materials. The upper-left is dark forest-green OPEN MESH with small holes; the front brim projecting to the right is tightly woven green cloth with curved stitching. The whole outer wedge to the LEFT of the projecting brim is part of the MESH SIDE CROWN. Currently it incorrectly becomes blurry solid green fabric near the lower-left edge. REPLACE THAT ENTIRE INCORRECT PLAIN OUTER WEDGE WITH THE SAME MESH HOLE GRID continued from directly above, all the way down to where the front brim covers it. In this 1024 square crop, the main repair is the wedge approximately x=165..425, y=480..805. Continue the existing hole rows down around that curved outer surface with the SAME hole size, spacing, perspective compression, woven thread detail, color, shadows and highlights. Do not stop the mesh at the existing diagonal cutoff around y=620. It must continue BELOW that cutoff through the currently plain outer wedge. The material boundary should follow the actual curved LEFT EDGE OF THE FRONT BRIM, running approximately from (355,550) down through (365,725) to (430,810). The brim in front/right of that edge remains tightly woven CLOTH and its current curved stitching. Blend the lower/front junction into that same fine-grain cloth and stitch flow. No green filler, no stretched vertical smear, no rectangular patch, no uniform synthetic perforation, no new thick seam. Keep the silhouette against the pale green background and brown head EXACTLY unchanged. Preserve the ivory panel, upper original mesh context, right-hand front brim, background and bear. No reshape, no move, no zoom, no recrop. Output the same 1024x1024 close-up; only correct those localized materials."
+    },
+    {
+      "file": "trucker-right-material.png",
+      "sha256": "804b42cb800dc4b361f2b636ceaabc1d9c642d5a66d01a8d8c43d9f2043caf85",
+      "reference_crop": [
+        689,
+        285,
+        200,
+        200
+      ],
+      "prompt": "Precision localized TEXTURE edit of this exact close-up, same crop, same geometry. There are TWO DISTINCT hat materials. The upper-right is dark forest-green OPEN MESH with small holes; the front brim projecting to the left is tightly woven green cloth with curved stitching. The whole outer wedge to the RIGHT of the projecting brim is part of the MESH SIDE CROWN. Currently it incorrectly becomes blurry solid green fabric near the lower-right edge. REPLACE THAT ENTIRE INCORRECT PLAIN OUTER WEDGE WITH THE SAME MESH HOLE GRID continued from directly above, all the way down to where the front brim covers it. In this 1024 square crop, the main repair is the wedge approximately x=600..865, y=480..805. Continue the existing hole rows down around that curved outer surface with the SAME hole size, spacing, perspective compression, woven thread detail, color, shadows and highlights. Do not stop the mesh at the existing diagonal cutoff around y=620. It must continue BELOW that cutoff through the currently plain outer wedge. The material boundary should follow the actual curved RIGHT EDGE OF THE FRONT BRIM, running approximately from (665,550) down through (655,725) to (595,810). The brim in front/left of that edge remains tightly woven CLOTH and its current curved stitching. Blend the lower/front junction into that same fine-grain cloth and stitch flow. No green filler, no stretched vertical smear, no rectangular patch, no uniform synthetic perforation, no new thick seam. Keep the silhouette against the pale green background and brown head EXACTLY unchanged. Preserve the ivory panel, upper original mesh context, left-hand front brim, background and bear. No reshape, no move, no zoom, no recrop. Output the same 1024x1024 close-up; only correct those localized materials."
+    }
+  ],
+  "notes": "Each 1024-square reference contains that temple's existing mesh and original neighboring cloth/stitching. The outer side wedge is mesh behind the projecting woven brim. RGB-only corner blending retains every approved alpha value and all pixels outside the repair regions. Generation changes outside those regions are unused."
+}

@@ -48,6 +48,8 @@ assetSources['bucket-wordmark']='assets/v9/bobo-wordmark.png';
 assetSources['ninja-bandana']='assets/v10/ninja-bandana.png';
 assetSources.trucker='assets/v11/trucker.png';
 assetSources['trucker-material']='assets/v12/trucker-material.png';
+assetSources['trucker-left-material']='assets/v13/trucker-left-material.png';
+assetSources['trucker-right-material']='assets/v13/trucker-right-material.png';
 assetSources['pump-fun-logo']='assets/v11/pump-fun-logo.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
@@ -227,6 +229,19 @@ class Renderer{
     if(!weight)continue;
     const i=(y*1024+x)*4;if(!original.data[i+3])continue;
     for(let n=0;n<3;n++)original.data[i+n]=Math.round(original.data[i+n]*(1-weight)+material[i+n]*weight);
+   }
+   // The outer wedge belongs to the mesh crown, right down to the projecting
+   // cloth brim. These separate close-up edits follow that material boundary.
+   ex.clearRect(0,0,1024,1024);
+   ex.drawImage(this.images['trucker-left-material'],135,285,200,200);
+   ex.drawImage(this.images['trucker-right-material'],689,285,200,200);
+   const corners=ex.getImageData(0,0,1024,1024).data;
+   for(let y=315;y<465;y++)for(let x=145;x<880;x++){
+    const side=Math.min(x,1024-x),end=245+30*smooth(385,440,y);
+    const weight=smooth(325,378,y)*(1-smooth(end-40,end,side));
+    if(!weight)continue;
+    const i=(y*1024+x)*4;if(!original.data[i+3])continue;
+    for(let n=0;n<3;n++)original.data[i+n]=Math.round(original.data[i+n]*(1-weight)+corners[i+n]*weight);
    }
    cx.putImageData(original,0,0);this.truckerMaterial=c;
   }
