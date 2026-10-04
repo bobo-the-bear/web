@@ -28,18 +28,14 @@ layer ZIPs all use the same renderer.
   and lower band. Keep complete brims and ties within the frame.
 - The Pump.fun trucker replaces the red cap. Its v11 artwork has an ivory
   front panel, forest-green mesh sides and a short curved brim, fitted at
-  `[152, 160, 720, 300]`. `drawTrucker` hides the two rear-facing returns and
-  extends the brim's own fabric into continuous curved side panels behind the
-  front bill. Source-space clips join the mesh and brim without pinched notches
-  or curled flaps. The lower placement overlaps the forehead at both temples.
-  The v12 material repair continues the mesh and woven cloth through those side
-  panels. `drawTrucker` blends only the two edited corners into the v11 artwork,
-  retaining every original alpha value and the central front/logo pixels. The
-  generated source's unused background and front panel never replace the hat.
-  v13 uses independent close-up references for each temple: the outer wedge is
-  mesh crown all the way to the projecting brim, while the brim remains woven
-  cloth with curved stitching. Its second localized RGB blend retains the
-  approved v12 silhouette, alpha, placement and protected front pixels exactly.
+  `[152, 160, 720, 300]`. `drawTrucker` hides the rear-facing returns and lower
+  outer side extensions with a source-space clip. The mesh ends above the
+  bear's temples and the curved woven brim ends inward of them. The original
+  head layer shows through those wedges, preserving its fur texture and all
+  palette variants; no flat-color fur patches are drawn. The supplied v11 art
+  and the hat's height, width and position remain unchanged. Earlier v12/v13
+  material studies stay in the repository for provenance but are no longer
+  loaded or composited.
   The supplied Pump.fun logo is copied unchanged and
   scaled uniformly on the front. Legacy `cap` selections map to `trucker`;
   the picker, metadata and exported layer paths use the new name.

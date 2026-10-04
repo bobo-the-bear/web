@@ -47,9 +47,6 @@ for(const id of ['cowboy','bucket'])assetSources[id]='assets/v9/'+id+'.png';
 assetSources['bucket-wordmark']='assets/v9/bobo-wordmark.png';
 assetSources['ninja-bandana']='assets/v10/ninja-bandana.png';
 assetSources.trucker='assets/v11/trucker.png';
-assetSources['trucker-material']='assets/v12/trucker-material.png';
-assetSources['trucker-left-material']='assets/v13/trucker-left-material.png';
-assetSources['trucker-right-material']='assets/v13/trucker-right-material.png';
 assetSources['pump-fun-logo']='assets/v11/pump-fun-logo.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
@@ -216,49 +213,11 @@ class Renderer{
   ctx.lineTo(1945,750);ctx.lineTo(1730,750);ctx.lineTo(1680,425);ctx.lineTo(1650,405);ctx.closePath();ctx.clip();ctx.drawImage(im,0,0);ctx.restore();
  }
  drawTrucker(ctx,im){
-  if(!this.truckerMaterial){
-   const c=this.create(1024,1024),cx=c.getContext('2d'),edit=this.create(1024,1024),ex=edit.getContext('2d');
-   this.drawTruckerBase(cx,im);ex.drawImage(this.images['trucker-material'],128,54,768,512);
-   const original=cx.getImageData(0,0,1024,1024),material=ex.getImageData(0,0,1024,1024).data;
-   const smooth=(a,b,v)=>{const t=Math.max(0,Math.min(1,(v-a)/(b-a)));return t*t*(3-2*t)};
-   // Feather only the generated corner repairs into the existing weave. Preserve
-   // every original alpha value: the approved silhouette, fit and contact cannot move.
-   for(let y=275;y<465;y++)for(let x=145;x<880;x++){
-    const rx=2*x-256,ry=2*y-108,side=Math.min(rx,1536-rx);
-    const end=230+70*smooth(650,810,ry),weight=smooth(470,570,ry)*(1-smooth(end-80,end,side));
-    if(!weight)continue;
-    const i=(y*1024+x)*4;if(!original.data[i+3])continue;
-    for(let n=0;n<3;n++)original.data[i+n]=Math.round(original.data[i+n]*(1-weight)+material[i+n]*weight);
-   }
-   // The outer wedge belongs to the mesh crown, right down to the projecting
-   // cloth brim. These separate close-up edits follow that material boundary.
-   ex.clearRect(0,0,1024,1024);
-   ex.drawImage(this.images['trucker-left-material'],135,285,200,200);
-   ex.drawImage(this.images['trucker-right-material'],689,285,200,200);
-   const corners=ex.getImageData(0,0,1024,1024).data;
-   for(let y=315;y<465;y++)for(let x=145;x<880;x++){
-    const side=Math.min(x,1024-x),end=245+30*smooth(385,440,y);
-    const weight=smooth(325,378,y)*(1-smooth(end-40,end,side));
-    if(!weight)continue;
-    const i=(y*1024+x)*4;if(!original.data[i+3])continue;
-    for(let n=0;n<3;n++)original.data[i+n]=Math.round(original.data[i+n]*(1-weight)+corners[i+n]*weight);
-   }
-   cx.putImageData(original,0,0);this.truckerMaterial=c;
-  }
-  ctx.drawImage(this.truckerMaterial,0,0);
- }
- drawTruckerBase(ctx,im){
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;
-  // Retain the approved full side-panel silhouette beneath the material repair.
+  // Hide the rear-facing returns and round the mesh into the front brim.
+  // Use source coordinates so the original fabric, seams and front bill stay intact.
   ctx.save();const transform=ctx.getTransform();
   ctx.translate(x,y);ctx.scale(w/1380,h/770);ctx.translate(-281,-6);
-  for(const mirror of [false,true]){
-   ctx.save();if(mirror){ctx.translate(1942,0);ctx.scale(-1,1)}
-   ctx.beginPath();ctx.moveTo(342,410);ctx.bezierCurveTo(313,476,306,560,311,604);
-   ctx.bezierCurveTo(321,673,364,734,449,769);ctx.lineTo(510,760);ctx.lineTo(464,530);
-   ctx.closePath();ctx.clip();ctx.drawImage(im,420,660,180,100,300,400,230,390);ctx.restore();
-  }
-  // Hide rear-facing returns while retaining the approved mesh, front and stitching.
   ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(1942,0);ctx.lineTo(1942,480);ctx.lineTo(1631,480);
   ctx.bezierCurveTo(1631,535,1609,568,1556,613);ctx.lineTo(1556,809);
   ctx.lineTo(386,809);ctx.lineTo(386,613);ctx.bezierCurveTo(333,568,311,535,311,480);
