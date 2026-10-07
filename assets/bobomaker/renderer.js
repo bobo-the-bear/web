@@ -16,7 +16,7 @@ const categories=[
 {id:'fur',name:'Fur',help:'The same bear, a different coat.',options:palettes.map(x=>[x.id,x.name])},
 {id:'outfit',name:'Outfit',help:'Dress for the market you deserve.',options:[['tee-red','Bobo red tee'],['hoodie','Black hoodie'],['puffer','Blue puffer'],['suit','Council suit'],['tee-white','White tee'],['bomber','Black bomber'],['red-puffer','Red puffer'],['varsity','Council varsity'],['jersey','Courtside jersey'],['denim','Denim jacket'],['hazmat','Hazmat suit'],['none','Bare bear']]},
 {id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['trucker','Pump.fun trucker'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['ninja-bandana','Red ninja bandana'],['beret','Burgundy beret']]},
-{id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming'],['rounds','Honey rounds']]},
+{id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming'],['goggles','Fallout goggles']]},
 {id:'neck',name:'Neck',help:'The finishing touch.',options:[['none','None'],['gold-chain','Gold Cuban'],['silver-chain','Silver Cuban'],['bandana','Red bandana'],['pendant','Honey pendant'],['diamond-chain','Diamond Cuban']]},
 {id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice']]},
 {id:'meme',name:'Meme',help:'Say it with your whole bear.',options:[]}];
@@ -28,7 +28,7 @@ const placement={
  'gold-chain':[330,775,364,201],'silver-chain':[330,775,364,201],bandana:[318,775,388,216],pendant:[350,782,324,233],'diamond-chain':[316,775,392,218],
  honey:[699,828,244,244],cash:[665,830,300,222],coffee:[705,785,244,268],phone:[710,775,234,279],microphone:[690,738,282,312],rose:[731,718,206,338],flipoff:[730,763,227,291],championship:[670,720,330,400]
 };
-Object.assign(placement,{hazmat:[0,0,1024,1024],beret:[130,215,765,240],rounds:[190,442,674,218]});
+Object.assign(placement,{hazmat:[0,0,1024,1024],beret:[130,215,765,240],goggles:[110,434,814,290]});
 const newProps=['beras-can','champagne','eviction'];
 // Ears tuck inside these fitted hats. Other headwear keeps the original ears.
 const tuckedEarHeadwear=['trucker','cowboy','beret'];
@@ -50,8 +50,8 @@ assetSources['ninja-bandana']='assets/v10/ninja-bandana.png';
 assetSources.trucker='assets/v14/trucker.png';
 assetSources['pump-fun-logo']='assets/v11/pump-fun-logo.png';
 assetSources.beret='assets/v15/beret.png';
-assetSources.rounds='assets/v16/rounds.png';
-assetSources.hazmat='assets/v16/hazmat.png';
+assetSources.goggles='assets/v17/goggles.png';
+assetSources.hazmat='assets/v17/hazmat.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
 const defaults=()=>({background:'sage',fur:'classic',outfit:'tee-red',headwear:'none',eyewear:'none',neck:'none',prop:'none',colors:{...palettes[0]},transparent:false,top:'',bottom:'',caps:true,textSize:64,font:'impact'});
@@ -63,7 +63,7 @@ const propPaws={honey:[[1050,627],[1065,723],[929,732],[907,740],[900,768],[878,
 propPaws.cash=[[851,400],[746,416],[692,442],[665,472],[658,521],[677,542],[637,558],[612,603],[610,664],[632,705],[605,737],[596,781],[601,824],[616,865],[614,904],[646,962],[713,996],[836,1020],[971,1060],[1090,1144],[1222,1144],[1222,524],[1091,489],[990,441]];
 propPaws.championship=[[567, 867], [547, 884], [459, 918], [432, 937], [391, 960], [373, 981], [373, 1020], [406, 1047], [376, 1072], [352, 1109], [354, 1147], [393, 1182], [360, 1197], [339, 1226], [350, 1273], [379, 1304], [373, 1324], [399, 1357], [440, 1380], [477, 1392], [871, 1528], [871, 1172], [732, 1102], [683, 1012], [645, 937], [607, 898]];
 const eyewearFits={shades:{bridge:.5,drop:12},glasses:{bridge:.5,drop:10},visor:{bridge:.502,drop:16},'pit-viper':{bridge:.5,drop:14},oakley:{bridge:.5,drop:10},rayban:{bridge:.5,drop:10},meta:{bridge:.5,drop:10}};
-eyewearFits.rounds={bridge:.5,drop:10};
+eyewearFits.goggles={bridge:.5,drop:10};
 const noseCenterX=546;
 // All traits use this 1024px character frame. A held item's wrist joins the
 // existing arm silhouette below the grip, never the rectangular source edge.
@@ -200,7 +200,28 @@ class Renderer{
    ctx.drawImage(band,sx,top,1,bottom-top+1,150+i*735/512,y,735/512+.6,lower-y);
   }
   ctx.globalCompositeOperation='destination-in';ctx.drawImage(this.head(palettes[0],'beret'),0,0);ctx.globalCompositeOperation='source-over';
-  ctx.drawImage(crown,...placement.beret);
+  // Smooth the two felt-to-temple joins without painting over native fur.
+  // These small curves trim only the previous hard mask corners.
+  const fitted=this.create(1024,1024),fc=fitted.getContext('2d');fc.drawImage(crown,...placement.beret);
+  fc.globalCompositeOperation='destination-out';fc.fillStyle='#000';
+  fc.beginPath();fc.moveTo(200,450);fc.bezierCurveTo(236,447,248,435,276,428);
+  fc.bezierCurveTo(291,424,304,420,317,417);fc.lineTo(317,470);fc.lineTo(200,470);fc.closePath();fc.fill();
+  fc.beginPath();fc.moveTo(785,420);fc.bezierCurveTo(806,423,813,429,830,428);
+  fc.bezierCurveTo(852,425,873,410,895,384);fc.lineTo(910,384);fc.lineTo(910,470);fc.lineTo(785,470);fc.closePath();fc.fill();
+  ctx.drawImage(fitted,0,0);
+ }
+ gogglesArt(){
+  if(this.gogglesLayer)return this.gogglesLayer;const im=this.trimmed('goggles'),c=this.create(im.width,im.height),cx=c.getContext('2d');cx.drawImage(im,0,0);
+  cx.globalCompositeOperation='destination-out';cx.fillStyle='rgba(0,0,0,.28)';
+  for(const x of [.257,.743]){cx.beginPath();cx.ellipse(im.width*x,im.height*.5,im.width*.151,im.height*.398,0,0,Math.PI*2);cx.fill()}
+  cx.globalCompositeOperation='source-over';return this.gogglesLayer=c;
+ }
+ drawHazmatGoggles(ctx,im){
+  // Smaller front rims clear the lower respirator; the same woven strap
+  // continues behind them to the sides of the visor, with no floating ends.
+  ctx.drawImage(im,20,160,140,290,140,478,147,60);
+  ctx.drawImage(im,im.width-160,160,140,290,743,478,162,60);
+  ctx.save();ctx.transform(.6864,0,0,.6396,147.2,144.7);this.drawEyewear(ctx,im,'goggles');ctx.restore();
  }
  // The generated suit is a connected shell with an empty face opening. Flood
  // only that enclosed opening; the exterior must remain transparent.
@@ -219,7 +240,7 @@ class Renderer{
  }
  hazmatFace(colors){
   const key='hazmat-head/'+JSON.stringify(colors);if(this.cache.has(key))return this.cache.get(key);
-  const c=this.create(1024,1024),cx=c.getContext('2d');cx.save();cx.transform(1,0,0,.82,0,70);cx.drawImage(this.base(colors),0,0);cx.restore();cx.globalCompositeOperation='destination-in';cx.drawImage(this.hazmatWindow(),0,0);cx.globalCompositeOperation='source-over';return this.remember(key,c);
+  const c=this.create(1024,1024),cx=c.getContext('2d');cx.save();cx.transform(1,0,0,.82,-24,70);cx.drawImage(this.base(colors),0,0);cx.restore();cx.globalCompositeOperation='destination-in';cx.drawImage(this.hazmatWindow(),0,0);cx.globalCompositeOperation='source-over';return this.remember(key,c);
  }
 
  drawBucket(ctx,im){
@@ -430,10 +451,10 @@ class Renderer{
   if(id==='none'||!this.images[id]||s.outfit==='hazmat'&&ids('headwear').includes(id))return;
   const key='asset/'+id+'/'+(s.outfit==='hazmat'?'hazmat/':'')+JSON.stringify(s?.colors||{});let c=this.cache.get(key);
   if(!c){
-   c=this.create(1024,1024);const cx=c.getContext('2d');let im=this.images[id];if(id==='rounds')im=this.trimmed(id);
+   c=this.create(1024,1024);const cx=c.getContext('2d');let im=this.images[id];if(id==='goggles')im=this.gogglesArt();
    if(props.includes(id)&&!newProps.includes(id))im=this.recolor(this.raw[id],s.colors,false,false,id);
    if(newProps.includes(id))this.drawNewProp(cx,id,s);
-   else if(id in eyewearFits){if(s.outfit==='hazmat'){cx.save();cx.transform(.88,0,0,.82,noseCenterX*.12,70);this.drawEyewear(cx,im,id);cx.restore();cx.globalCompositeOperation='destination-in';cx.drawImage(this.hazmatWindow(),0,0);cx.globalCompositeOperation='source-over'}else this.drawEyewear(cx,im,id);}
+   else if(id in eyewearFits){if(s.outfit==='hazmat'){if(id==='goggles')this.drawHazmatGoggles(cx,im);else{cx.save();cx.transform(.88,0,0,.82,noseCenterX*.12-24,70);this.drawEyewear(cx,im,id);cx.restore()}cx.globalCompositeOperation='destination-in';cx.drawImage(this.hazmatWindow(),0,0);cx.globalCompositeOperation='source-over'}else{this.drawEyewear(cx,im,id);if(id==='goggles'){cx.globalCompositeOperation='destination-in';cx.drawImage(this.head(palettes[0]),0,0);cx.globalCompositeOperation='source-over'}}}
    else if(id==='championship')this.drawChampionship(cx,im);
    else if(id==='crown')this.drawCrown(cx,im);
    else if(id==='ninja-bandana')this.drawNinjaBandana(cx,im);

@@ -14,7 +14,7 @@ parser.add_argument('--output',type=Path,default=Path('focused-review'))
 parser.add_argument('--baseline-renderer',type=Path)
 args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
 repo=Path(__file__).resolve().parents[3];checks=[]
-new={'outfit':['hazmat'],'headwear':['beret'],'eyewear':['rounds']}
+new={'outfit':['hazmat'],'headwear':['beret'],'eyewear':['goggles']}
 removed=['rugby','rider','cardigan','builder','headphones','pixel','hearts','pearls','tie','scarf','diamond','plunger','honey-pop']
 def check(name,passed,details=None):
     checks.append({'check':name,'passed':bool(passed),'details':details})
@@ -32,9 +32,12 @@ with sync_playwright() as p:
     browser=p.chromium.launch(headless=True);page=browser.new_page(viewport={'width':1440,'height':1080})
     errors=[];failures=[]
     page.on('pageerror',lambda e:errors.append(str(e)))
+    page.on('requestfailed',lambda r:failures.append({'url':r.url,'error':r.failure}) if '/assets/bobomaker/' in r.url else None)
     page.on('response',lambda r:failures.append(r.url) if r.status>=400 and '/assets/bobomaker/' in r.url else None)
     page.goto(f'http://127.0.0.1:{server.server_port}/bobomaker.html',wait_until='domcontentloaded')
-    page.wait_for_function('ready',timeout=90000)
+    try:page.wait_for_function('ready',timeout=90000)
+    except Exception:
+        check('Artwork reaches ready state',False,{'errors':errors,'failures':failures,'load_state':page.locator('#load-state').inner_text()})
     page.evaluate('''()=>{
       window.canvas=()=>{const c=document.createElement('canvas');c.width=c.height=1024;return c};
       window.settings=extra=>{const s={...defaults(),...extra};if(extra.fur&&extra.fur!=='custom')s.colors={...palettes.find(p=>p.id===extra.fur)};return s};
@@ -47,7 +50,10 @@ with sync_playwright() as p:
     labels={(c['id'],o[0]):o[1] for c in catalog for o in c['options']}
     check('All artwork loads and all 73 traits are available',not failures and page.locator('#asset-count').inner_text()=='73 TRAITS',failures)
     counts={c['id']:len(c['options']) for c in catalog if c['id'] in ['outfit','headwear','eyewear','neck','prop']}
-    check('Only Hazmat suit, Burgundy beret and Honey rounds are added',counts=={'outfit':12,'headwear':9,'eyewear':9,'neck':6,'prop':12} and all((cat,id) in labels for cat,ids in new.items() for id in ids),counts)
+    check('Only Hazmat suit, Burgundy beret and Fallout goggles are added',counts=={'outfit':12,'headwear':9,'eyewear':9,'neck':6,'prop':12} and all((cat,id) in labels for cat,ids in new.items() for id in ids),counts)
+    check('Fallout goggles replaces Honey rounds consistently in inventory and loading',('eyewear','goggles') in labels and labels[('eyewear','goggles')]=='Fallout goggles' and ('eyewear','rounds') not in labels and page.evaluate("!('rounds' in BoboEngine.assetSources)"))
+    glass=page.evaluate('''()=>{const c=renderer.gogglesArt(),cx=c.getContext('2d');return [.257,.743].map(x=>cx.getImageData(Math.round(c.width*x),Math.round(c.height*.5),1,1).data[3])}''')
+    check('Goggle lens centers are translucent while the generated reflection remains visible',all(100<a<230 for a in glass),glass)
     check('Removed Daily Bobo and Feel the Boom remain absent',not any('daily bobo' in name.lower() or 'feel the boom' in name.lower() for name in labels.values()))
     check('The thirteen rejected additions are inactive, unloaded and preserved as source art',
           all(not any(id==o[0] for c in catalog for o in c['options']) for id in removed)
@@ -66,12 +72,12 @@ with sync_playwright() as p:
       return results;
     }''',new)
     check('Hazmat keeps complete sleeves and invariant materials in six palettes',all(x['material'] and x['sleeve'] for x in invariants),invariants)
-    face=page.evaluate('''()=>{const result=[];for(const fur of palettes){const head=renderer.head(fur,'none','hazmat'),d=head.getContext('2d').getImageData(546,565,1,1).data;result.push({fur:fur.id,nose:[...d],opaque:d[3]>250})}return result}''')
+    face=page.evaluate('''()=>{const result=[];for(const fur of palettes){const head=renderer.head(fur,'none','hazmat'),d=head.getContext('2d').getImageData(522,565,1,1).data;result.push({fur:fur.id,nose:[...d],opaque:d[3]>250})}return result}''')
     check('The enclosed visor retains the original Bobo nose in every palette',all(x['opaque'] and max(x['nose'][:3])<100 for x in face),face)
     source=[]
     for cat,ids in new.items():
         for id in ids:
-            im=Image.open(repo/f'assets/bobomaker/{"v15" if id=="beret" else "v16"}/{id}.png')
+            im=Image.open(repo/f'assets/bobomaker/{"v15" if id=="beret" else "v17"}/{id}.png')
             source.append({'id':id,'size':im.size,'alpha':im.getchannel('A').getextrema()})
     # Some generated material pixels use alpha 254 rather than 255. Require
     # a transparent exterior and solid material without rewriting source art.
@@ -79,7 +85,7 @@ with sync_playwright() as p:
     font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',24);small=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',18)
     contact=Image.new('RGB',(1116,498),'#f5f2e9');d=ImageDraw.Draw(contact)
     d.text((26,18),'BOBO MAKER / FOCUSED REVIEW',font=font,fill='#282b24')
-    d.text((26,54),'v6.12.0 | Hazmat suit, fitted beret and armless Honey rounds',font=small,fill='#626658')
+    d.text((26,54),'v6.13.0 | Hazmat suit, fitted beret and strapped Fallout goggles',font=small,fill='#626658')
     palette_sheet=Image.new('RGB',(1200,3*226),'#f5f2e9');pd=ImageDraw.Draw(palette_sheet)
     singles={};parity=[]
     for row,(cat,ids) in enumerate(new.items()):
@@ -88,7 +94,7 @@ with sync_playwright() as p:
             extra={cat:id,'fur':fur};im=png(page.evaluate('extra=>art(extra)',extra));singles[(cat,id,fur)]=im
             parity.append(page.evaluate('extra=>layerParity(extra)',extra))
             palette_sheet.paste(im.resize((200,200)),(fi*200,row*226));pd.text((fi*200+6,row*226+203),f'{fur} / {id}',fill='#282b24')
-        im=singles[(cat,id,'classic')];im.save(args.output/f'{id}-full-preview.png')
+        im=singles[(cat,id,'classic')];im.save(args.output/f'{"rounds" if id=="goggles" else id}-full-preview.png')
         x=row*372+12;y=100;contact.paste(im.resize((348,348)),(x,y));d.text((x+4,y+354),labels[(cat,id)],font=small,fill='#282b24')
         print('Rendered all palettes: '+cat,flush=True)
     contact.save(args.output/'bobo-focused-traits.jpg',quality=95);palette_sheet.save(args.output/'focused-all-palettes.jpg',quality=94)
@@ -97,6 +103,14 @@ with sync_playwright() as p:
     check('All 54 hazmat/eyewear/palette combinations recompose exactly',len(eyes)==54 and all(x['same'] for x in eyes))
     pairs=page.evaluate('''()=>{const cases=[];for(const cat of ['neck','prop'])for(const[id]of categories.find(c=>c.id===cat).options)for(const fur of palettes){const s={outfit:'hazmat',fur:fur.id,[cat]:id};cases.push({...s,same:layerParity(s)})}return cases}''')
     check('All 108 hazmat/neckwear/prop/palette combinations recompose exactly',len(pairs)==108 and all(x['same'] for x in pairs))
+    accessories=page.evaluate('''()=>{const cases=[];for(const fur of palettes){for(const[headwear]of categories.find(c=>c.id==='headwear').options){const s={fur:fur.id,headwear,eyewear:'goggles'};cases.push({...s,same:layerParity(s)})}for(const[eyewear]of categories.find(c=>c.id==='eyewear').options){const s={fur:fur.id,headwear:'beret',eyewear};cases.push({...s,same:layerParity(s)})}}return cases}''')
+    check('All 108 goggles/headwear and beret/eyewear/palette combinations recompose exactly',len(accessories)==108 and all(x['same'] for x in accessories))
+    accessory_sheet=Image.new('RGB',(1200,6*150),'#f5f2e9');ad=ImageDraw.Draw(accessory_sheet)
+    goggles_cases=[c for n,c in enumerate(accessories) if n%18<9]
+    for n,case in enumerate(goggles_cases[:54]):
+        im=png(page.evaluate('extra=>art(extra)',{k:v for k,v in case.items() if k!='same'}));x=n%9*133;y=n//9*150
+        accessory_sheet.paste(im.resize((133,133)),(x,y));ad.text((x+3,y+133),case['headwear']+' / '+case['fur'],fill='#282b24')
+    accessory_sheet.save(args.output/'goggles-headwear-palettes.jpg',quality=95)
     eyewear_sheet=Image.new('RGB',(1200,6*150),'#f5f2e9');ed=ImageDraw.Draw(eyewear_sheet)
     for n,case in enumerate(eyes):
         im=png(page.evaluate('extra=>art(extra)',{k:v for k,v in case.items() if k!='same'}));x=n%9*133;y=n//9*150
@@ -111,11 +125,11 @@ with sync_playwright() as p:
     check('Undo and redo restore the compatible outfit and headwear together',restored and page.evaluate("state.outfit==='hazmat'&&state.headwear==='none'"))
     locked=page.evaluate('''()=>{state=settings({headwear:'trucker'});locks.add('headwear');const results=[];for(let n=0;n<20;n++){randomize();results.push(state.headwear==='trucker'&&state.outfit!=='hazmat')}locks.clear();return results.every(Boolean)}''')
     check('Randomize respects a locked hat without selecting the enclosing hazmat hood',locked)
-    combinations=[{'headwear':'beret','eyewear':'rounds','background':'blue'},
+    combinations=[{'headwear':'beret','eyewear':'goggles','background':'blue'},
                   {'outfit':'hazmat'},
-                  {'outfit':'hazmat','eyewear':'rounds','neck':'gold-chain','prop':'championship','fur':'polar'},
+                  {'outfit':'hazmat','eyewear':'goggles','neck':'gold-chain','prop':'championship','fur':'polar'},
                   {'outfit':'hazmat','eyewear':'meta','prop':'coffee','fur':'panda'},
-                  {'outfit':'hazmat','eyewear':'rounds','fur':'custom','colors':{'fur':'#38658c','muzzle':'#27465f','ears':'#b999c9'},'top':'COUNCIL APPROVED','textSize':48}]
+                  {'outfit':'hazmat','eyewear':'goggles','fur':'custom','colors':{'fur':'#38658c','muzzle':'#27465f','ears':'#b999c9'},'top':'COUNCIL APPROVED','textSize':48}]
     for n,extra in enumerate(combinations):
         page.evaluate('extra=>{state=settings(extra);render();renderPanel()}',extra)
         for cat in new:
@@ -136,7 +150,7 @@ with sync_playwright() as p:
             joined=png(page.evaluate('urls=>compose(urls)',[url(z.read(name)) for name in sorted(z.namelist()) if name.startswith('layers/')]))
             metadata=json.loads(z.read('bobo.json'));values={a['trait_type']:a['value'] for a in metadata['attributes']}
             check(f'Look {n+1}: downloaded layer ZIP passes CRC and reconstructs the preview exactly',z.testzip() is None and same(joined,preview) and same(Image.open(io.BytesIO(z.read('bobo.png'))).convert('RGBA'),preview))
-            check(f'Look {n+1}: metadata records every selected trait, colors and version',metadata['maker']['version']=='6.12.0' and all(values[next(c['name'] for c in catalog if c['id']==cat)]==labels[(cat,extra[cat])] for cat in new if cat in extra) and metadata['maker']['settings']['colors']==page.evaluate('state.colors'))
+            check(f'Look {n+1}: metadata records every selected trait, colors and version',metadata['maker']['version']=='6.13.0' and all(values[next(c['name'] for c in catalog if c['id']==cat)]==labels[(cat,extra[cat])] for cat in new if cat in extra) and metadata['maker']['settings']['colors']==page.evaluate('state.colors'))
     page.locator('.export-menu summary').click()
     with page.expect_download(timeout=300000) as dl:page.locator('#export-kit').click()
     kit_path=args.output/'bobo-full-kit.zip';dl.value.save_as(kit_path)
@@ -148,7 +162,7 @@ with sync_playwright() as p:
         for variant in ['tucked','hazmat']:paths.extend(manifest['headVariants'][variant].replace('{fur}',fur) for fur in colors)
         paths.extend(manifest['outfitEyewearVariant']['hazmat'].replace('{eyewear}',id) for id,name in next(c for c in catalog if c['id']=='eyewear')['options'] if id!='none')
         check('Full kit contains 209 named 1024px layers, valid CRC and 212 total entries',z.testzip() is None and len(paths)==209 and len(z.namelist())==212 and all(n in z.namelist() and Image.open(io.BytesIO(z.read(n))).size==(1024,1024) for n in paths),{'layers':len(paths),'entries':len(z.namelist())})
-        check('Kit maps all fitted hats to correct head variants',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret']} and manifest['version']=='6.12.0')
+        check('Kit maps all fitted hats to correct head variants',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret']} and manifest['version']=='6.13.0')
         check('Kit records hazmat head, eyewear and headwear compatibility',manifest['outfitHeadVariant']=={'hazmat':'hazmat'} and manifest['outfitCompatibility']=={'hazmat':{'headwear':['none']}} and all('/'+id+'.png' not in name for id in removed for name in z.namelist()))
         def kit_layers(extra):
             fur=extra.get('fur','classic');hat=extra.get('headwear','none');outfit=extra.get('outfit','tee-red')
