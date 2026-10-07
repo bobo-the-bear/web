@@ -155,7 +155,7 @@ Keep changes scoped to this maker. The main site navigation and `index.html` are
 unrelated. Review the local result before authorizing a production release.
 
 
-## v6.13 focused revision
+## v6.13.1 focused revision
 
 The catalog retains the published 22ab442f inventory, adds Hazmat suit, keeps
 Burgundy beret from the unpublished v15 expansion, and replaces Honey rounds
@@ -166,7 +166,7 @@ exports. Their original PNGs and generation records remain archived intact.
 There are 73 non-None traits, including 24 backdrops and six fur palettes.
 Outfit/headwear/eyewear/neck/prop option counts are 12/9/9/6/12 including
 Bare bear or None. The full kit has 209 named PNG layers, its preview, manifest
-and README (212 ZIP entries). Metadata and kit version is 6.13.0.
+and README (212 ZIP entries). Metadata and kit version is 6.13.1.
 
 - The original burgundy felt crown and gold pin remain unchanged. `drawBeret`
   separates its black leather band in memory, removes the old antialiased rim,
@@ -174,11 +174,14 @@ and README (212 ZIP entries). Metadata and kit version is 6.13.0.
   Two small smooth Bezier trims remove the previous stepped temple joins.
   The source PNG is not rewritten; the existing tucked-ear head is used, and
   natural fur remains visible beneath the smooth felt and fitted black band.
-- v17 Fallout goggles replaces Honey rounds in the inventory, metadata and
+- v18 Fallout goggles replaces Honey rounds in the inventory, metadata and
   exported layer paths. Round honey lenses have subtle mushroom-cloud
   reflections, brass rims, rubber gaskets and a snug woven strap. The bridge
   is pinned to the nose; strap ends clip to the head. Lens interiors composite
   at 72% of their source alpha, keeping reflections faint and glass translucent.
+  Taller opaque woven straps and a stitched padded saddle behind the gold
+  bridge cover the original eye whites at both temples and in the center.
+  The lens placements stay fixed; the existing nose remains visible.
   `drawHazmatGoggles` reduces the front rims inside the visor and continues the
   woven strap behind the opaque frames to both sides without obscuring lenses.
 - v17 Hazmat is one connected yellow hood and long-sleeved suit, with a dark
@@ -196,7 +199,8 @@ and README (212 ZIP entries). Metadata and kit version is 6.13.0.
   when assembling Hazmat. Ordinary outfits retain the published layer paths.
 
 Image generation prompts, dimensions, hashes and reference limitations are in
-`v17/generation.json`. No published source artwork was modified.
+`v17/generation.json` and `v18/generation.json`. No published source artwork
+was modified. The v6.13.1 correction leaves the hazmat filter and beret intact.
 
 Focused verification and review images (separate local headless Chromium):
 
@@ -210,7 +214,8 @@ Use `renderer.js` from published commit
 checks all 414 prior trait/palette combinations for pixel equality, 18 focused
 trait/palette combinations, 54 Hazmat/eyewear/palette combinations, 108
 Hazmat/neckwear/prop/palette combinations, 108 goggles/headwear and
-beret/eyewear/palette combinations, translucent lenses, naming, compatibility
+beret/eyewear/palette combinations, translucent lenses, original-eye coverage,
+naming, compatibility
 controls, actual opaque and transparent PNGs, current-layer ZIPs, metadata,
 all full-kit paths and 72
 full-kit reconstructions. It saves the focused sheet, full previews, palette

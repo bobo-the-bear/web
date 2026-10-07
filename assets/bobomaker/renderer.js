@@ -50,7 +50,7 @@ assetSources['ninja-bandana']='assets/v10/ninja-bandana.png';
 assetSources.trucker='assets/v14/trucker.png';
 assetSources['pump-fun-logo']='assets/v11/pump-fun-logo.png';
 assetSources.beret='assets/v15/beret.png';
-assetSources.goggles='assets/v17/goggles.png';
+assetSources.goggles='assets/v18/goggles.png';
 assetSources.hazmat='assets/v17/hazmat.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
@@ -219,8 +219,8 @@ class Renderer{
  drawHazmatGoggles(ctx,im){
   // Smaller front rims clear the lower respirator; the same woven strap
   // continues behind them to the sides of the visor, with no floating ends.
-  ctx.drawImage(im,20,160,140,290,140,478,147,60);
-  ctx.drawImage(im,im.width-160,160,140,290,743,478,162,60);
+  ctx.drawImage(im,20,160,140,290,140,449,147,91);
+  ctx.drawImage(im,im.width-160,160,140,290,743,449,162,91);
   ctx.save();ctx.transform(.6864,0,0,.6396,147.2,144.7);this.drawEyewear(ctx,im,'goggles');ctx.restore();
  }
  // The generated suit is a connected shell with an empty face opening. Flood
