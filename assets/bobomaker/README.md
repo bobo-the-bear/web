@@ -49,12 +49,12 @@ layer ZIPs all use the same renderer.
   tapering both ends upward/inward to the temples. The original knot/tails are
   separately seated at the right seam. Preserve this shaping when adjusting
   height; translating a rectangular strip leaves protruding side corners.
-- Trucker and cowboy tuck the ears inside the hat. `head(colors, headwear)`
+- Trucker, cowboy and beret tuck the ears inside the hat. `head(colors, headwear)`
   removes only those source ears; it never changes the face or other headwear.
   Current-layer exports use the same fitted head. Full kits include six extra
   `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
   the manifest identify which head PNG each hat requires. Do not composite a
-  standard head under these two hats or the ears will protrude again.
+  standard head under these three hats or the ears will protrude again.
 - v9 cowboy has a traditional dipped crown and the silver concho band. v9
   bucket is black with graphite stitching, preserving the approved placement.
   `v9/bobo-wordmark.png` is the exact user-supplied logo, copied unchanged.
@@ -129,12 +129,12 @@ python assets/bobomaker/tests/verify_backdrops.py --output backdrop-review
 
 Checks include keyboard focus/navigation, trait selection, undo/redo, locks,
 randomize, reset, Original/Panda/custom palettes, meme controls, all 66 prop/fur
-combinations, all 66 outfit/fur layer reconstructions, crown integrity, actual
+combinations, all 72 outfit/fur layer reconstructions, crown integrity, actual
 opaque/transparent PNG downloads, metadata, both ZIP exports, manifest paths,
 archive CRCs, and layouts at 320/390/768/1024/1440px. `--skip-kit` skips only the
 long full-kit download when it is unrelated to a change.
 
-The headwear suite checks 192 hat/palette/eyewear combinations, actual opaque
+The headwear suite checks 216 hat/palette/eyewear combinations, actual opaque
 and transparent PNGs, current-layer reconstruction for all four revised hats,
 and all 24 hat/palette reconstructions from the downloaded full kit. It also
 checks that the trucker adds no forehead transparency gaps, verifies exposed ears and
@@ -153,3 +153,75 @@ against short sleeves, long sleeves and bare arms before adding more traits.
 
 Keep changes scoped to this maker. The main site navigation and `index.html` are
 unrelated. Review the local result before authorizing a production release.
+
+
+## v6.13.1 focused revision
+
+The catalog retains the published 22ab442f inventory, adds Hazmat suit, keeps
+Burgundy beret from the unpublished v15 expansion, and replaces Honey rounds
+with Fallout goggles.
+The thirteen other v15 additions are absent from the picker, loading list and
+exports. Their original PNGs and generation records remain archived intact.
+
+There are 73 non-None traits, including 24 backdrops and six fur palettes.
+Outfit/headwear/eyewear/neck/prop option counts are 12/9/9/6/12 including
+Bare bear or None. The full kit has 209 named PNG layers, its preview, manifest
+and README (212 ZIP entries). Metadata and kit version is 6.13.1.
+
+- The original burgundy felt crown and gold pin remain unchanged. `drawBeret`
+  separates its black leather band in memory, removes the old antialiased rim,
+  and wraps the textured band around the forehead with receding temple ends.
+  Two small smooth Bezier trims remove the previous stepped temple joins.
+  The source PNG is not rewritten; the existing tucked-ear head is used, and
+  natural fur remains visible beneath the smooth felt and fitted black band.
+- v18 Fallout goggles replaces Honey rounds in the inventory, metadata and
+  exported layer paths. Round honey lenses have subtle mushroom-cloud
+  reflections, brass rims, rubber gaskets and a snug woven strap. The bridge
+  is pinned to the nose; strap ends clip to the head. Lens interiors composite
+  at 72% of their source alpha, keeping reflections faint and glass translucent.
+  Taller opaque woven straps and a stitched padded saddle behind the gold
+  bridge cover the original eye whites at both temples and in the center.
+  The lens placements stay fixed; the existing nose remains visible.
+  `drawHazmatGoggles` reduces the front rims inside the visor and continues the
+  woven strap behind the opaque frames to both sides without obscuring lenses.
+- v17 Hazmat is one connected yellow hood and long-sleeved suit, with a dark
+  visor gasket, symmetric lower mask, frontal circular filter and center zipper.
+  The filter aligns over the zipper; the face shifts 24 frame pixels left so
+  the original nose sits on the same centerline. The original Bobo face is
+  fitted behind its transparent visor; no generated face is used.
+  Only the approved fur palette changes, never the yellow shell or hardware.
+- Hazmat covers headwear. Selecting it clears the hat and explains why hats
+  are disabled. Undo restores the previous outfit and hat together. Randomize
+  respects a locked hat by excluding Hazmat. Eyewear fits inside the visor.
+- Full kits include `fur/hazmat/{fur}.png` and eight fitted
+  `eyewear/hazmat/{eyewear}.png` layers. Resolve `outfitHeadVariant` before
+  `headwearHeadVariant`; use `outfitEyewearVariant` and `outfitCompatibility`
+  when assembling Hazmat. Ordinary outfits retain the published layer paths.
+
+Image generation prompts, dimensions, hashes and reference limitations are in
+`v17/generation.json` and `v18/generation.json`. No published source artwork
+was modified. The v6.13.1 correction leaves the hazmat filter and beret intact.
+
+Focused verification and review images (separate local headless Chromium):
+
+```sh
+python assets/bobomaker/tests/verify_focused_traits.py --output focused-review --baseline-renderer previous-renderer.js
+python assets/bobomaker/tests/verify.py --output regression-review --skip-kit
+```
+
+Use `renderer.js` from published commit
+`22ab442f6d80d5691e1e8e206417dcd5c72576ce` as the baseline. The focused suite
+checks all 414 prior trait/palette combinations for pixel equality, 18 focused
+trait/palette combinations, 54 Hazmat/eyewear/palette combinations, 108
+Hazmat/neckwear/prop/palette combinations, 108 goggles/headwear and
+beret/eyewear/palette combinations, translucent lenses, original-eye coverage,
+naming, compatibility
+controls, actual opaque and transparent PNGs, current-layer ZIPs, metadata,
+all full-kit paths and 72
+full-kit reconstructions. It saves the focused sheet, full previews, palette
+and eyewear sheets, and responsive layout screenshots for visual review.
+
+The layer export canvas temporarily joins the document with `hidden=true`.
+This inherits the preview's `font-synthesis:none`; detached canvases otherwise
+synthesize a heavier Impact weight for meme captions. The canvas is removed
+on both success and failure. Caption downloads match the preview's weight.

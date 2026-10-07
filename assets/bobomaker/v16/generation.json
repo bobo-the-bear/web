@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-07",
+  "version": "6.12.0",
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "reference": {
+    "hazmat": "User attachment hazmatpnger.png, Library libfile_33c7df26173c8191951cf3623ab47fd2. Local materialization returned HTTP 403. Used the parent reviewer's actual-pixel observations (yellow enclosing hood and suit, rounded grey visor gasket, lower dark mask and grey cylindrical filter) together with approved Bobo base artwork. Final recovery generation referenced the first generated hazmat image; direct attachment pixels were not locally available.",
+    "rounds": "Imagegen edit of v15/rounds.png."
+  },
+  "preserved": "All published source artwork and all v15 PNGs remain unchanged. Rejected v15 additions are archived, not loaded. Fit, masks and occlusion are implemented in renderer.js.",
+  "beret": "Uses unchanged v15/beret.png. Native canvas geometry refits the existing leather texture around the forehead and temples while preserving the felt crown and gold pin.",
+  "traits": [
+    {
+      "id": "hazmat",
+      "name": "Hazmat suit",
+      "category": "outfit",
+      "file": "hazmat.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "cf59f88f4eb1fe4b17866d5d954de0774c3fd8ad4b5c6904e2d311a550dbd4dc",
+      "prompt": "Preserve the reference yellow hazmat outfit's design and framing: textured low-poly golden-yellow broad enclosing hood, charcoal grey wide rounded rectangular visor gasket, completely empty transparent visor opening, dark lower mask, one projecting grey cylindrical respirator near lower center-right, connected long yellow sleeves and torso with center zipper. Outfit only with transparent exterior and transparent face opening, no bear or fur. Keep the broad bear proportions and all components connected. No new accessories or text. Recreate this same polished asset for compositing Bobo's original face behind the visor."
+    },
+    {
+      "id": "rounds",
+      "name": "Honey rounds",
+      "category": "eyewear",
+      "file": "rounds.png",
+      "size": [
+        1905,
+        825
+      ],
+      "sha256": "0f396cf66ccf98ce2af22e227fc2b29f2242677f0b29933323fa8164352ae1b8",
+      "prompt": "Edit these Honey rounds sunglasses to remove BOTH brown side arms, temples, the square side hinge blocks and all protruding side hardware. Preserve the warm honey-amber lenses, faceted reflections, thin round antique-brass front rims, curved brass nose bridge and subtle clear nose pads. The only remaining silhouette is two smooth uninterrupted circular front rims connected at the bridge, like armless pince-nez glasses resting on the nose. Absolutely no side arms, no hinges sticking out, no temples, no straps or chains. Preserve front style, color, material, circular shape, spacing and front-facing orientation. Isolated on a true transparent background; no face, text, backdrop or exterior cast shadow."
+    }
+  ]
+}

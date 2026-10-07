@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-07",
+  "version": "6.13.1",
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "reference": "Edited the local v17/goggles.png using the parent reviewer's actual-pixel description of image(20261007-184158).png: exposed eye whites above the temple straps and central gold bridge.",
+  "file": "goggles.png",
+  "size": [
+    1906,
+    825
+  ],
+  "sha256": "1d145fccd04b4911ff4958cae8f76a3f05883abbe191fd4ea687f0f9eec068b1",
+  "prompt": "Make a narrow construction correction to these exact Fallout goggles. Preserve both round brass lens rims, warm amber glass, existing faint mushroom-cloud reflections, lens positions, lens sizes, lighting and framing. Enlarge the black woven side straps vertically UPWARD so their top edge attaches near the upper third of each lens, and their bottom edge stays near the lower half: substantial wide opaque elastic eye-covering bands, snug and symmetric, no thin straps. Add a professionally shaped opaque charcoal padded rubber backing between the two lenses BEHIND the existing gold bridge. This central backing should rise substantially ABOVE the gold bridge like a low rounded padded brow saddle connecting the inner rubber gaskets, hiding the open upper central gap; its lower edge arches over the nose so the bear's nose remains uncovered. All spaces immediately above and below the gold bridge between the inner lens rims should be covered by this rubber saddle. Keep the gold bridge visible on top of the dark saddle. Use realistic textured woven strap and pebbled rubber with rounded stitched/beveled hems, not flat black paint, not eyeglass side arms. Do not move the lenses. Do not increase or change their reflections. Transparent exterior, goggles only, no bear, no head, no background, no writing.",
+  "preserved": "Round gold lenses, faint mushroom-cloud reflections, existing trait ID/name, and fixed frame placement are retained. All previous source PNGs remain unchanged; hazmat filter and beret code/art are unchanged.",
+  "fitting": "The taller woven straps and opaque padded central saddle cover eye whites outside the lenses. Hazmat strap extensions rise from y=478 to y=449 and grow from 60 to 91 frame pixels without moving the front lenses. Lens transparency and draw order remain unchanged."
+}

@@ -1,0 +1,283 @@
+{
+  "date": "2026-10-04",
+  "version": "6.11.0",
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "reference": "Approved Bobo v2/base.png; outfits also used v7/jersey.png for full sleeve/body framing. Revised headphones used the first generated headset and Bobo base as references.",
+  "preserved": "All published source artwork is unchanged. These source PNGs are retained intact; crop/placement/occlusion are in renderer.js. Only the shared approved head and original paw are used in final composites.",
+  "traits": [
+    {
+      "id": "rugby",
+      "name": "Rugby club",
+      "category": "outfit",
+      "file": "rugby.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "ac2b21b98b786ae86db520bd670043cd255c7bf3d8871e1d66f615d5c5967f9a",
+      "prompt": "Create one square transparent PNG of the same Bobo bear wearing a new outfit. Use the first reference as the exact character and framing; the second reference demonstrates fitted collectible clothing and texture only. Preserve the original broad low-poly brown head, grumpy narrow eyes, small muzzle, huge head-to-body ratio and front camera. Do not redesign the bear or change pose. Ear tips approximately y210 in a 1024 frame, jaw base y800, broad shoulders begin y790, torso continues through the bottom frame. Keep full shoulders and sides visible, same camera, same scale, no zooming out. Replace only the bare torso/clothing with a premium long-sleeve rugby shirt: deep navy and warm ivory broad horizontal panels, one muted crimson chest stripe, substantial ivory twill polo collar with short hidden button placket, thick cotton jersey. Both arms completely sleeved through bottom edge. No lettering or logos. Render as textured soft 3D collectible fabric in Bobo's native world, not vector art. Arms angle down symmetrically, both sleeves cover the whole arms below shoulders, no visible paws or wrists, torso and sleeves continue naturally beyond the image bottom. Neck opening sits just beneath the existing jaw, no shoulder gaps, no added accessories, no headwear, no eyewear, no jewelry, no objects. Full bear on a fully transparent background. Square composition.",
+      "fit": {
+        "torsoSourceTop": 720
+      }
+    },
+    {
+      "id": "rider",
+      "name": "Night rider",
+      "category": "outfit",
+      "file": "rider.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "277eab92e1ac5d36af00a75daf188eeb3bfe0ecc12fdd878e94892bffdb5869f",
+      "prompt": "Create one square transparent PNG of the same Bobo bear wearing a new outfit. Use the first reference as the exact character and framing; the second reference demonstrates fitted collectible clothing and texture only. Preserve the original broad low-poly brown head, grumpy narrow eyes, small muzzle, huge head-to-body ratio and front camera. Do not redesign the bear or change pose. Ear tips approximately y210 in a 1024 frame, jaw base y800, broad shoulders begin y790, torso continues through the bottom frame. Keep full shoulders and sides visible, same camera, same scale, no zooming out. Replace only the bare torso/clothing with a premium black leather motorcycle jacket with broad asymmetric lapels, off-center silver zipper, two angled zipped pockets, subtle quilted shoulders, dark charcoal rib-knit tee under it. Full long leather sleeves through bottom edge. Supple leather grain, convincing reflections, no studs, no lettering or logos. Render as textured soft 3D collectible fabric in Bobo's native world, not vector art. Arms angle down symmetrically, both sleeves cover the whole arms below shoulders, no visible paws or wrists, torso and sleeves continue naturally beyond the image bottom. Neck opening sits just beneath the existing jaw, no shoulder gaps, no added accessories, no headwear, no eyewear, no jewelry, no objects. Full bear on a fully transparent background. Square composition.",
+      "fit": {
+        "torsoSourceTop": 840
+      }
+    },
+    {
+      "id": "cardigan",
+      "name": "Council cardigan",
+      "category": "outfit",
+      "file": "cardigan.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "dcc9ec3e17a6fb822749e97a9119ccfe39181a25f9371816571ebac9688d9e07",
+      "prompt": "Create one square transparent PNG of the same Bobo bear wearing a new outfit. Use the first reference as the exact character and framing; the second reference demonstrates fitted collectible clothing and texture only. Preserve the original broad low-poly brown head, grumpy narrow eyes, small muzzle, huge head-to-body ratio and front camera. Do not redesign the bear or change pose. Ear tips approximately y210 in a 1024 frame, jaw base y800, broad shoulders begin y790, torso continues through the bottom frame. Keep full shoulders and sides visible, same camera, same scale, no zooming out. Replace only the bare torso/clothing with a cozy warm oatmeal cable-knit cardigan with chunky braided knit, a deep V front, chunky dark horn buttons and forest-green crew-neck undershirt. Wide soft collar edging, full long knitted sleeves through bottom edge. Realistic tactile loops and natural folds. No lettering or logos. Render as textured soft 3D collectible fabric in Bobo's native world, not vector art. Arms angle down symmetrically, both sleeves cover the whole arms below shoulders, no visible paws or wrists, torso and sleeves continue naturally beyond the image bottom. Neck opening sits just beneath the existing jaw, no shoulder gaps, no added accessories, no headwear, no eyewear, no jewelry, no objects. Full bear on a fully transparent background. Square composition.",
+      "fit": {
+        "torsoSourceTop": 680
+      }
+    },
+    {
+      "id": "beret",
+      "name": "Burgundy beret",
+      "category": "headwear",
+      "file": "beret.png",
+      "size": [
+        2172,
+        724
+      ],
+      "sha256": "17bbece917147d763553ce33f8fde4bf63e009b0c612fd969e19935fe98fe0d1",
+      "prompt": "Design a new standalone headwear accessory for the exact broad low-poly Bobo bear in the reference. Output ONLY the accessory on a clean fully TRANSPARENT background, NO bear pixels, NO head/face/ears/body, NO ground shadow. Match the front-facing camera and tactile softly faceted 3D collectible style with soft warm studio lighting. Keep all edges and padding visible, no cropping. A rich burgundy wool BERET, broad and low, softly draped toward viewer-left, small top nub, narrow black leather fitted headband. Tactile felt fibers and subtle sewn seams, tiny unlettered brushed brass oval pin. Intended to sit on a WIDE bear head. The front band curves gently upward at center following his forehead; sides terminate naturally at the temples, no backward loops or dangling rear curves. Broad asymmetric crown, not a narrow human head hat. Overall silhouette width about 3 times height. Complete accessory only.",
+      "fit": {
+        "sourceCrop": [
+          213,
+          49,
+          1747,
+          627
+        ]
+      }
+    },
+    {
+      "id": "builder",
+      "name": "Builder helmet",
+      "category": "headwear",
+      "file": "builder.png",
+      "size": [
+        1899,
+        828
+      ],
+      "sha256": "5003fdd5dccd61c6a898482c0864ae5f6476f297b5a499de2c8dd3c315e2fb7b",
+      "prompt": "Design a new standalone headwear accessory for the exact broad low-poly Bobo bear in the reference. Output ONLY the accessory on a clean fully TRANSPARENT background, NO bear pixels, NO head/face/ears/body, NO ground shadow. Match the front-facing camera and tactile softly faceted 3D collectible style with soft warm studio lighting. Keep all edges and padding visible, no cropping. A sturdy warm safety-yellow CONSTRUCTION HARD HAT with molded crown ribs, thick shallow projecting front bill, subtle gray rim, tiny plain black rectangular badge on the front. Realistic satin ABS material, believable soft highlights and molded seams. Wide rounded shell tailored to a wide bear head, overall width about 2.3 times height. Front-facing slightly low camera, front bill curves up at center and turns down subtly at side tips. No floating rear brim/straps underneath; full forehead band appears snug. No text or logos.",
+      "fit": {
+        "sourceCrop": [
+          83,
+          51,
+          1734,
+          714
+        ]
+      }
+    },
+    {
+      "id": "headphones",
+      "name": "Studio headphones",
+      "category": "headwear",
+      "file": "headphones.png",
+      "size": [
+        1935,
+        812
+      ],
+      "sha256": "bac41734a6dfb2b3cf8b45d7668222b61d528f91841b665e4296fd3e03d55001",
+      "prompt": "Create a revised ISOLATED transparent headphones accessory for the exact bear reference, in the green leather and brushed silver style of the other reference. Crucial anatomy: this bear's ears are HIGH on top of a VERY WIDE head. The two headphone earcups should cover those round ears, not the forehead or cheeks. Design two compact upright round forest-green leather cups at the UPPER LEFT and UPPER RIGHT ends, with a SHORT silver hinge and a shallow flexible padded connecting band that DROOPS slightly DOWN between them to rest on the bear's crown. Silhouette is extremely WIDE and SHALLOW, about 3.4:1 overall width:height. NO tall human headphone arch, NO large empty oval hole. The top of each earcup is approximately level with the middle of the connecting band; the cups hang only slightly below the middle of that band. Imagine headphones specially made for a teddy bear with high ears. Clean straight-on front elevation, bilateral symmetry, small silver circular medallion on each cup, tactile green leather stitching, softly faceted 3D artwork matching Bobo. Output ONLY the headset, no bear, no skin/fur, no stand, no shadow outside object, no glow, no words. Genuine transparent background with crisp antialiased edges; all hardware connected and fully within frame. This must be one complete very shallow wide wearable accessory.",
+      "fit": {
+        "sourceCrop": [
+          42,
+          218,
+          1856,
+          461
+        ]
+      }
+    },
+    {
+      "id": "rounds",
+      "name": "Honey rounds",
+      "category": "eyewear",
+      "file": "rounds.png",
+      "size": [
+        1904,
+        826
+      ],
+      "sha256": "2bba55bcdb66187983b417a2d575e28637d5574a3f6e270588d8fbd92906e0ac",
+      "prompt": "Create ONE isolated complete pair of glasses tailored to the very wide Bobo bear face in the reference. Output ONLY glasses on a fully transparent background, NO bear, face, eyeballs, body or cast ground shadow. Direct straight-on front camera, very wide eye spacing, bridge exactly centered, both temples short and curling subtly backward so the actual front frame dominates. Arms do not extend upward behind the glasses. Overall width roughly 4.6 times height. Match Bobo's textured softly faceted 3D collectible shading, with clean edges and believable material. Entire object inside frame with transparent padding. Round AMBER-TINTED GLASSES: two broad perfectly circular honey amber lenses in thin brushed brass rims, delicate curved metallic bridge and subtle visible nose pads. Warm amber glass reflects light but is mostly translucent so the bear's eyes can show through. Subtle metallic edging. Full frontal symmetry, no thick browbar.",
+      "fit": {
+        "sourceCrop": [
+          85,
+          105,
+          1733,
+          594
+        ]
+      }
+    },
+    {
+      "id": "pixel",
+      "name": "Pixel shades",
+      "category": "eyewear",
+      "file": "pixel.png",
+      "size": [
+        2009,
+        783
+      ],
+      "sha256": "8263d158689a7654eec45a6b9ef2aa08176804550bf40abb74e4acd164d8c04b",
+      "prompt": "Create ONE isolated complete pair of glasses tailored to the very wide Bobo bear face in the reference. Output ONLY glasses on a fully transparent background, NO bear, face, eyeballs, body or cast ground shadow. Direct straight-on front camera, very wide eye spacing, bridge exactly centered, both temples short and curling subtly backward so the actual front frame dominates. Arms do not extend upward behind the glasses. Overall width roughly 4.6 times height. Match Bobo's textured softly faceted 3D collectible shading, with clean edges and believable material. Entire object inside frame with transparent padding. PIXEL SUNGLASSES: chunky matte-black three-dimensional stepped eight-bit frames, two wide blocky rectangular black tinted lenses, distinctive stair-step top and bottom corners and small shiny square accents along the top. Real molded acetate with texture and subtle highlights, no flat vector graphic. Symmetric front, no lettering.",
+      "fit": {
+        "sourceCrop": [
+          68,
+          153,
+          1870,
+          485
+        ]
+      }
+    },
+    {
+      "id": "hearts",
+      "name": "Heart eyes",
+      "category": "eyewear",
+      "file": "hearts.png",
+      "size": [
+        1902,
+        827
+      ],
+      "sha256": "7453716c15c1bfe2faf95d422cf3b81c0bd900f6bf55db5c0ddd6b2f4de24738",
+      "prompt": "Create ONE isolated complete pair of glasses tailored to the very wide Bobo bear face in the reference. Output ONLY glasses on a fully transparent background, NO bear, face, eyeballs, body or cast ground shadow. Direct straight-on front camera, very wide eye spacing, bridge exactly centered, both temples short and curling subtly backward so the actual front frame dominates. Arms do not extend upward behind the glasses. Overall width roughly 4.6 times height. Match Bobo's textured softly faceted 3D collectible shading, with clean edges and believable material. Entire object inside frame with transparent padding. HEART SHAPED GLASSES: two wide cherry-red translucent acetate heart-shaped frames with warm rose-tinted glass, delicate gold central bridge and small silver corner hinges. Thick glossy curved rim, clearly heart-shaped lobes and pointed lower lens tips. The shape should be broad, not tall, sitting comfortably across the bear's narrow eyes. Elegant fun wearable frame, not cartoon heart eyeballs.",
+      "fit": {
+        "sourceCrop": [
+          60,
+          154,
+          1783,
+          541
+        ]
+      }
+    },
+    {
+      "id": "pearls",
+      "name": "Council pearls",
+      "category": "neck",
+      "file": "pearls.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "ab64c84f55653837281a76ebc096321bc724fec9189967033588977929519bd4",
+      "prompt": "Create ONE isolated neck accessory for Bobo, the wide low-poly bear in the reference, output ONLY the complete accessory on transparent background, no bear, no fur, no torso, no head, no background shadow. Match the textured 3D collectible style and warm studio light. Direct frontal camera. This item will sit just below Bobo's oversized jaw and over his shirt. Entire accessory visible, no cropping, generous transparent padding. A single substantial U-shaped PEARL NECKLACE. Warm ivory spherical pearls with subtle iridescent highlights, graded from slightly smaller at the upper back to larger pearls in front. One small brushed-gold clasp behind the upper sides. Complete continuous single strand; front low U is broader than its height. About 22 substantial pearls, no pendant, no letters. Worn over the upper chest beneath the bear's large jaw.",
+      "fit": {
+        "sourceCrop": [
+          133,
+          120,
+          1266,
+          822
+        ]
+      }
+    },
+    {
+      "id": "tie",
+      "name": "Closing bell tie",
+      "category": "neck",
+      "file": "tie.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "e5a0e7f9c6fdee47f30493c907ce0dc192476bfff10edbfeac2af8f6af45518e",
+      "prompt": "Create ONE isolated neck accessory for Bobo, the wide low-poly bear in the reference, output ONLY the complete accessory on transparent background, no bear, no fur, no torso, no head, no background shadow. Match the textured 3D collectible style and warm studio light. Direct frontal camera. This item will sit just below Bobo's oversized jaw and over his shirt. Entire accessory visible, no cropping, generous transparent padding. A handsome deep forest-green SILK NECKTIE with a medium Windsor knot and fine diagonal gold stripes. The small neck strap goes behind the neck, the long main blade hangs straight down with a classic pointed bottom, narrow back blade partly hidden. Tactile silk, soft folds and natural highlights, three-dimensional knot. No shirt collar or body. Long tapered vertical silhouette, not a bow tie.",
+      "fit": {
+        "sourceCrop": [
+          208,
+          145,
+          632,
+          1301
+        ]
+      }
+    },
+    {
+      "id": "scarf",
+      "name": "Checkmate scarf",
+      "category": "neck",
+      "file": "scarf.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "6d57c4367534b8dd2a1c1bf6ea5115e9f7c09895358f0f96f2cd7e350ca35636",
+      "prompt": "Create ONE isolated neck accessory for Bobo, the wide low-poly bear in the reference, output ONLY the complete accessory on transparent background, no bear, no fur, no torso, no head, no background shadow. Match the textured 3D collectible style and warm studio light. Direct frontal camera. This item will sit just below Bobo's oversized jaw and over his shirt. Entire accessory visible, no cropping, generous transparent padding. A BLACK AND IVORY CHECK woven SCARF tied loosely around a broad neck, one short flat wrap across the top and two uneven hanging tails, one angled toward viewer-left and a longer tail toward viewer-right. Large restrained checker weave, soft wool fibers, natural folded cloth thickness, tiny fringe at the ends. Compact neck loop with clear hanging scarf silhouette, no triangle bandana shape, no body, no text.",
+      "fit": {
+        "sourceCrop": [
+          167,
+          107,
+          988,
+          1057
+        ]
+      }
+    },
+    {
+      "id": "diamond",
+      "name": "Diamond hands",
+      "category": "prop",
+      "file": "diamond.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "1b747df60c6b4cbbd2b9677fe86ca0329e02a52103f85e46660db45c4f163296",
+      "prompt": "Create ONE isolated object prop matching the tactile softly faceted 3D style and warm studio light of the Bobo bear reference. Output the OBJECT ONLY on clean true TRANSPARENT background. Absolutely NO bear, paw, fingers, hand, arm, body, cast shadow, atmospheric glow, halo, mist or background gradient. We will add the existing bear grip separately, so do not generate a hand. Strong readable silhouette with restrained realistic materials. Entire object visible, generously padded. A single large brilliant-cut icy pale-blue DIAMOND, flat broad polygon top and tapering faceted point downward. Convincing translucent crystal depth with silver-white facet reflections and restrained pale blue interior. Front view slightly seeing top table. A bold gem that can be gripped around its bottom point. Entire gem, no stem, no pedestal, no chains. No starbursts or floating sparkles.",
+      "fit": {
+        "approvedGrip": "v5/coffee.png",
+        "fit": "drawNewProp preserves object aspect ratio; original grip overlays handle/tip"
+      }
+    },
+    {
+      "id": "plunger",
+      "name": "Rug-pull plunger",
+      "category": "prop",
+      "file": "plunger.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "62924bd896aa45ba26fec44b7fb4b2f47f9729af2f9e39458a08c3fcb2152166",
+      "prompt": "Create ONE isolated object prop matching the tactile softly faceted 3D style and warm studio light of the Bobo bear reference. Output the OBJECT ONLY on clean true TRANSPARENT background. Absolutely NO bear, paw, fingers, hand, arm, body, cast shadow, atmospheric glow, halo, mist or background gradient. We will add the existing bear grip separately, so do not generate a hand. Strong readable silhouette with restrained realistic materials. Entire object visible, generously padded. An UPSIDE-DOWN household PLUNGER held vertically: a deep burgundy-red rubber suction cup at the TOP, rounded tapered rubber dome with flared rim, the long straight natural light-wood handle extends DOWNWARD from the cup's center. Clearly a real plunger flipped cup-up for display. The handle has fine woodgrain and a small rounded end. Front-facing view, entire handle visible. No hands, no ground, no reflections outside the object.",
+      "fit": {
+        "approvedGrip": "v5/coffee.png",
+        "fit": "drawNewProp preserves object aspect ratio; original grip overlays handle/tip"
+      }
+    },
+    {
+      "id": "honey-pop",
+      "name": "Honey pop",
+      "category": "prop",
+      "file": "honey-pop.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "d399314bc0549879c112f0af6857ed23e4c867bac4ed3e37d6a7788ecb59ed94",
+      "prompt": "Create ONE isolated object prop matching the tactile softly faceted 3D style and warm studio light of the Bobo bear reference. Output the OBJECT ONLY on clean true TRANSPARENT background. Absolutely NO bear, paw, fingers, hand, arm, body, cast shadow, atmospheric glow, halo, mist or background gradient. We will add the existing bear grip separately, so do not generate a hand. Strong readable silhouette with restrained realistic materials. Entire object visible, generously padded. A honey-caramel ICE POP shaped like a simple round bear head with two little rounded ears, a small bite missing from the upper viewer-left edge, subtle translucent amber honey sheen and a tiny drip at one lower corner. A natural flat wooden popsicle stick extends clearly downward, long enough for the bear to hold. No face graphics or writing on the ice pop. Soft realistic icy texture, a slightly faceted 3D collectible candy, no separate droplets.",
+      "fit": {
+        "approvedGrip": "v5/coffee.png",
+        "fit": "drawNewProp preserves object aspect ratio; original grip overlays handle/tip"
+      }
+    }
+  ]
+}

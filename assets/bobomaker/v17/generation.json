@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-07",
+  "version": "6.13.0",
+  "tool": "image_gen.imagegen",
+  "transparent_background": true,
+  "reference": "User-circled reference images were described from actual pixels by the parent reviewer. Edited local v16/hazmat.png and v16/rounds.png using imagegen. Beret joins are native canvas fitting corrections to unchanged v15/beret.png; no fur is painted.",
+  "preserved": "Earlier source PNGs, including all v15 and v16 artwork, remain unchanged. No published trait is removed.",
+  "traits": [
+    {
+      "id": "hazmat",
+      "name": "Hazmat suit",
+      "category": "outfit",
+      "file": "hazmat.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "f0a5813941536db7b396c3a616ed7461df359d7af20973bec3b20fbe83be9302",
+      "prompt": "Edit this exact transparent yellow hazmat outfit asset. Make ONLY the grey respirator/filter and lower dark mask frontal and center aligned. The circular filter must be a perfect front-facing circle with concentric silver/charcoal rims and horizontal black grille slats, no diagonal side projection and no elliptical face. Its center must align exactly over the vertical center zipper at x=642 in the 1254-wide reference, directly under the midpoint of the face opening. Keep filter diameter approximately 228 source pixels, center about y=865. Make the underlying dark lower mask symmetric around that same vertical axis, tapering naturally into the existing visor. Preserve every other element as closely as possible: original hood silhouette, wide transparent visor opening, grey visor gasket, yellow textured faceted fabric, seam positions, long sleeves, zipper, lighting, original framing and overall dimensions. This is an outfit overlay only: keep transparent exterior and fully transparent face opening, no bear, no face, no letters, no marks. Do not add any reference circles. Front camera square view."
+    },
+    {
+      "id": "goggles",
+      "name": "Fallout goggles",
+      "category": "eyewear",
+      "file": "goggles.png",
+      "replaces": "rounds",
+      "size": [
+        1905,
+        825
+      ],
+      "sha256": "e17708d20b87258380f72cbea2fd5f73e680139ec87c41b0c7e11ae9ebb28ffd",
+      "prompt": "Transform these exact honey-amber round glasses into strapped protective GOGGLES for a broad bear head. Keep two separate round warm amber lenses, antique brass rims and centered curved bridge, but add close-fitting dark charcoal rubber gaskets around each round lens and a substantial dark woven elastic head strap attached at the outer sides. Front elevation, symmetric, strap extends horizontally to both sides and subtly curves backward away from camera, with gently tapered ends suitable to disappear around the bear's temples; no loose tails, no rigid side arms, no rear strap visible behind the empty nose bridge. Preserve the warm honey lens color but make the lens interiors genuinely translucent (partially transparent alpha), with subtle faceted highlights. Add a VERY FAINT muted golden mushroom-cloud nuclear explosion reflection in BOTH lenses, like a distant scene reflected in glass at about 15 percent visual strength. Reflections must be readable on close inspection but never opaque illustrations or bright flames; lenses remain clearly glass, not pictures. No radiation symbols, words, people, buildings, blood or damage. Preserve polished textured low-poly collectible rendering. Isolated goggles ONLY, fully transparent exterior, no face, no bear, no head, no backdrop. Wide composition with comfortable transparent margins. Keep circular frontal lenses, bridge above nose, snug elastic straps at both temples."
+    }
+  ],
+  "fitting": {
+    "hazmat": "Original face and eyewear shift 24 frame pixels left inside the visor to align the nose with the central filter and zipper.",
+    "beret": "Small smooth Bezier trims replace two angular lower-felt contact corners, preserving the original black band and native head pixels.",
+    "goggles": "Trim transparent margins, pin bridge to original nose, clip strap ends to the head silhouette, and composite lens interiors at 72% source opacity while preserving opaque frames and strap. For Hazmat, smaller front rims clear the visor and textured strap extensions meet both sides behind the opaque gaskets."
+  }
+}
