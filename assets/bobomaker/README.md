@@ -49,12 +49,12 @@ layer ZIPs all use the same renderer.
   tapering both ends upward/inward to the temples. The original knot/tails are
   separately seated at the right seam. Preserve this shaping when adjusting
   height; translating a rectangular strip leaves protruding side corners.
-- Trucker, cowboy, builder and beret tuck the ears inside the hat. `head(colors, headwear)`
+- Trucker, cowboy and beret tuck the ears inside the hat. `head(colors, headwear)`
   removes only those source ears; it never changes the face or other headwear.
   Current-layer exports use the same fitted head. Full kits include six extra
   `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
   the manifest identify which head PNG each hat requires. Do not composite a
-  standard head under these four hats or the ears will protrude again.
+  standard head under these three hats or the ears will protrude again.
 - v9 cowboy has a traditional dipped crown and the silver concho band. v9
   bucket is black with graphite stitching, preserving the approved placement.
   `v9/bobo-wordmark.png` is the exact user-supplied logo, copied unchanged.
@@ -129,12 +129,12 @@ python assets/bobomaker/tests/verify_backdrops.py --output backdrop-review
 
 Checks include keyboard focus/navigation, trait selection, undo/redo, locks,
 randomize, reset, Original/Panda/custom palettes, meme controls, all 66 prop/fur
-combinations, all 66 outfit/fur layer reconstructions, crown integrity, actual
+combinations, all 72 outfit/fur layer reconstructions, crown integrity, actual
 opaque/transparent PNG downloads, metadata, both ZIP exports, manifest paths,
 archive CRCs, and layouts at 320/390/768/1024/1440px. `--skip-kit` skips only the
 long full-kit download when it is unrelated to a change.
 
-The headwear suite checks 192 hat/palette/eyewear combinations, actual opaque
+The headwear suite checks 216 hat/palette/eyewear combinations, actual opaque
 and transparent PNGs, current-layer reconstruction for all four revised hats,
 and all 24 hat/palette reconstructions from the downloaded full kit. It also
 checks that the trucker adds no forehead transparency gaps, verifies exposed ears and
@@ -155,51 +155,57 @@ Keep changes scoped to this maker. The main site navigation and `index.html` are
 unrelated. Review the local result before authorizing a production release.
 
 
-## v6.11 expansion
+## v6.12 focused revision
 
-The v15 sources add exactly three choices in each clothing/accessory category:
+The catalog retains the published 22ab442f inventory, adds Hazmat suit, and
+keeps only Burgundy beret and Honey rounds from the unpublished v15 expansion.
+The thirteen other v15 additions are absent from the picker, loading list and
+exports. Their original PNGs and generation records remain archived intact.
 
-| Category | New choices |
-| --- | --- |
-| Outfit | Rugby club, Night rider, Council cardigan |
-| Headwear | Burgundy beret, Builder helmet, Studio headphones |
-| Eyewear | Honey rounds, Pixel shades, Heart eyes |
-| Neck | Council pearls, Closing bell tie, Checkmate scarf |
-| Props | Diamond hands, Rug-pull plunger, Honey pop |
+There are 73 non-None traits, including 24 backdrops and six fur palettes.
+Outfit/headwear/eyewear/neck/prop option counts are 12/9/9/6/12 including
+Bare bear or None. The full kit has 209 named PNG layers, its preview, manifest
+and README (212 ZIP entries). Metadata and kit version is 6.12.0.
 
-The catalog has 85 non-None traits, including 24 backdrops and six fur palettes.
-Outfit/headwear/eyewear/neck/prop option counts are 14/11/11/9/15 including
-Bare bear or None. The full kit contains 232 named PNG layers plus its preview,
-manifest and README (235 ZIP entries). Metadata and kit version is 6.11.0.
+- The original burgundy felt crown and gold pin remain unchanged. `drawBeret`
+  separates its black leather band in memory, removes the old antialiased rim,
+  and wraps the textured band around the forehead with receding temple ends.
+  The source PNG is not rewritten; the existing tucked-ear head is used.
+- v16 Honey rounds removes the side arms and hinge blocks, retaining the round
+  amber lenses, brass front rims, bridge and nose pads. The bridge stays pinned
+  to the original nose anchor. No side hardware is drawn by the renderer.
+- v16 Hazmat is one connected yellow hood and long-sleeved suit, with a dark
+  visor gasket, lower mask, cylindrical filter and center zipper. The original
+  Bobo face is fitted behind its transparent visor; no generated face is used.
+  Only the approved fur palette changes, never the yellow shell or hardware.
+- Hazmat covers headwear. Selecting it clears the hat and explains why hats
+  are disabled. Undo restores the previous outfit and hat together. Randomize
+  respects a locked hat by excluding Hazmat. Eyewear fits inside the visor.
+- Full kits include `fur/hazmat/{fur}.png` and eight fitted
+  `eyewear/hazmat/{eyewear}.png` layers. Resolve `outfitHeadVariant` before
+  `headwearHeadVariant`; use `outfitEyewearVariant` and `outfitCompatibility`
+  when assembling Hazmat. Ordinary outfits retain the published layer paths.
 
-- `expansionOutfits` crops the three source torsos to the shared shoulder line.
-  They have complete sleeves and no exposed source fur; all fabric, leather,
-  horn buttons and undershirts stay invariant when the fur palette changes.
-- `expansionCrops` removes transparent padding in memory. Source PNGs stay
-  intact; generation prompts, dimensions and hashes are in `v15/generation.json`.
-- The beret and builder use the existing tucked head variant. The headphones
-  use the standard head: compact cups cover the high ears directly, while the
-  shallow padded band rests on the crown. Do not apply the hat's rectangular
-  ear clearance to headphones; it would expose holes in the forehead.
-- All three new glasses pin their bridge to the existing nose anchor. Neck
-  layers use the shared chin mask. The new props use the original coffee paw,
-  with each object's lower tip/handle seated behind the grip. Only the paw is
-  tinted; the glass, wood, rubber and honey retain their generated colors.
+Image generation prompts, dimensions, hashes and reference limitations are in
+`v16/generation.json`. No published source artwork was modified.
 
-Expansion regression and review images (local headless Chromium):
+Focused verification and review images (separate local headless Chromium):
 
 ```sh
-python assets/bobomaker/tests/verify_expansion.py --output expansion-review --baseline-renderer previous-renderer.js
+python assets/bobomaker/tests/verify_focused_traits.py --output focused-review --baseline-renderer previous-renderer.js
 python assets/bobomaker/tests/verify.py --output regression-review --skip-kit
 ```
 
-The baseline argument should be `renderer.js` from published commit
-`22ab442f6d80d5691e1e8e206417dcd5c72576ce`. The expansion suite compares every
-previous trait in all six palettes, covers new combinations and actual PNG,
-metadata/current-layer/full-kit downloads, and saves labeled review sheets.
+Use `renderer.js` from published commit
+`22ab442f6d80d5691e1e8e206417dcd5c72576ce` as the baseline. The focused suite
+checks all 414 prior trait/palette combinations for pixel equality, 18 focused
+trait/palette combinations, 54 Hazmat/eyewear/palette combinations, 108
+Hazmat/neckwear/prop/palette combinations, compatibility controls, actual opaque
+and transparent PNGs, current-layer ZIPs, metadata, all full-kit paths and 72
+full-kit reconstructions. It saves the focused sheet, full previews, palette
+and eyewear sheets, and responsive layout screenshots for visual review.
 
 The layer export canvas temporarily joins the document with `hidden=true`.
 This inherits the preview's `font-synthesis:none`; detached canvases otherwise
 synthesize a heavier Impact weight for meme captions. The canvas is removed
-on both success and failure. Current-layer and full-kit preview PNGs therefore
-match the on-screen caption weight as well as the selected artwork.
+on both success and failure. Caption downloads match the preview's weight.
