@@ -15,7 +15,7 @@ const categories=[
 {id:'background',name:'Backdrop',help:'Choose a color or a scene.',options:[['sage','Council green','#ccd9b3'],['white','Studio white','#ffffff'],['pink','Rose','#e9c1c1'],['blue','Blue hour','#9eb6d3'],['yellow','Honey yellow','#ecc968'],['red','Bobo red','#b90b2a'],['ink','After hours','#242321'],['lavender','Lilac','#c4b6d4'],['check','Checkerboard','#dedcd7'],...Object.entries(imageBackgrounds)]},
 {id:'fur',name:'Fur',help:'The same bear, a different coat.',options:palettes.map(x=>[x.id,x.name])},
 {id:'outfit',name:'Outfit',help:'Dress for the market you deserve.',options:[['tee-red','Bobo red tee'],['hoodie','Black hoodie'],['puffer','Blue puffer'],['suit','Council suit'],['tee-white','White tee'],['bomber','Black bomber'],['red-puffer','Red puffer'],['varsity','Council varsity'],['jersey','Courtside jersey'],['denim','Denim jacket'],['hazmat','Hazmat suit'],['none','Bare bear']]},
-{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['trucker','Pump.fun trucker'],['bear-trucker','BEAR trucker'],['bobo-trucker','BOBO trucker'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['ninja-bandana','Red ninja bandana'],['beret','Burgundy beret']]},
+{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['trucker','Pump.fun trucker'],['bobo-trucker','BOBO trucker'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['ninja-bandana','Red ninja bandana'],['beret','Burgundy beret']]},
 {id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming'],['goggles','Fallout goggles']]},
 {id:'neck',name:'Neck',help:'The finishing touch.',options:[['none','None'],['gold-chain','Gold Cuban'],['silver-chain','Silver Cuban'],['bandana','Red bandana'],['pendant','Honey pendant'],['diamond-chain','Diamond Cuban']]},
 {id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice']]},
@@ -31,7 +31,8 @@ const placement={
 Object.assign(placement,{hazmat:[0,0,1024,1024],beret:[130,215,765,240],goggles:[110,434,814,290]});
 const newProps=['beras-can','champagne','eviction'];
 // Ears tuck inside these fitted hats. Other headwear keeps the original ears.
-const suppliedTruckers=['bear-trucker','bobo-trucker'];
+// BEAR remains archived in v19, but is not loaded, selectable or exported.
+const suppliedTruckers=['bobo-trucker'];
 for(const id of suppliedTruckers)placement[id]=[...placement.trucker];
 const tuckedEarHeadwear=['trucker','cowboy','beret',...suppliedTruckers];
 const normalizeHeadwear=id=>id==='durag'?'ninja-bandana':id==='cap'?'trucker':id;
@@ -314,7 +315,7 @@ class Renderer{
   if(this.truckerLetters[id])return this.truckerLetters[id];
   // The supplied red hats are lettering references only. These rectangles
   // contain the embroidered words, never the button, panel edges, rope or bill.
-  const crops={'bear-trucker':[170,318,790,390],'bobo-trucker':[180,300,830,375]};
+  const crops={'bobo-trucker':[180,300,830,375]};
   const [x,y,w,h]=crops[id],c=this.create(w,h),cx=c.getContext('2d');
   cx.drawImage(this.images[id],x,y,w,h,0,0,w,h);
   const image=cx.getImageData(0,0,w,h),d=image.data;
@@ -353,13 +354,24 @@ class Renderer{
   cx.putImageData(image,0,0);
   return this.truckerLetters[id]={image:c,bounds:[x0,y0,x1-x0+1,y1-y0+1],letterCount:letters.length};
  }
- drawSuppliedTrucker(ctx,id){
-  // All construction comes from the same approved source and drawTrucker fit.
-  // Only the front embroidery differs between the two red variants.
-  this.drawTrucker(ctx,this.redTruckerBase(),false);
+ curvedTruckerLettering(id){
+  if(!this.curvedTruckerLetters)this.curvedTruckerLetters={};
+  if(this.curvedTruckerLetters[id])return this.curvedTruckerLetters[id];
   const {image,bounds}=this.truckerLettering(id),scale=Math.min(464/bounds[2],170/bounds[3]);
-  const w=bounds[2]*scale,h=bounds[3]*scale;
-  ctx.drawImage(image,...bounds,512-w/2,152+(170-h)/2,w,h);
+  const w=bounds[2]*scale,h=bounds[3]*scale,left=512-w/2,top=152+(170-h)/2;
+  const c=this.create(1024,1024),cx=c.getContext('2d');
+  // A gentle 18px center rise follows the panel. Sample the original thread
+  // pixels at the same scale; only their vertical position follows the arc.
+  for(let x=Math.floor(left);x<Math.ceil(left+w);x++){
+   const u=Math.max(-1,Math.min(1,((x+.5)-512)/(w/2))),rise=18*(1-u*u);
+   cx.drawImage(image,bounds[0]+(x-left)/scale,bounds[1],1/scale,bounds[3],x,top-rise,1,h);
+  }
+  this.curvedTruckerLetters[id]=c;return c;
+ }
+ drawSuppliedTrucker(ctx,id){
+  // Construction and fitting remain the approved Pump.fun artwork.
+  this.drawTrucker(ctx,this.redTruckerBase(),false);
+  ctx.drawImage(this.curvedTruckerLettering(id),0,0);
  }
  drawTrucker(ctx,im,branding=true){
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;

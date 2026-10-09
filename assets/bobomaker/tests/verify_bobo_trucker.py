@@ -1,4 +1,4 @@
-"""Review the supplied BEAR/BOBO truckers and protect every published trait.
+"""Review the arched BOBO trucker and protect every published trait.
 
 Uses the same Pillow/Playwright setup as verify.py and a separate local browser.
 """
@@ -9,12 +9,12 @@ from PIL import Image, ImageChops, ImageDraw, ImageFont
 from playwright.sync_api import sync_playwright
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--output', type=Path, default=Path('trucker-pair-review'))
+parser.add_argument('--output', type=Path, default=Path('bobo-trucker-review'))
 parser.add_argument('--baseline-renderer', type=Path)
 parser.add_argument('--preview-only', action='store_true')
 args = parser.parse_args(); args.output.mkdir(parents=True, exist_ok=True)
 repo = Path(__file__).resolve().parents[3]
-hats = {'bear-trucker': 'BEAR trucker', 'bobo-trucker': 'BOBO trucker'}
+hats = {'bobo-trucker': 'BOBO trucker'}
 hashes = {'bear-trucker': 'c9fd6054050e54b615464b36ce487b3276fb3bef6fe937c5a152d2a25ee7d658',
           'bobo-trucker': '4bf8ed0eb44e1da01373420d363d08cf5423e38e8ae0376457a4cc648f116138'}
 checks = []
@@ -48,32 +48,35 @@ with sync_playwright() as p:
       window.compose=async urls=>{const c=canvas();for(const url of urls){const im=new Image();im.src=url;await im.decode();c.getContext('2d').drawImage(im,0,0)}return c.toDataURL()};
     }''')
     colors=page.evaluate('palettes.map(p=>p.id)')
-    check('All artwork loads; both new hats and Pump.fun are selectable in the 75-trait catalog',
-          not failures and page.locator('#asset-count').inner_text()=='75 TRAITS' and
-          page.evaluate("['trucker','bear-trucker','bobo-trucker'].every(id=>categories.find(c=>c.id==='headwear').options.some(o=>o[0]===id))"))
+    check('All artwork loads; BOBO and Pump.fun are selectable in the 74-trait catalog',
+          not failures and page.locator('#asset-count').inner_text()=='74 TRAITS' and
+          page.evaluate("['trucker','bobo-trucker'].every(id=>categories.find(c=>c.id==='headwear').options.some(o=>o[0]===id))"))
+    check('BEAR is absent from inventory, asset loading and tucked-head export mappings',page.evaluate("!categories.some(c=>c.options.some(o=>o[0]==='bear-trucker'))&&!('bear-trucker' in BoboEngine.assetSources)&&!('bear-trucker' in renderer.images)&&!BoboEngine.tuckedEarHeadwear.includes('bear-trucker')"))
     check('Both source PNGs are byte-identical to the supplied local files',
           all(hashlib.sha256((repo/f'assets/bobomaker/v19/{id}.png').read_bytes()).hexdigest()==sha for id,sha in hashes.items()))
     font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',27)
-    sheet=Image.new('RGB',(1500,602),'#f5f2e9');draw=ImageDraw.Draw(sheet)
+    sheet=Image.new('RGB',(1000,602),'#f5f2e9');draw=ImageDraw.Draw(sheet)
     previews={}
     for col,(id,label) in enumerate([('trucker','Pump.fun / approved fit'),*hats.items()]):
         im=png(page.evaluate('id=>art({headwear:id})',id));previews[id]=im
         im.save(args.output/f'{id}-preview.png')
         sheet.paste(im.resize((480,480)),(col*500+10,54));draw.text((col*500+16,16),label,font=font,fill='#25241f')
         draw.text((col*500+16,552),'Same base, panels and bill',font=font,fill='#625f55')
-    sheet.save(args.output/'trucker-pair-review.png')
+    sheet.save(args.output/'bobo-trucker-review.png')
     fit=page.evaluate('''hats=>{
       const raw=canvas();renderer.drawTrucker(raw.getContext('2d'),renderer.images.trucker);const a=raw.getContext('2d').getImageData(0,0,1024,1024).data,result=[];
       for(const id of hats){const c=canvas();renderer.drawSuppliedTrucker(c.getContext('2d'),id);const b=c.getContext('2d').getImageData(0,0,1024,1024).data;let silhouetteMismatch=0,outsideLetteringAlphaMismatch=0;
-        for(let i=0;i<a.length;i+=4){const x=(i/4)%1024,y=Math.floor(i/4/1024);if(!!a[i+3]!==!!b[i+3])silhouetteMismatch++;if((x<280||x>=744||y<152||y>=322)&&a[i+3]!==b[i+3])outsideLetteringAlphaMismatch++}
+        for(let i=0;i<a.length;i+=4){const x=(i/4)%1024,y=Math.floor(i/4/1024);if(!!a[i+3]!==!!b[i+3])silhouetteMismatch++;if((x<280||x>=744||y<134||y>=322)&&a[i+3]!==b[i+3])outsideLetteringAlphaMismatch++}
         result.push({id,silhouetteMismatch,outsideLetteringAlphaMismatch})}return result}''',list(hats))
-    check('Both hats retain the approved silhouette and alpha outside the changed front branding',all(x['silhouetteMismatch']==0 and x['outsideLetteringAlphaMismatch']==0 for x in fit),fit)
+    check('BOBO retains the approved silhouette and alpha outside the front branding',all(x['silhouetteMismatch']==0 and x['outsideLetteringAlphaMismatch']==0 for x in fit),fit)
     shared=page.evaluate('''hats=>{
       const base=canvas();renderer.drawTrucker(base.getContext('2d'),renderer.redTruckerBase(),false);const a=base.getContext('2d').getImageData(0,0,1024,1024).data;
       return hats.map(id=>{const c=canvas();renderer.drawSuppliedTrucker(c.getContext('2d'),id);const b=c.getContext('2d').getImageData(0,0,1024,1024).data;let changedOutsideBranding=0,changedInsideBranding=0;
-        for(let i=0;i<a.length;i+=4){const x=i/4%1024,y=Math.floor(i/4/1024);if([0,1,2,3].some(k=>a[i+k]!==b[i+k])){if(x<280||x>=744||y<152||y>=322)changedOutsideBranding++;else changedInsideBranding++}}
+        for(let i=0;i<a.length;i+=4){const x=i/4%1024,y=Math.floor(i/4/1024);if([0,1,2,3].some(k=>a[i+k]!==b[i+k])){if(x<280||x>=744||y<134||y>=322)changedOutsideBranding++;else changedInsideBranding++}}
         return {id,changedOutsideBranding,changedInsideBranding}})}''',list(hats))
-    check('Both variants are pixel-identical to the shared red Pump.fun base outside lettering',all(x['changedOutsideBranding']==0 and x['changedInsideBranding']>1000 for x in shared),shared)
+    check('BOBO is pixel-identical to the shared red Pump.fun base outside lettering',all(x['changedOutsideBranding']==0 and x['changedInsideBranding']>1000 for x in shared),shared)
+    arc=page.evaluate('''()=>{const c=renderer.curvedTruckerLettering('bobo-trucker'),d=c.getContext('2d').getImageData(0,0,1024,1024).data;let left=1024,right=0;for(let y=0;y<1024;y++)for(let x=0;x<1024;x++)if(d[(y*1024+x)*4+3]>128){left=Math.min(left,x);right=Math.max(right,x)}const tops=[1024,1024,1024,1024];for(let y=0;y<1024;y++)for(let x=left;x<=right;x++)if(d[(y*1024+x)*4+3]>128){const quarter=Math.min(3,Math.floor((x-left)/(right-left+1)*4));tops[quarter]=Math.min(tops[quarter],y)}return {tops,centerRise:(tops[0]+tops[3]-tops[1]-tops[2])/2,left,right}}''')
+    check('BOBO embroidery has a subtle upward center arc while staying centered on the panel',4<arc['centerRise']<28 and abs((arc['left']+arc['right'])/2-512)<2,arc)
     source=page.evaluate('''()=>{
       const im=renderer.images.trucker,c=document.createElement('canvas');c.width=im.width;c.height=im.height;c.getContext('2d').drawImage(im,0,0);
       const red=renderer.redTruckerBase(),a=c.getContext('2d').getImageData(0,0,c.width,c.height).data,b=red.getContext('2d').getImageData(0,0,c.width,c.height).data;let alphaMismatch=0,redPixels=0,blackPixels=0,visible=0;
@@ -83,14 +86,14 @@ with sync_playwright() as p:
     letters=page.evaluate('''ids=>ids.map(id=>{const {image,bounds}=renderer.truckerLettering(id),d=image.getContext('2d').getImageData(0,0,image.width,image.height).data;let fabric=0,thread=0;for(let i=0;i<d.length;i+=4)if(d[i+3]>200){if(Math.min(d[i+1],d[i+2])/Math.max(1,d[i])<.60)fabric++;else thread++}return {id,bounds,fabric,thread}})''',list(hats))
     check('Supplied references contribute only extracted embroidery, with no red hat fabric',all(x['fabric']==0 and x['thread']>10000 for x in letters),letters)
     page.get_by_role('tab',name='Headwear',exact=True).click()
-    page.get_by_role('button',name='BEAR trucker',exact=True).click()
+    page.get_by_role('button',name='BOBO trucker',exact=True).click()
     page.screenshot(path=str(args.output/'desktop-preview.png'),full_page=True)
     if args.preview_only:
         browser.close();server.shutdown();print('Preview ready.',flush=True);raise SystemExit(0)
     if args.baseline_renderer:
         page.evaluate("source=>{window.oldEngine=(new Function('window',source+';return window.BoboEngine;'))({});window.oldRenderer=new oldEngine.Renderer(renderer.images)}",args.baseline_renderer.read_text('utf-8-sig'))
         delta=page.evaluate("()=>oldEngine.categories.filter(c=>c.id!=='meme').map(c=>({category:c.id,missing:c.options.filter(o=>!categories.find(n=>n.id===c.id).options.some(n=>n[0]===o[0])),added:categories.find(n=>n.id===c.id).options.filter(o=>!c.options.some(n=>n[0]===o[0])).map(o=>o[0])}))")
-        check('The published catalog loses no choices and gains only BEAR and BOBO truckers',all(not x['missing'] and x['added']==(list(hats) if x['category']=='headwear' else []) for x in delta),delta)
+        check('The published catalog loses no choices and gains only BOBO trucker',all(not x['missing'] and x['added']==(list(hats) if x['category']=='headwear' else []) for x in delta),delta)
         for fur in colors:
             result=page.evaluate('''fur=>{const a=canvas(),b=canvas(),out=[];for(const cat of oldEngine.categories.filter(c=>!['meme','fur'].includes(c.id)))for(const[id]of cat.options){const s=settings({fur,[cat.id]:id});oldRenderer.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);out.push({category:cat.id,id,same:identical(a,b)})}return out}''',fur)
             check(f'{fur}: all 72 published trait combinations remain pixel-identical',len(result)==72 and all(x['same'] for x in result),{'combinations':len(result),'failures':[x for x in result if not x['same']]})
@@ -135,21 +138,22 @@ with sync_playwright() as p:
             joined=png(page.evaluate('urls=>compose(urls)',[url(z.read(name)) for name in sorted(z.namelist()) if name.startswith('layers/')]))
             meta=json.loads(z.read('bobo.json'))
             check(id+': current layer ZIP passes CRC and reconstructs the preview exactly',z.testzip() is None and same(joined,preview))
-            check(id+': export metadata records the correct hat and release',meta['maker']['settings']['headwear']==id and meta['maker']['version']=='6.14.1' and any(a['trait_type']=='Headwear' and a['value']==hats[id] for a in meta['attributes']))
+            check(id+': export metadata records the correct hat and release',meta['maker']['settings']['headwear']==id and meta['maker']['version']=='6.14.2' and any(a['trait_type']=='Headwear' and a['value']==hats[id] for a in meta['attributes']))
     page.locator('.export-menu summary').click()
     with page.expect_download(timeout=300000) as download:page.locator('#export-kit').click()
     path=args.output/'bobo-layer-kit.zip';download.value.save_as(path)
     with zipfile.ZipFile(path) as z:
         manifest=json.loads(z.read('manifest.json'));layers=[n for n in z.namelist() if n.startswith('layers/')]
-        check('Full kit contains 211 named PNG layers and 214 entries with valid CRC',len(layers)==211 and len(z.namelist())==214 and z.testzip() is None,{'layers':len(layers),'entries':len(z.namelist())})
-        check('Full kit keeps Pump.fun and maps both new hats to tucked-ear heads',all(manifest['headwearHeadVariant'][id]=='tucked' and f'layers/headwear/{id}.png' in layers for id in ['trucker',*hats]) and manifest['version']=='6.14.1')
+        check('Full kit contains 210 named PNG layers and 213 entries with valid CRC',len(layers)==210 and len(z.namelist())==213 and z.testzip() is None,{'layers':len(layers),'entries':len(z.namelist())})
+        check('Full kit keeps Pump.fun and maps BOBO to tucked-ear heads',all(manifest['headwearHeadVariant'][id]=='tucked' and f'layers/headwear/{id}.png' in layers for id in ['trucker',*hats]) and manifest['version']=='6.14.2')
+        check('BEAR is absent from all downloaded kit layers and manifest entries',not any('bear-trucker' in name for name in z.namelist()) and 'bear-trucker' not in json.dumps(manifest))
         results=[]
         for id in hats:
             for fur in colors:
                 paths=['layers/background/sage.png',f'layers/outfit/{fur}/tee-red.png',f'layers/fur/tucked/{fur}.png',f'layers/headwear/{id}.png']
                 joined=png(page.evaluate('urls=>compose(urls)',[url(z.read(n)) for n in paths]))
                 results.append(same(joined,png(page.evaluate('s=>art(s)',{'headwear':id,'fur':fur}))))
-        check('All 12 new hat/palette previews rebuild exactly from the downloaded full kit',all(results) and len(results)==12)
+        check('All 6 BOBO/palette previews rebuild exactly from the downloaded full kit',all(results) and len(results)==6)
     check('Export controls recover and temporary canvases are removed',page.locator('#download').is_enabled() and page.locator('#export-status').is_hidden() and page.locator('body > canvas').count()==0)
     page.evaluate("()=>{state=settings({headwear:'bobo-trucker'});render();selectCategory('headwear')}")
     for width in [320,390,768,1024,1440]:
@@ -158,4 +162,4 @@ with sync_playwright() as p:
         if width in [390,1440]:page.screenshot(path=str(args.output/f'layout-{width}.png'),full_page=True)
     check('No browser errors or failed asset requests',not errors and not failures,{'errors':errors,'failures':failures})
     browser.close()
-server.shutdown();print('Completed',len(checks),'trucker-pair checks.',flush=True)
+server.shutdown();print('Completed',len(checks),'BOBO trucker checks.',flush=True)

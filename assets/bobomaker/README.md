@@ -49,7 +49,7 @@ layer ZIPs all use the same renderer.
   tapering both ends upward/inward to the temples. The original knot/tails are
   separately seated at the right seam. Preserve this shaping when adjusting
   height; translating a rectangular strip leaves protruding side corners.
-- Pump.fun, BEAR and BOBO truckers, cowboy and beret tuck the ears inside the hat. `head(colors, headwear)`
+- Pump.fun and BOBO truckers, cowboy and beret tuck the ears inside the hat. `head(colors, headwear)`
   removes only those source ears; it never changes the face or other headwear.
   Current-layer exports use the same fitted head. Full kits include six extra
   `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
@@ -155,42 +155,44 @@ Keep changes scoped to this maker. The main site navigation and `index.html` are
 unrelated. Review the local result before authorizing a production release.
 
 
-## v6.14.1 shared-base BEAR and BOBO truckers
+## v6.14.2 arched BOBO trucker
 
-Two separate headwear choices recolor the approved `v14/trucker.png` base red.
-The exact user-supplied PNGs in `v19/` provide only the embroidered lettering.
+The BOBO trucker recolors the approved `v14/trucker.png` base red.
+The exact user-supplied BOBO PNG in `v19/` provides only the embroidered lettering.
 Their original filenames, dimensions and SHA-256 hashes are in
 `v19/provenance.json`. Pump.fun remains a separate unchanged option.
+The unapproved BEAR source remains archived unchanged, but is absent from the
+catalog, loaded assets, head-variant mappings and every export.
 
 `redTruckerBase` recolors the original approved source at its native dimensions,
 preserving every alpha value and source coordinate. Its panel construction,
 cloth grain, mesh, seams, lighting and bill stitching come directly from the
 same base as Pump.fun. `drawTrucker` applies the unchanged fit at
 `[152, 80, 720, 380]`; its optional branding flag omits only the Pump.fun logo.
-`truckerLettering` extracts the white embroidered word from each supplied
-reference. The original letter pixels are scaled uniformly into the front panel
-at a common 170px letter height; no font substitution is used. None of the
-supplied hat's panel, rope, button, fabric or bill is composited. Both red variants
-are pixel-identical outside this lettering area. This replaces the unapproved
-v6.14.0 candidate that warped the supplied hat photo into a matching outline.
+`truckerLettering` extracts the four white embroidered letters from the supplied
+BOBO reference. `curvedTruckerLettering` keeps the original embroidery pixels at
+170px letter height and adds a gentle quadratic arc with an 18px center rise.
+Only vertical placement changes along the word; no font substitution is used.
+None of the supplied hat's panel, rope, button, fabric or bill is composited.
+Outside the curved lettering area, BOBO is pixel-identical to the shared red base.
 The shared red source and lettering are cached for preview, thumbnails and all
-exports. The hats use the same tucked-ear head and Hazmat compatibility as Pump.fun.
+exports. BOBO uses the same tucked-ear head and Hazmat compatibility as Pump.fun.
 
-The current catalog has 75 non-None traits and 11 headwear choices including
-None. Full kits include `layers/headwear/bear-trucker.png` and
-`layers/headwear/bobo-trucker.png`: 211 named layers, 214 total ZIP entries.
-Metadata and kit version is 6.14.1.
+The current catalog has 74 non-None traits and 10 headwear choices including
+None. Full kits add only `layers/headwear/bobo-trucker.png`:
+210 named layers, 213 total ZIP entries. Metadata and kit version is 6.14.2.
 
 ```sh
-python assets/bobomaker/tests/verify_trucker_pair.py --output trucker-pair-review --baseline-renderer previous-renderer.js
+python assets/bobomaker/tests/verify_bobo_trucker.py --output bobo-trucker-review --baseline-renderer previous-renderer.js
 python assets/bobomaker/tests/verify.py --output regression-review --skip-kit
 ```
 
 Use `renderer.js` from published commit `92ef27859c06f304e25199a00f3607cf8efffb30`
-for the pair suite's baseline. It checks shared source geometry and alpha,
-identical base pixels outside lettering, exact hat silhouette and source hashes,
-all 432 published trait/palette combinations, 108 new hat/eyewear/palette
-combinations, 144 outfit/palette/championship combinations, forehead contact and
+for the BOBO suite's baseline. It checks the upward arc, shared geometry and alpha,
+identical base pixels outside lettering, exact hat silhouette, source hashes and
+BEAR exclusion from loading, inventory and the downloaded kit. It also checks
+all 432 published trait/palette combinations, 54 BOBO/eyewear/palette
+combinations, 72 outfit/palette/championship combinations, forehead contact and
 eye clearance, real picker/undo/redo/locks/Hazmat controls, actual PNG and layer
 ZIP downloads, full-kit reconstruction and responsive widths 320–1440px.
 Review the full previews and palette/eyewear sheets for lettering and material

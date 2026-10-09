@@ -1,10 +1,12 @@
 {
-  "version": "6.14.1",
+  "version": "6.14.2",
   "date": "2026-10-09",
   "source": "Approved v14 Pump.fun trucker is the common hat base. User-supplied local PNG files are unchanged lettering references only.",
   "assets": [
     {
       "id": "bear-trucker",
+      "active": false,
+      "status": "Archived source retained unchanged; excluded from inventory, loading and exports",
       "name": "BEAR trucker",
       "original_filename": "Bear_Trucker_hat.png",
       "file": "bear-trucker.png",
@@ -13,6 +15,7 @@
     },
     {
       "id": "bobo-trucker",
+      "active": true,
       "name": "BOBO trucker",
       "original_filename": "Bobo_Trucker_hat.png",
       "file": "bobo-trucker.png",
@@ -21,14 +24,15 @@
     }
   ],
   "fitting": {
-    "method": "Recolor approved v14/trucker.png at native dimensions, preserving source alpha and coordinates, then render with the unchanged drawTrucker placement, clips and side trims. Omit only Pump.fun branding. Extract white embroidery from each supplied reference and scale it uniformly into the front panel. No supplied hat geometry, fabric, button, rope or bill is composited.",
+    "method": "Recolor approved v14/trucker.png at native dimensions, preserving source alpha and coordinates, then render with unchanged drawTrucker placement, clips and side trims. Omit Pump.fun branding. Extract original BOBO embroidery, scale to 170px height and add a gentle upward arc by vertically shifting columns. No supplied hat geometry, fabric, button, rope or bill is composited.",
     "placement": [152, 80, 720, 380],
     "head_variant": "tucked",
     "reference_asset": "../v14/trucker.png",
     "reference_sha256": "0de86498415d4b93619c053b95bd3cd14b85be70e3b6e6753511e44916ae04e6",
-    "lettering_frame": [280, 152, 464, 170],
-    "lettering_source_crops": {"bear-trucker": [170, 318, 790, 390], "bobo-trucker": [180, 300, 830, 375]},
-    "preserved": "Identical approved panel construction, bill, mesh, seams, source shading and placement across all truckers. The two red variants differ only in embroidery. Original Pump.fun rendering and all existing source assets remain unchanged. No generated replacement artwork is used.",
-    "supersedes": "Unapproved v6.14.0 row-warped source-hat candidates"
+    "lettering_frame": [280, 134, 464, 188],
+    "lettering_source_crops": {"bobo-trucker": [180, 300, 830, 375]},
+    "arc": {"shape": "quadratic upward", "center_rise_pixels": 18},
+    "preserved": "Identical approved panel construction, bill, mesh, seams, source shading and placement. Original Pump.fun rendering and all existing source assets remain unchanged. BEAR is inactive with its original local source retained. No generated replacement artwork is used.",
+    "supersedes": "Unapproved straight-lettering BOBO preview; BEAR excluded from release scope"
   }
 }
