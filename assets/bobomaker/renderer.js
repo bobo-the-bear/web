@@ -293,43 +293,75 @@ class Renderer{
   ctx.beginPath();ctx.moveTo(1650,280);ctx.lineTo(1790,260);ctx.lineTo(1945,380);
   ctx.lineTo(1945,750);ctx.lineTo(1730,750);ctx.lineTo(1680,425);ctx.lineTo(1650,405);ctx.closePath();ctx.clip();ctx.drawImage(im,0,0);ctx.restore();
  }
- drawSuppliedTrucker(ctx,id){
-  // Keep the supplied embroidery and materials: fit the original photo rows
-  // to the exact approved trucker silhouette. Only the exterior studio white
-  // and floor shadow are excluded; white lettering inside the cap is retained.
-  if(!this.suppliedTruckerArt)this.suppliedTruckerArt={};
-  if(!this.suppliedTruckerArt[id]){
-   const im=this.images[id],source=this.create(im.width,im.height),sc=source.getContext('2d');
-   sc.drawImage(im,0,0);const pixels=sc.getImageData(0,0,im.width,im.height).data,rows=[];
-   let first=im.height,last=0;
-   for(let y=0;y<im.height;y++){
-    let left=im.width,right=-1;
-    for(let x=0;x<im.width;x++){const i=(y*im.width+x)*4;
-     if(pixels[i+3]>240&&pixels[i]-Math.max(pixels[i+1],pixels[i+2])>48){left=Math.min(left,x);right=x}}
-    if(right>=left){rows[y]=[left,right];first=Math.min(first,y);last=y}
-   }
-   const mask=this.create(1024,1024),mc=mask.getContext('2d');
-   this.drawTrucker(mc,this.images.trucker);
-   const alpha=mc.getImageData(0,0,1024,1024).data,targetRows=[];let top=1024,bottom=0;
-   for(let y=0;y<1024;y++){
-    let left=1024,right=-1;
-    for(let x=0;x<1024;x++)if(alpha[(y*1024+x)*4+3]){left=Math.min(left,x);right=x}
-    if(right>=left){targetRows[y]=[left,right];top=Math.min(top,y);bottom=y}
-   }
-   const fitted=this.create(1024,1024),fc=fitted.getContext('2d'),scale=(last-first+1)/(bottom-top+1);
-   for(let y=top;y<=bottom;y++){
-    if(!targetRows[y])continue;
-    const sy=first+(y-top)*scale,sourceRow=rows[Math.min(last,Math.floor(sy+scale/2))];
-    if(!sourceRow)continue;
-    const [sl,sr]=sourceRow,[tl,tr]=targetRows[y],inset=sr-sl>6?2:0;
-    fc.drawImage(source,sl+inset,sy,sr-sl+1-inset*2,Math.min(scale,last+1-sy),tl,y,tr-tl+1,1);
-   }
-   fc.globalCompositeOperation='destination-in';fc.drawImage(mask,0,0);
-   fc.globalCompositeOperation='source-over';this.suppliedTruckerArt[id]=fitted;
+ redTruckerBase(){
+  if(this.redTruckerSource)return this.redTruckerSource;
+  // Recolor the approved v14 pixels in place, without resampling or changing
+  // alpha. Panel seams, mesh holes, cloth grain, stitches and lighting remain
+  // at their original source coordinates for every trucker variant.
+  const im=this.images.trucker,c=this.create(im.width,im.height),cx=c.getContext('2d');
+  cx.drawImage(im,0,0);const image=cx.getImageData(0,0,c.width,c.height),d=image.data;
+  for(let i=0;i<d.length;i+=4){
+   if(!d[i+3])continue;
+   const r=d[i],g=d[i+1],b=d[i+2],v=Math.max(r,g,b)/255;
+   const ivory=r>=g*.92&&b>=g*.78;
+   const value=ivory?v*.90:Math.min(1,Math.pow(v,.55)*1.10);
+   d[i]=Math.round(255*value);d[i+1]=Math.round(22*value);d[i+2]=Math.round(38*value);
   }
-  ctx.drawImage(this.suppliedTruckerArt[id],0,0);
+  cx.putImageData(image,0,0);this.redTruckerSource=c;return c;
  }
- drawTrucker(ctx,im){
+ truckerLettering(id){
+  if(!this.truckerLetters)this.truckerLetters={};
+  if(this.truckerLetters[id])return this.truckerLetters[id];
+  // The supplied red hats are lettering references only. These rectangles
+  // contain the embroidered words, never the button, panel edges, rope or bill.
+  const crops={'bear-trucker':[170,318,790,390],'bobo-trucker':[180,300,830,375]};
+  const [x,y,w,h]=crops[id],c=this.create(w,h),cx=c.getContext('2d');
+  cx.drawImage(this.images[id],x,y,w,h,0,0,w,h);
+  const image=cx.getImageData(0,0,w,h),d=image.data;
+  for(let py=0;py<h;py++)for(let px=0;px<w;px++){
+   const i=(py*w+px)*4,neutral=Math.min(d[i+1],d[i+2])/Math.max(1,d[i]);
+   d[i+3]=Math.round(d[i+3]*Math.max(0,Math.min(1,(neutral-.25)/.5)));
+  }
+  // Retain the four connected embroidered letters, excluding isolated studio
+  // highlights at the crop corners. Keep their neighboring antialiased pixels.
+  const labels=new Int32Array(w*h),queue=new Int32Array(w*h),parts=[];
+  for(let seed=0;seed<labels.length;seed++){
+   if(labels[seed]||d[seed*4+3]<=32)continue;
+   const label=parts.length+1,part={label,size:0,x0:w,y0:h,x1:0,y1:0};
+   let head=0,tail=1;queue[0]=seed;labels[seed]=label;
+   while(head<tail){
+    const p=queue[head++],px=p%w,py=Math.floor(p/w);part.size++;
+    part.x0=Math.min(part.x0,px);part.x1=Math.max(part.x1,px);part.y0=Math.min(part.y0,py);part.y1=Math.max(part.y1,py);
+    for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+     const nx=px+dx,ny=py+dy;if(nx<0||nx>=w||ny<0||ny>=h)continue;
+     const n=ny*w+nx;if(!labels[n]&&d[n*4+3]>32){labels[n]=label;queue[tail++]=n}
+    }
+   }
+   parts.push(part);
+  }
+  const letters=parts.sort((a,b)=>b.size-a.size).slice(0,4),keep=new Set(letters.map(p=>p.label));
+  let x0=Math.min(...letters.map(p=>p.x0)),x1=Math.max(...letters.map(p=>p.x1)),y0=Math.min(...letters.map(p=>p.y0)),y1=Math.max(...letters.map(p=>p.y1));
+  for(let p=0;p<labels.length;p++){
+   if(keep.has(labels[p]))continue;
+   const px=p%w,py=Math.floor(p/w);let edge=false;
+   if(d[p*4+3]<=32)for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+    const nx=px+dx,ny=py+dy;if(nx>=0&&nx<w&&ny>=0&&ny<h&&keep.has(labels[ny*w+nx]))edge=true;
+   }
+   if(!edge)d[p*4+3]=0;
+  }
+  x0=Math.max(0,x0-1);y0=Math.max(0,y0-1);x1=Math.min(w-1,x1+1);y1=Math.min(h-1,y1+1);
+  cx.putImageData(image,0,0);
+  return this.truckerLetters[id]={image:c,bounds:[x0,y0,x1-x0+1,y1-y0+1],letterCount:letters.length};
+ }
+ drawSuppliedTrucker(ctx,id){
+  // All construction comes from the same approved source and drawTrucker fit.
+  // Only the front embroidery differs between the two red variants.
+  this.drawTrucker(ctx,this.redTruckerBase(),false);
+  const {image,bounds}=this.truckerLettering(id),scale=Math.min(464/bounds[2],170/bounds[3]);
+  const w=bounds[2]*scale,h=bounds[3]*scale;
+  ctx.drawImage(image,...bounds,512-w/2,152+(170-h)/2,w,h);
+ }
+ drawTrucker(ctx,im,branding=true){
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;
   // v14 has a taller foam crown and a deeper curved bill. Keep the mesh sides
   // nearly straight below the shoulders, exposing the actual fur at the temples.
@@ -350,9 +382,11 @@ class Renderer{
   ctx.moveTo(1705,250);ctx.lineTo(1340,250);
   ctx.bezierCurveTo(1367,280,1379,302,1383,335);ctx.lineTo(1430,704);ctx.lineTo(1705,704);ctx.closePath();
   ctx.fill();ctx.restore();
-  const lw=118,lh=lw*1253/1215;
-  ctx.save();ctx.shadowColor='rgba(23,49,40,.22)';ctx.shadowBlur=.7;ctx.shadowOffsetY=.7;
-  ctx.drawImage(logo,56,3,1215,1253,x+w/2-lw/2,y+h*.25,lw,lh);ctx.restore();
+  if(branding){
+   const lw=118,lh=lw*1253/1215;
+   ctx.save();ctx.shadowColor='rgba(23,49,40,.22)';ctx.shadowBlur=.7;ctx.shadowOffsetY=.7;
+   ctx.drawImage(logo,56,3,1215,1253,x+w/2-lw/2,y+h*.25,lw,lh);ctx.restore();
+  }
  }
  drawEyewear(ctx,im,id){
   const [x,y,w,h]=placement[id],fit=eyewearFits[id],bridge=im.width*fit.bridge;

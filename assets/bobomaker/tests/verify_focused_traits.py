@@ -91,7 +91,7 @@ with sync_playwright() as p:
     font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',24);small=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',18)
     contact=Image.new('RGB',(1116,498),'#f5f2e9');d=ImageDraw.Draw(contact)
     d.text((26,18),'BOBO MAKER / FOCUSED REVIEW',font=font,fill='#282b24')
-    d.text((26,54),'v6.14.0 | Hazmat suit, fitted beret and strapped Fallout goggles',font=small,fill='#626658')
+    d.text((26,54),'v6.14.1 | Hazmat suit, fitted beret and strapped Fallout goggles',font=small,fill='#626658')
     palette_sheet=Image.new('RGB',(1200,3*226),'#f5f2e9');pd=ImageDraw.Draw(palette_sheet)
     singles={};parity=[]
     for row,(cat,ids) in enumerate(new.items()):
@@ -156,7 +156,7 @@ with sync_playwright() as p:
             joined=png(page.evaluate('urls=>compose(urls)',[url(z.read(name)) for name in sorted(z.namelist()) if name.startswith('layers/')]))
             metadata=json.loads(z.read('bobo.json'));values={a['trait_type']:a['value'] for a in metadata['attributes']}
             check(f'Look {n+1}: downloaded layer ZIP passes CRC and reconstructs the preview exactly',z.testzip() is None and same(joined,preview) and same(Image.open(io.BytesIO(z.read('bobo.png'))).convert('RGBA'),preview))
-            check(f'Look {n+1}: metadata records every selected trait, colors and version',metadata['maker']['version']=='6.14.0' and all(values[next(c['name'] for c in catalog if c['id']==cat)]==labels[(cat,extra[cat])] for cat in new if cat in extra) and metadata['maker']['settings']['colors']==page.evaluate('state.colors'))
+            check(f'Look {n+1}: metadata records every selected trait, colors and version',metadata['maker']['version']=='6.14.1' and all(values[next(c['name'] for c in catalog if c['id']==cat)]==labels[(cat,extra[cat])] for cat in new if cat in extra) and metadata['maker']['settings']['colors']==page.evaluate('state.colors'))
     page.locator('.export-menu summary').click()
     with page.expect_download(timeout=300000) as dl:page.locator('#export-kit').click()
     kit_path=args.output/'bobo-full-kit.zip';dl.value.save_as(kit_path)
@@ -168,7 +168,7 @@ with sync_playwright() as p:
         for variant in ['tucked','hazmat']:paths.extend(manifest['headVariants'][variant].replace('{fur}',fur) for fur in colors)
         paths.extend(manifest['outfitEyewearVariant']['hazmat'].replace('{eyewear}',id) for id,name in next(c for c in catalog if c['id']=='eyewear')['options'] if id!='none')
         check('Full kit contains 211 named 1024px layers, valid CRC and 214 total entries',z.testzip() is None and len(paths)==211 and len(z.namelist())==214 and all(n in z.namelist() and Image.open(io.BytesIO(z.read(n))).size==(1024,1024) for n in paths),{'layers':len(paths),'entries':len(z.namelist())})
-        check('Kit maps all fitted hats to correct head variants',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret','bear-trucker','bobo-trucker']} and manifest['version']=='6.14.0')
+        check('Kit maps all fitted hats to correct head variants',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret','bear-trucker','bobo-trucker']} and manifest['version']=='6.14.1')
         check('Kit records hazmat head, eyewear and headwear compatibility',manifest['outfitHeadVariant']=={'hazmat':'hazmat'} and manifest['outfitCompatibility']=={'hazmat':{'headwear':['none']}} and all('/'+id+'.png' not in name for id in removed for name in z.namelist()))
         def kit_layers(extra):
             fur=extra.get('fur','classic');hat=extra.get('headwear','none');outfit=extra.get('outfit','tee-red')

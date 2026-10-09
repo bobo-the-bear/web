@@ -60,14 +60,28 @@ with sync_playwright() as p:
         im=png(page.evaluate('id=>art({headwear:id})',id));previews[id]=im
         im.save(args.output/f'{id}-preview.png')
         sheet.paste(im.resize((480,480)),(col*500+10,54));draw.text((col*500+16,16),label,font=font,fill='#25241f')
-        draw.text((col*500+16,552),'Same fitted silhouette',font=font,fill='#625f55')
+        draw.text((col*500+16,552),'Same base, panels and bill',font=font,fill='#625f55')
     sheet.save(args.output/'trucker-pair-review.png')
     fit=page.evaluate('''hats=>{
       const raw=canvas();renderer.drawTrucker(raw.getContext('2d'),renderer.images.trucker);const a=raw.getContext('2d').getImageData(0,0,1024,1024).data,result=[];
-      for(const id of hats){const c=canvas();renderer.drawSuppliedTrucker(c.getContext('2d'),id);const b=c.getContext('2d').getImageData(0,0,1024,1024).data;let alphaMismatch=0,whiteExterior=0;
-        for(let i=0;i<a.length;i+=4){if(a[i+3]!==b[i+3])alphaMismatch++;if(!a[i+3]&&b[i+3])whiteExterior++}
-        result.push({id,alphaMismatch,whiteExterior})}return result}''',list(hats))
-    check('Both hats match the approved Pump.fun silhouette exactly with no exterior background',all(x['alphaMismatch']==0 and x['whiteExterior']==0 for x in fit),fit)
+      for(const id of hats){const c=canvas();renderer.drawSuppliedTrucker(c.getContext('2d'),id);const b=c.getContext('2d').getImageData(0,0,1024,1024).data;let silhouetteMismatch=0,outsideLetteringAlphaMismatch=0;
+        for(let i=0;i<a.length;i+=4){const x=(i/4)%1024,y=Math.floor(i/4/1024);if(!!a[i+3]!==!!b[i+3])silhouetteMismatch++;if((x<280||x>=744||y<152||y>=322)&&a[i+3]!==b[i+3])outsideLetteringAlphaMismatch++}
+        result.push({id,silhouetteMismatch,outsideLetteringAlphaMismatch})}return result}''',list(hats))
+    check('Both hats retain the approved silhouette and alpha outside the changed front branding',all(x['silhouetteMismatch']==0 and x['outsideLetteringAlphaMismatch']==0 for x in fit),fit)
+    shared=page.evaluate('''hats=>{
+      const base=canvas();renderer.drawTrucker(base.getContext('2d'),renderer.redTruckerBase(),false);const a=base.getContext('2d').getImageData(0,0,1024,1024).data;
+      return hats.map(id=>{const c=canvas();renderer.drawSuppliedTrucker(c.getContext('2d'),id);const b=c.getContext('2d').getImageData(0,0,1024,1024).data;let changedOutsideBranding=0,changedInsideBranding=0;
+        for(let i=0;i<a.length;i+=4){const x=i/4%1024,y=Math.floor(i/4/1024);if([0,1,2,3].some(k=>a[i+k]!==b[i+k])){if(x<280||x>=744||y<152||y>=322)changedOutsideBranding++;else changedInsideBranding++}}
+        return {id,changedOutsideBranding,changedInsideBranding}})}''',list(hats))
+    check('Both variants are pixel-identical to the shared red Pump.fun base outside lettering',all(x['changedOutsideBranding']==0 and x['changedInsideBranding']>1000 for x in shared),shared)
+    source=page.evaluate('''()=>{
+      const im=renderer.images.trucker,c=document.createElement('canvas');c.width=im.width;c.height=im.height;c.getContext('2d').drawImage(im,0,0);
+      const red=renderer.redTruckerBase(),a=c.getContext('2d').getImageData(0,0,c.width,c.height).data,b=red.getContext('2d').getImageData(0,0,c.width,c.height).data;let alphaMismatch=0,redPixels=0,blackPixels=0,visible=0;
+      for(let i=0;i<a.length;i+=4){if(a[i+3]!==b[i+3])alphaMismatch++;if(b[i+3]>240){visible++;if(b[i]>b[i+1]&&b[i]>b[i+2])redPixels++;else if(Math.max(b[i],b[i+1],b[i+2])<4)blackPixels++}}
+      return {sameDimensions:c.width===red.width&&c.height===red.height,alphaMismatch,redPixels,blackPixels,visible}}''')
+    check('Shared base recolors original source pixels without resizing or changing mesh transparency',source['sameDimensions'] and source['alphaMismatch']==0 and source['redPixels']+source['blackPixels']==source['visible'],source)
+    letters=page.evaluate('''ids=>ids.map(id=>{const {image,bounds}=renderer.truckerLettering(id),d=image.getContext('2d').getImageData(0,0,image.width,image.height).data;let fabric=0,thread=0;for(let i=0;i<d.length;i+=4)if(d[i+3]>200){if(Math.min(d[i+1],d[i+2])/Math.max(1,d[i])<.60)fabric++;else thread++}return {id,bounds,fabric,thread}})''',list(hats))
+    check('Supplied references contribute only extracted embroidery, with no red hat fabric',all(x['fabric']==0 and x['thread']>10000 for x in letters),letters)
     page.get_by_role('tab',name='Headwear',exact=True).click()
     page.get_by_role('button',name='BEAR trucker',exact=True).click()
     page.screenshot(path=str(args.output/'desktop-preview.png'),full_page=True)
@@ -121,14 +135,14 @@ with sync_playwright() as p:
             joined=png(page.evaluate('urls=>compose(urls)',[url(z.read(name)) for name in sorted(z.namelist()) if name.startswith('layers/')]))
             meta=json.loads(z.read('bobo.json'))
             check(id+': current layer ZIP passes CRC and reconstructs the preview exactly',z.testzip() is None and same(joined,preview))
-            check(id+': export metadata records the correct hat and release',meta['maker']['settings']['headwear']==id and meta['maker']['version']=='6.14.0' and any(a['trait_type']=='Headwear' and a['value']==hats[id] for a in meta['attributes']))
+            check(id+': export metadata records the correct hat and release',meta['maker']['settings']['headwear']==id and meta['maker']['version']=='6.14.1' and any(a['trait_type']=='Headwear' and a['value']==hats[id] for a in meta['attributes']))
     page.locator('.export-menu summary').click()
     with page.expect_download(timeout=300000) as download:page.locator('#export-kit').click()
     path=args.output/'bobo-layer-kit.zip';download.value.save_as(path)
     with zipfile.ZipFile(path) as z:
         manifest=json.loads(z.read('manifest.json'));layers=[n for n in z.namelist() if n.startswith('layers/')]
         check('Full kit contains 211 named PNG layers and 214 entries with valid CRC',len(layers)==211 and len(z.namelist())==214 and z.testzip() is None,{'layers':len(layers),'entries':len(z.namelist())})
-        check('Full kit keeps Pump.fun and maps both new hats to tucked-ear heads',all(manifest['headwearHeadVariant'][id]=='tucked' and f'layers/headwear/{id}.png' in layers for id in ['trucker',*hats]) and manifest['version']=='6.14.0')
+        check('Full kit keeps Pump.fun and maps both new hats to tucked-ear heads',all(manifest['headwearHeadVariant'][id]=='tucked' and f'layers/headwear/{id}.png' in layers for id in ['trucker',*hats]) and manifest['version']=='6.14.1')
         results=[]
         for id in hats:
             for fur in colors:

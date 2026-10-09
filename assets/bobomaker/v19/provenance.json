@@ -1,7 +1,7 @@
 {
-  "version": "6.14.0",
+  "version": "6.14.1",
   "date": "2026-10-09",
-  "source": "User-supplied local PNG files; copied without modification",
+  "source": "Approved v14 Pump.fun trucker is the common hat base. User-supplied local PNG files are unchanged lettering references only.",
   "assets": [
     {
       "id": "bear-trucker",
@@ -21,10 +21,14 @@
     }
   ],
   "fitting": {
-    "method": "Renderer-only row fitting of the original red fabric, mesh, rope, brim stitching and white embroidery to the approved Pump.fun trucker alpha silhouette. Exterior white backdrop and floor shadow are excluded by red silhouette row bounds. No source PNG pixels are rewritten.",
+    "method": "Recolor approved v14/trucker.png at native dimensions, preserving source alpha and coordinates, then render with the unchanged drawTrucker placement, clips and side trims. Omit only Pump.fun branding. Extract white embroidery from each supplied reference and scale it uniformly into the front panel. No supplied hat geometry, fabric, button, rope or bill is composited.",
     "placement": [152, 80, 720, 380],
     "head_variant": "tucked",
     "reference_asset": "../v14/trucker.png",
-    "preserved": "Pump.fun rendering and every previously approved source remain unchanged. No generated replacement artwork is used."
+    "reference_sha256": "0de86498415d4b93619c053b95bd3cd14b85be70e3b6e6753511e44916ae04e6",
+    "lettering_frame": [280, 152, 464, 170],
+    "lettering_source_crops": {"bear-trucker": [170, 318, 790, 390], "bobo-trucker": [180, 300, 830, 375]},
+    "preserved": "Identical approved panel construction, bill, mesh, seams, source shading and placement across all truckers. The two red variants differ only in embroidery. Original Pump.fun rendering and all existing source assets remain unchanged. No generated replacement artwork is used.",
+    "supersedes": "Unapproved v6.14.0 row-warped source-hat candidates"
   }
 }

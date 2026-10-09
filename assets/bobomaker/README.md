@@ -155,25 +155,31 @@ Keep changes scoped to this maker. The main site navigation and `index.html` are
 unrelated. Review the local result before authorizing a production release.
 
 
-## v6.14.0 supplied BEAR and BOBO truckers
+## v6.14.1 shared-base BEAR and BOBO truckers
 
-Two separate headwear choices use the exact user-supplied PNGs in `v19/`.
+Two separate headwear choices recolor the approved `v14/trucker.png` base red.
+The exact user-supplied PNGs in `v19/` provide only the embroidered lettering.
 Their original filenames, dimensions and SHA-256 hashes are in
 `v19/provenance.json`. Pump.fun remains a separate unchanged option.
 
-`drawSuppliedTrucker` reads the red silhouette boundaries of each source row,
-retaining the white embroidery inside the cap while excluding the white studio
-background and floor shadow. It fits those source rows to the approved
-`drawTrucker` alpha silhouette at `[152, 80, 720, 380]`. The original lettering,
-fabric, mesh, rope and stitched bill are sampled directly from the supplied PNG;
-no replacement artwork or font is generated. The fitted canvases are cached and
-shared by preview, thumbnails and all exports. The two hats use the same
-tucked-ear head and Hazmat compatibility as Pump.fun.
+`redTruckerBase` recolors the original approved source at its native dimensions,
+preserving every alpha value and source coordinate. Its panel construction,
+cloth grain, mesh, seams, lighting and bill stitching come directly from the
+same base as Pump.fun. `drawTrucker` applies the unchanged fit at
+`[152, 80, 720, 380]`; its optional branding flag omits only the Pump.fun logo.
+`truckerLettering` extracts the white embroidered word from each supplied
+reference. The original letter pixels are scaled uniformly into the front panel
+at a common 170px letter height; no font substitution is used. None of the
+supplied hat's panel, rope, button, fabric or bill is composited. Both red variants
+are pixel-identical outside this lettering area. This replaces the unapproved
+v6.14.0 candidate that warped the supplied hat photo into a matching outline.
+The shared red source and lettering are cached for preview, thumbnails and all
+exports. The hats use the same tucked-ear head and Hazmat compatibility as Pump.fun.
 
 The current catalog has 75 non-None traits and 11 headwear choices including
 None. Full kits include `layers/headwear/bear-trucker.png` and
 `layers/headwear/bobo-trucker.png`: 211 named layers, 214 total ZIP entries.
-Metadata and kit version is 6.14.0.
+Metadata and kit version is 6.14.1.
 
 ```sh
 python assets/bobomaker/tests/verify_trucker_pair.py --output trucker-pair-review --baseline-renderer previous-renderer.js
@@ -181,7 +187,8 @@ python assets/bobomaker/tests/verify.py --output regression-review --skip-kit
 ```
 
 Use `renderer.js` from published commit `92ef27859c06f304e25199a00f3607cf8efffb30`
-for the pair suite's baseline. It checks exact hat silhouette and source hashes,
+for the pair suite's baseline. It checks shared source geometry and alpha,
+identical base pixels outside lettering, exact hat silhouette and source hashes,
 all 432 published trait/palette combinations, 108 new hat/eyewear/palette
 combinations, 144 outfit/palette/championship combinations, forehead contact and
 eye clearance, real picker/undo/redo/locks/Hazmat controls, actual PNG and layer
