@@ -38,7 +38,7 @@ with sync_playwright() as p:
     page.goto(f'http://127.0.0.1:{server.server_port}/bobomaker.html',wait_until='domcontentloaded')
     page.wait_for_function('ready',timeout=60000)
     page.evaluate('''()=>{window.reviewCanvas=()=>{const c=document.createElement('canvas');c.width=c.height=1024;return c};window.reviewRender=(hat,fur='classic',eye='none',only=null,old=false)=>{const c=reviewCanvas(),s={...defaults(),headwear:hat,fur,eyewear:eye,colors:{...palettes.find(p=>p.id===fur)}};(old?previousRenderer:renderer).draw(c.getContext('2d'),s,only);return c.toDataURL()}}''')
-    check('All artwork loads and the 73-trait catalog stays complete',page.evaluate("Object.values(renderer.images).every(i=>i.complete&&i.naturalWidth>0)&&document.querySelector('#asset-count').textContent==='73 TRAITS'"))
+    check('All artwork loads and the 75-trait catalog stays complete',page.evaluate("Object.values(renderer.images).every(i=>i.complete&&i.naturalWidth>0)&&document.querySelector('#asset-count').textContent==='75 TRAITS'"))
     check('Wordmark is the exact supplied PNG, unchanged',hashlib.sha256((repo/'assets/bobomaker/v9/bobo-wordmark.png').read_bytes()).hexdigest()=='34594934bf651df08ec22c1b8f5ad3eadbff264b3b56a8e683af858360db6e72')
     check('Pump.fun logo is the exact supplied PNG, unchanged',hashlib.sha256((repo/'assets/bobomaker/v11/pump-fun-logo.png').read_bytes()).hexdigest()=='e341c92bed286bd78dbe9828878002e3acd385747c5f9dc405dc737df07d3701')
     check('Original trucker artwork remains unchanged',hashlib.sha256((repo/'assets/bobomaker/v11/trucker.png').read_bytes()).hexdigest()=='8bd528b48fb1f198967f1fb669bae2748de96ffc3438d6d029cd8e96d7bf6dcf')
@@ -46,7 +46,7 @@ with sync_playwright() as p:
     check('Black fabric and wordmark colors are identical across all palettes and custom colors',logo_colors)
     if args.fit_baseline_renderer:
         fit=page.evaluate('''source=>{const old=(new Function('window',source+';return window.BoboEngine;'))({}),previous=new old.Renderer(renderer.images),a=reviewCanvas(),b=reviewCanvas(),results=[];
-          for(const colors of palettes)for(const[id]of categories.find(c=>c.id==='headwear').options){if(['trucker','ninja-bandana'].includes(id))continue;const s={...defaults(),headwear:id,colors,fur:colors.id};previous.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);const ca=a.getContext('2d'),cb=b.getContext('2d');
+          for(const colors of palettes)for(const[id]of categories.find(c=>c.id==='headwear').options){if(['trucker','ninja-bandana'].includes(id)||!old.categories.find(c=>c.id==='headwear').options.some(o=>o[0]===id))continue;const s={...defaults(),headwear:id,colors,fur:colors.id};previous.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);const ca=a.getContext('2d'),cb=b.getContext('2d');
             if(id==='bucket'){ca.clearRect(375,245,275,105);cb.clearRect(375,245,275,105)}results.push({hat:id,fur:colors.id,identical:a.toDataURL()===b.toDataURL()})}
           return results}''',args.fit_baseline_renderer.read_text(encoding='utf-8-sig'))
         check('Reviewed hat fits are pixel-identical; bucket changes stay within the front branding panel',all(x['identical'] for x in fit),{'combinations':len(fit),'failures':[x for x in fit if not x['identical']]})
@@ -135,8 +135,8 @@ with sync_playwright() as p:
             paths.extend(manifest['headVariants']['tucked'].replace('{fur}',fur) for fur in colors)
             paths.extend(manifest['headVariants']['hazmat'].replace('{fur}',fur) for fur in colors)
             paths.extend('layers/eyewear/hazmat/'+id+'.png' for id in eyewear if id!='none')
-            check('Full kit CRC and all 209 named PNG layers are valid',z.testzip() is None and len(paths)==209 and all(n in z.namelist() and Image.open(io.BytesIO(z.read(n))).size==(1024,1024) for n in paths),{'layers':len(paths),'zip_files':len(z.namelist())})
-            check('Manifest selects tucked ears for all three fitted headwear traits',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret']})
+            check('Full kit CRC and all 211 named PNG layers are valid',z.testzip() is None and len(paths)==211 and all(n in z.namelist() and Image.open(io.BytesIO(z.read(n))).size==(1024,1024) for n in paths),{'layers':len(paths),'zip_files':len(z.namelist())})
+            check('Manifest selects tucked ears for all five fitted headwear traits',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret','bear-trucker','bobo-trucker']})
             headwear=next(c for c in manifest['categories'] if c['id']=='headwear')['traits']
             check('Full kit replaces durag with ninja-bandana and keeps the neck bandana separate',any(t['id']=='ninja-bandana' for t in headwear) and not any(t['id']=='durag' for t in headwear) and 'layers/headwear/ninja-bandana.png' in z.namelist() and 'layers/neck/bandana.png' in z.namelist() and not any('durag' in n for n in z.namelist()))
             check('Full kit replaces the cap with trucker',any(t['id']=='trucker' for t in headwear) and not any(t['id']=='cap' for t in headwear) and 'layers/headwear/trucker.png' in z.namelist() and 'layers/headwear/cap.png' not in z.namelist())

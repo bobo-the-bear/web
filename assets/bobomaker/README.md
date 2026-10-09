@@ -49,12 +49,12 @@ layer ZIPs all use the same renderer.
   tapering both ends upward/inward to the temples. The original knot/tails are
   separately seated at the right seam. Preserve this shaping when adjusting
   height; translating a rectangular strip leaves protruding side corners.
-- Trucker, cowboy and beret tuck the ears inside the hat. `head(colors, headwear)`
+- Pump.fun, BEAR and BOBO truckers, cowboy and beret tuck the ears inside the hat. `head(colors, headwear)`
   removes only those source ears; it never changes the face or other headwear.
   Current-layer exports use the same fitted head. Full kits include six extra
   `fur/tucked/{fur}.png` variants; `headwearHeadVariant` and `headVariants` in
   the manifest identify which head PNG each hat requires. Do not composite a
-  standard head under these three hats or the ears will protrude again.
+  standard head under these hats or the ears will protrude again.
 - v9 cowboy has a traditional dipped crown and the silver concho band. v9
   bucket is black with graphite stitching, preserving the approved placement.
   `v9/bobo-wordmark.png` is the exact user-supplied logo, copied unchanged.
@@ -155,7 +155,41 @@ Keep changes scoped to this maker. The main site navigation and `index.html` are
 unrelated. Review the local result before authorizing a production release.
 
 
-## v6.13.1 focused revision
+## v6.14.0 supplied BEAR and BOBO truckers
+
+Two separate headwear choices use the exact user-supplied PNGs in `v19/`.
+Their original filenames, dimensions and SHA-256 hashes are in
+`v19/provenance.json`. Pump.fun remains a separate unchanged option.
+
+`drawSuppliedTrucker` reads the red silhouette boundaries of each source row,
+retaining the white embroidery inside the cap while excluding the white studio
+background and floor shadow. It fits those source rows to the approved
+`drawTrucker` alpha silhouette at `[152, 80, 720, 380]`. The original lettering,
+fabric, mesh, rope and stitched bill are sampled directly from the supplied PNG;
+no replacement artwork or font is generated. The fitted canvases are cached and
+shared by preview, thumbnails and all exports. The two hats use the same
+tucked-ear head and Hazmat compatibility as Pump.fun.
+
+The current catalog has 75 non-None traits and 11 headwear choices including
+None. Full kits include `layers/headwear/bear-trucker.png` and
+`layers/headwear/bobo-trucker.png`: 211 named layers, 214 total ZIP entries.
+Metadata and kit version is 6.14.0.
+
+```sh
+python assets/bobomaker/tests/verify_trucker_pair.py --output trucker-pair-review --baseline-renderer previous-renderer.js
+python assets/bobomaker/tests/verify.py --output regression-review --skip-kit
+```
+
+Use `renderer.js` from published commit `92ef27859c06f304e25199a00f3607cf8efffb30`
+for the pair suite's baseline. It checks exact hat silhouette and source hashes,
+all 432 published trait/palette combinations, 108 new hat/eyewear/palette
+combinations, 144 outfit/palette/championship combinations, forehead contact and
+eye clearance, real picker/undo/redo/locks/Hazmat controls, actual PNG and layer
+ZIP downloads, full-kit reconstruction and responsive widths 320–1440px.
+Review the full previews and palette/eyewear sheets for lettering and material
+quality as well as geometric fit.
+
+## v6.13.1 focused revision (historical release)
 
 The catalog retains the published 22ab442f inventory, adds Hazmat suit, keeps
 Burgundy beret from the unpublished v15 expansion, and replaces Honey rounds

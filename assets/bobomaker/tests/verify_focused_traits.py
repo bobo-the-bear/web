@@ -48,9 +48,9 @@ with sync_playwright() as p:
     }''')
     catalog=page.evaluate('categories');colors=page.evaluate('palettes.map(p=>p.id)')
     labels={(c['id'],o[0]):o[1] for c in catalog for o in c['options']}
-    check('All artwork loads and all 73 traits are available',not failures and page.locator('#asset-count').inner_text()=='73 TRAITS',failures)
+    check('All artwork loads and all 75 traits are available',not failures and page.locator('#asset-count').inner_text()=='75 TRAITS',failures)
     counts={c['id']:len(c['options']) for c in catalog if c['id'] in ['outfit','headwear','eyewear','neck','prop']}
-    check('Only Hazmat suit, Burgundy beret and Fallout goggles are added',counts=={'outfit':12,'headwear':9,'eyewear':9,'neck':6,'prop':12} and all((cat,id) in labels for cat,ids in new.items() for id in ids),counts)
+    check('Focused traits and both supplied truckers remain available',counts=={'outfit':12,'headwear':11,'eyewear':9,'neck':6,'prop':12} and all((cat,id) in labels for cat,ids in new.items() for id in ids),counts)
     check('Fallout goggles replaces Honey rounds consistently in inventory and loading',('eyewear','goggles') in labels and labels[('eyewear','goggles')]=='Fallout goggles' and ('eyewear','rounds') not in labels and page.evaluate("!('rounds' in BoboEngine.assetSources)"))
     glass=page.evaluate('''()=>{const c=renderer.gogglesArt(),cx=c.getContext('2d');return [.257,.743].map(x=>cx.getImageData(Math.round(c.width*x),Math.round(c.height*.5),1,1).data[3])}''')
     check('Goggle lens centers are translucent while the generated reflection remains visible',all(100<a<230 for a in glass),glass)
@@ -68,7 +68,7 @@ with sync_playwright() as p:
     if args.baseline_renderer:
         page.evaluate('''source=>{window.oldEngine=(new Function('window',source+';return window.BoboEngine;'))({});window.oldRenderer=new oldEngine.Renderer(renderer.images)}''',args.baseline_renderer.read_text('utf-8-sig'))
         delta=page.evaluate('''()=>oldEngine.categories.filter(c=>c.id!=='meme').map(c=>({category:c.id,missing:c.options.filter(o=>!categories.find(n=>n.id===c.id).options.some(n=>n[0]===o[0])),added:categories.find(n=>n.id===c.id).options.filter(o=>!c.options.some(n=>n[0]===o[0])).map(o=>o[0])}))''')
-        check('Baseline catalog loses no choices and gains only the requested three',all(not x['missing'] and x['added']==new.get(x['category'],[]) for x in delta),delta)
+        check('Baseline catalog loses no choices and gains only the five approved additions',all(not x['missing'] and x['added']==(['bear-trucker','bobo-trucker','beret'] if x['category']=='headwear' else new.get(x['category'],[])) for x in delta),delta)
         for fur in colors:
             cases=page.evaluate('''fur=>{const a=canvas(),b=canvas(),out=[];for(const c of oldEngine.categories.filter(c=>!['fur','meme'].includes(c.id)))for(const[id]of c.options){const s=settings({fur,[c.id]:id});oldRenderer.draw(a.getContext('2d'),s);renderer.draw(b.getContext('2d'),s);out.push({category:c.id,id,same:identical(a,b)})}return out}''',fur)
             check(f'{fur}: all 69 existing trait combinations are pixel-identical to published baseline',len(cases)==69 and all(c['same'] for c in cases),{'combinations':len(cases),'failures':[c for c in cases if not c['same']]})
@@ -91,7 +91,7 @@ with sync_playwright() as p:
     font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',24);small=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',18)
     contact=Image.new('RGB',(1116,498),'#f5f2e9');d=ImageDraw.Draw(contact)
     d.text((26,18),'BOBO MAKER / FOCUSED REVIEW',font=font,fill='#282b24')
-    d.text((26,54),'v6.13.1 | Hazmat suit, fitted beret and strapped Fallout goggles',font=small,fill='#626658')
+    d.text((26,54),'v6.14.0 | Hazmat suit, fitted beret and strapped Fallout goggles',font=small,fill='#626658')
     palette_sheet=Image.new('RGB',(1200,3*226),'#f5f2e9');pd=ImageDraw.Draw(palette_sheet)
     singles={};parity=[]
     for row,(cat,ids) in enumerate(new.items()):
@@ -110,11 +110,11 @@ with sync_playwright() as p:
     pairs=page.evaluate('''()=>{const cases=[];for(const cat of ['neck','prop'])for(const[id]of categories.find(c=>c.id===cat).options)for(const fur of palettes){const s={outfit:'hazmat',fur:fur.id,[cat]:id};cases.push({...s,same:layerParity(s)})}return cases}''')
     check('All 108 hazmat/neckwear/prop/palette combinations recompose exactly',len(pairs)==108 and all(x['same'] for x in pairs))
     accessories=page.evaluate('''()=>{const cases=[];for(const fur of palettes){for(const[headwear]of categories.find(c=>c.id==='headwear').options){const s={fur:fur.id,headwear,eyewear:'goggles'};cases.push({...s,same:layerParity(s)})}for(const[eyewear]of categories.find(c=>c.id==='eyewear').options){const s={fur:fur.id,headwear:'beret',eyewear};cases.push({...s,same:layerParity(s)})}}return cases}''')
-    check('All 108 goggles/headwear and beret/eyewear/palette combinations recompose exactly',len(accessories)==108 and all(x['same'] for x in accessories))
-    accessory_sheet=Image.new('RGB',(1200,6*150),'#f5f2e9');ad=ImageDraw.Draw(accessory_sheet)
-    goggles_cases=[c for n,c in enumerate(accessories) if n%18<9]
-    for n,case in enumerate(goggles_cases[:54]):
-        im=png(page.evaluate('extra=>art(extra)',{k:v for k,v in case.items() if k!='same'}));x=n%9*133;y=n//9*150
+    check('All 120 goggles/headwear and beret/eyewear/palette combinations recompose exactly',len(accessories)==120 and all(x['same'] for x in accessories))
+    accessory_sheet=Image.new('RGB',(1463,6*150),'#f5f2e9');ad=ImageDraw.Draw(accessory_sheet)
+    goggles_cases=[c for n,c in enumerate(accessories) if n%20<11]
+    for n,case in enumerate(goggles_cases):
+        im=png(page.evaluate('extra=>art(extra)',{k:v for k,v in case.items() if k!='same'}));x=n%11*133;y=n//11*150
         accessory_sheet.paste(im.resize((133,133)),(x,y));ad.text((x+3,y+133),case['headwear']+' / '+case['fur'],fill='#282b24')
     accessory_sheet.save(args.output/'goggles-headwear-palettes.jpg',quality=95)
     eyewear_sheet=Image.new('RGB',(1200,6*150),'#f5f2e9');ed=ImageDraw.Draw(eyewear_sheet)
@@ -125,7 +125,7 @@ with sync_playwright() as p:
     page.evaluate("()=>{state=settings({headwear:'trucker'});history=[];future=[];render();selectCategory('outfit')}")
     page.get_by_role('button',name='Hazmat suit',exact=True).click()
     page.evaluate("selectCategory('headwear')")
-    check('Hazmat clears hats, disables incompatible headwear and explains why',page.evaluate("state.headwear==='none'&&state.outfit==='hazmat'") and page.locator('.trait-option:disabled').count()==8 and 'hood covers headwear' in page.locator('#category-help').inner_text())
+    check('Hazmat clears hats, disables incompatible headwear and explains why',page.evaluate("state.headwear==='none'&&state.outfit==='hazmat'") and page.locator('.trait-option:disabled').count()==10 and 'hood covers headwear' in page.locator('#category-help').inner_text())
     page.locator('#undo').click();restored=page.evaluate("state.outfit==='tee-red'&&state.headwear==='trucker'")
     page.locator('#redo').click()
     check('Undo and redo restore the compatible outfit and headwear together',restored and page.evaluate("state.outfit==='hazmat'&&state.headwear==='none'"))
@@ -156,7 +156,7 @@ with sync_playwright() as p:
             joined=png(page.evaluate('urls=>compose(urls)',[url(z.read(name)) for name in sorted(z.namelist()) if name.startswith('layers/')]))
             metadata=json.loads(z.read('bobo.json'));values={a['trait_type']:a['value'] for a in metadata['attributes']}
             check(f'Look {n+1}: downloaded layer ZIP passes CRC and reconstructs the preview exactly',z.testzip() is None and same(joined,preview) and same(Image.open(io.BytesIO(z.read('bobo.png'))).convert('RGBA'),preview))
-            check(f'Look {n+1}: metadata records every selected trait, colors and version',metadata['maker']['version']=='6.13.1' and all(values[next(c['name'] for c in catalog if c['id']==cat)]==labels[(cat,extra[cat])] for cat in new if cat in extra) and metadata['maker']['settings']['colors']==page.evaluate('state.colors'))
+            check(f'Look {n+1}: metadata records every selected trait, colors and version',metadata['maker']['version']=='6.14.0' and all(values[next(c['name'] for c in catalog if c['id']==cat)]==labels[(cat,extra[cat])] for cat in new if cat in extra) and metadata['maker']['settings']['colors']==page.evaluate('state.colors'))
     page.locator('.export-menu summary').click()
     with page.expect_download(timeout=300000) as dl:page.locator('#export-kit').click()
     kit_path=args.output/'bobo-full-kit.zip';dl.value.save_as(kit_path)
@@ -167,8 +167,8 @@ with sync_playwright() as p:
                 if trait['file']:paths.extend([trait['file'].replace('{fur}',fur) for fur in colors] if cat['variantBy']=='fur' else [trait['file']])
         for variant in ['tucked','hazmat']:paths.extend(manifest['headVariants'][variant].replace('{fur}',fur) for fur in colors)
         paths.extend(manifest['outfitEyewearVariant']['hazmat'].replace('{eyewear}',id) for id,name in next(c for c in catalog if c['id']=='eyewear')['options'] if id!='none')
-        check('Full kit contains 209 named 1024px layers, valid CRC and 212 total entries',z.testzip() is None and len(paths)==209 and len(z.namelist())==212 and all(n in z.namelist() and Image.open(io.BytesIO(z.read(n))).size==(1024,1024) for n in paths),{'layers':len(paths),'entries':len(z.namelist())})
-        check('Kit maps all fitted hats to correct head variants',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret']} and manifest['version']=='6.13.1')
+        check('Full kit contains 211 named 1024px layers, valid CRC and 214 total entries',z.testzip() is None and len(paths)==211 and len(z.namelist())==214 and all(n in z.namelist() and Image.open(io.BytesIO(z.read(n))).size==(1024,1024) for n in paths),{'layers':len(paths),'entries':len(z.namelist())})
+        check('Kit maps all fitted hats to correct head variants',manifest['headwearHeadVariant']=={id:'tucked' for id in ['trucker','cowboy','beret','bear-trucker','bobo-trucker']} and manifest['version']=='6.14.0')
         check('Kit records hazmat head, eyewear and headwear compatibility',manifest['outfitHeadVariant']=={'hazmat':'hazmat'} and manifest['outfitCompatibility']=={'hazmat':{'headwear':['none']}} and all('/'+id+'.png' not in name for id in removed for name in z.namelist()))
         def kit_layers(extra):
             fur=extra.get('fur','classic');hat=extra.get('headwear','none');outfit=extra.get('outfit','tee-red')

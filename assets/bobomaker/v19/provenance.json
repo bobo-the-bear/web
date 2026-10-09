@@ -1,0 +1,30 @@
+{
+  "version": "6.14.0",
+  "date": "2026-10-09",
+  "source": "User-supplied local PNG files; copied without modification",
+  "assets": [
+    {
+      "id": "bear-trucker",
+      "name": "BEAR trucker",
+      "original_filename": "Bear_Trucker_hat.png",
+      "file": "bear-trucker.png",
+      "size": [1122, 1402],
+      "sha256": "c9fd6054050e54b615464b36ce487b3276fb3bef6fe937c5a152d2a25ee7d658"
+    },
+    {
+      "id": "bobo-trucker",
+      "name": "BOBO trucker",
+      "original_filename": "Bobo_Trucker_hat.png",
+      "file": "bobo-trucker.png",
+      "size": [1183, 1329],
+      "sha256": "4bf8ed0eb44e1da01373420d363d08cf5423e38e8ae0376457a4cc648f116138"
+    }
+  ],
+  "fitting": {
+    "method": "Renderer-only row fitting of the original red fabric, mesh, rope, brim stitching and white embroidery to the approved Pump.fun trucker alpha silhouette. Exterior white backdrop and floor shadow are excluded by red silhouette row bounds. No source PNG pixels are rewritten.",
+    "placement": [152, 80, 720, 380],
+    "head_variant": "tucked",
+    "reference_asset": "../v14/trucker.png",
+    "preserved": "Pump.fun rendering and every previously approved source remain unchanged. No generated replacement artwork is used."
+  }
+}

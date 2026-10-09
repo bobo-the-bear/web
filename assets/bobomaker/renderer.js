@@ -15,7 +15,7 @@ const categories=[
 {id:'background',name:'Backdrop',help:'Choose a color or a scene.',options:[['sage','Council green','#ccd9b3'],['white','Studio white','#ffffff'],['pink','Rose','#e9c1c1'],['blue','Blue hour','#9eb6d3'],['yellow','Honey yellow','#ecc968'],['red','Bobo red','#b90b2a'],['ink','After hours','#242321'],['lavender','Lilac','#c4b6d4'],['check','Checkerboard','#dedcd7'],...Object.entries(imageBackgrounds)]},
 {id:'fur',name:'Fur',help:'The same bear, a different coat.',options:palettes.map(x=>[x.id,x.name])},
 {id:'outfit',name:'Outfit',help:'Dress for the market you deserve.',options:[['tee-red','Bobo red tee'],['hoodie','Black hoodie'],['puffer','Blue puffer'],['suit','Council suit'],['tee-white','White tee'],['bomber','Black bomber'],['red-puffer','Red puffer'],['varsity','Council varsity'],['jersey','Courtside jersey'],['denim','Denim jacket'],['hazmat','Hazmat suit'],['none','Bare bear']]},
-{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['trucker','Pump.fun trucker'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['ninja-bandana','Red ninja bandana'],['beret','Burgundy beret']]},
+{id:'headwear',name:'Headwear',help:'A little something on top.',options:[['none','None'],['crown','King Bobo'],['beanie','Black beanie'],['trucker','Pump.fun trucker'],['bear-trucker','BEAR trucker'],['bobo-trucker','BOBO trucker'],['cowboy','Black cowboy'],['bucket','Black Bobo bucket'],['captain','Captain’s hat'],['ninja-bandana','Red ninja bandana'],['beret','Burgundy beret']]},
 {id:'eyewear',name:'Eyewear',help:'A new outlook. Same expression.',options:[['none','None'],['shades','Black shades'],['glasses','Nerd frames'],['visor','Chrome visor'],['pit-viper','Pit Viper style'],['oakley','Oakley style'],['rayban','Ray-Ban style'],['meta','Meta streaming'],['goggles','Fallout goggles']]},
 {id:'neck',name:'Neck',help:'The finishing touch.',options:[['none','None'],['gold-chain','Gold Cuban'],['silver-chain','Silver Cuban'],['bandana','Red bandana'],['pendant','Honey pendant'],['diamond-chain','Diamond Cuban']]},
 {id:'prop',name:'Props',help:'A bear’s essentials.',options:[['none','None'],['honey','Honey jar'],['cash','Cash stack'],['coffee','Coffee to go'],['phone','Smartphone'],['microphone','Mic check'],['rose','Red rose'],['flipoff','Middle paw'],['championship','Bobo championship'],['beras-can',"Bera's can"],['champagne','Champagne'],['eviction','Eviction notice']]},
@@ -31,7 +31,9 @@ const placement={
 Object.assign(placement,{hazmat:[0,0,1024,1024],beret:[130,215,765,240],goggles:[110,434,814,290]});
 const newProps=['beras-can','champagne','eviction'];
 // Ears tuck inside these fitted hats. Other headwear keeps the original ears.
-const tuckedEarHeadwear=['trucker','cowboy','beret'];
+const suppliedTruckers=['bear-trucker','bobo-trucker'];
+for(const id of suppliedTruckers)placement[id]=[...placement.trucker];
+const tuckedEarHeadwear=['trucker','cowboy','beret',...suppliedTruckers];
 const normalizeHeadwear=id=>id==='durag'?'ninja-bandana':id==='cap'?'trucker':id;
 for(const id of newProps)placement[id]=[728,800,234,261];
 const assetSources={base:'assets/v2/base.png',panda:'assets/v2/panda.png',headmask:'assets/v2/head-mask.png',baseRegions:'assets/v3/base-regions.png',pandaRegions:'assets/v3/panda-regions.png',polarRegions:'assets/v5/polar-regions.png'};
@@ -52,6 +54,7 @@ assetSources['pump-fun-logo']='assets/v11/pump-fun-logo.png';
 assetSources.beret='assets/v15/beret.png';
 assetSources.goggles='assets/v18/goggles.png';
 assetSources.hazmat='assets/v17/hazmat.png';
+for(const id of suppliedTruckers)assetSources[id]='assets/v19/'+id+'.png';
 for(const id of Object.keys(assetSources))assetSources[id]='assets/bobomaker/'+assetSources[id].replace(/^assets\//,'');
 for(const [id,name]of Object.entries(imageBackgrounds))assetSources[id]='assets/bobomaker/backgrounds/'+name+'.webp';
 const defaults=()=>({background:'sage',fur:'classic',outfit:'tee-red',headwear:'none',eyewear:'none',neck:'none',prop:'none',colors:{...palettes[0]},transparent:false,top:'',bottom:'',caps:true,textSize:64,font:'impact'});
@@ -290,6 +293,42 @@ class Renderer{
   ctx.beginPath();ctx.moveTo(1650,280);ctx.lineTo(1790,260);ctx.lineTo(1945,380);
   ctx.lineTo(1945,750);ctx.lineTo(1730,750);ctx.lineTo(1680,425);ctx.lineTo(1650,405);ctx.closePath();ctx.clip();ctx.drawImage(im,0,0);ctx.restore();
  }
+ drawSuppliedTrucker(ctx,id){
+  // Keep the supplied embroidery and materials: fit the original photo rows
+  // to the exact approved trucker silhouette. Only the exterior studio white
+  // and floor shadow are excluded; white lettering inside the cap is retained.
+  if(!this.suppliedTruckerArt)this.suppliedTruckerArt={};
+  if(!this.suppliedTruckerArt[id]){
+   const im=this.images[id],source=this.create(im.width,im.height),sc=source.getContext('2d');
+   sc.drawImage(im,0,0);const pixels=sc.getImageData(0,0,im.width,im.height).data,rows=[];
+   let first=im.height,last=0;
+   for(let y=0;y<im.height;y++){
+    let left=im.width,right=-1;
+    for(let x=0;x<im.width;x++){const i=(y*im.width+x)*4;
+     if(pixels[i+3]>240&&pixels[i]-Math.max(pixels[i+1],pixels[i+2])>48){left=Math.min(left,x);right=x}}
+    if(right>=left){rows[y]=[left,right];first=Math.min(first,y);last=y}
+   }
+   const mask=this.create(1024,1024),mc=mask.getContext('2d');
+   this.drawTrucker(mc,this.images.trucker);
+   const alpha=mc.getImageData(0,0,1024,1024).data,targetRows=[];let top=1024,bottom=0;
+   for(let y=0;y<1024;y++){
+    let left=1024,right=-1;
+    for(let x=0;x<1024;x++)if(alpha[(y*1024+x)*4+3]){left=Math.min(left,x);right=x}
+    if(right>=left){targetRows[y]=[left,right];top=Math.min(top,y);bottom=y}
+   }
+   const fitted=this.create(1024,1024),fc=fitted.getContext('2d'),scale=(last-first+1)/(bottom-top+1);
+   for(let y=top;y<=bottom;y++){
+    if(!targetRows[y])continue;
+    const sy=first+(y-top)*scale,sourceRow=rows[Math.min(last,Math.floor(sy+scale/2))];
+    if(!sourceRow)continue;
+    const [sl,sr]=sourceRow,[tl,tr]=targetRows[y],inset=sr-sl>6?2:0;
+    fc.drawImage(source,sl+inset,sy,sr-sl+1-inset*2,Math.min(scale,last+1-sy),tl,y,tr-tl+1,1);
+   }
+   fc.globalCompositeOperation='destination-in';fc.drawImage(mask,0,0);
+   fc.globalCompositeOperation='source-over';this.suppliedTruckerArt[id]=fitted;
+  }
+  ctx.drawImage(this.suppliedTruckerArt[id],0,0);
+ }
  drawTrucker(ctx,im){
   const logo=this.images['pump-fun-logo'],[x,y,w,h]=placement.trucker;
   // v14 has a taller foam crown and a deeper curved bill. Keep the mesh sides
@@ -460,6 +499,7 @@ class Renderer{
    else if(id==='ninja-bandana')this.drawNinjaBandana(cx,im);
    else if(id==='bucket')this.drawBucket(cx,im);
    else if(id==='trucker')this.drawTrucker(cx,im);
+   else if(suppliedTruckers.includes(id))this.drawSuppliedTrucker(cx,id);
    else if(id==='beret')this.drawBeret(cx);
    else cx.drawImage(im,...placement[id]);
    // Headwear sits in front of the ears. Subtracting the ear silhouettes from
