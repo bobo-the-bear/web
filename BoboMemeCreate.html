@@ -37,10 +37,8 @@
       <p class="style-label" id="style-label">Pick your Bobo</p>
       <div class="style-buttons" role="group" aria-labelledby="style-label">
         <button type="button" data-style="3d" aria-pressed="true">3D Bobo</button>
-        <button type="button" data-style="flat2d" aria-pressed="false">Flat 2D Bobo</button>
+        <button type="button" data-style="flat2d" aria-pressed="false">2D Bobo</button>
         <button type="button" data-style="poly" aria-pressed="false">Poly / PS1</button>
-        <button type="button" data-style="original" aria-pressed="false">Meme Art</button>
-        <button type="button" data-style="comic" aria-pressed="false">Comic</button>
       </div>
     </div>
     <div id="connection-notice" class="notice" role="status" hidden></div>
@@ -112,6 +110,8 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
   function status(message, error = false) { $('form-status').textContent = message; $('form-status').classList.toggle('error', error); }
   function selectedTemplate() { return config?.templates?.[$('style').value]; }
   function setStyle(style) {
+    // Older saved memes still open; their next generation uses the remaining 2D style.
+    if (style === 'original' || style === 'comic') style = 'flat2d';
     if (!document.querySelector('[data-style="' + style + '"]')) return;
     $('style').value = style;
     for (const button of document.querySelectorAll('[data-style]')) button.setAttribute('aria-pressed', String(button.dataset.style === style));
