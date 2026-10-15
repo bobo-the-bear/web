@@ -15,6 +15,7 @@
 .mosaic-dialog{width:min(1120px,calc(100% - 32px));max-height:calc(100dvh - 32px);padding:24px;border:2px solid #161513;border-radius:14px;background:#fffaf4;color:#161513;box-shadow:6px 7px 0 #161513;overflow:auto}.mosaic-dialog::backdrop{background:#21040ddb;backdrop-filter:blur(4px)}.mosaic-dialog-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.mosaic-dialog h2{font-size:clamp(20px,3vw,28px);margin:5px 0 0}.mosaic-eyebrow{font-size:10px;font-weight:800;letter-spacing:1px;color:#8d0921;margin:0}.mosaic-close{flex-shrink:0;width:40px;height:40px;border:2px solid #161513;border-radius:8px;background:#fff5ed;color:#8d0921;font-size:26px;line-height:1}.mosaic-close:hover{background:#ffdfb8}.mosaic-dialog #mosaic-description{font-size:12px;line-height:1.5;margin:12px 0}.mosaic-dialog #mosaic-status{font-size:12px;line-height:1.5;color:#68645f;margin:12px 0}.mosaic-dialog canvas{width:100%;height:auto;border-radius:6px}.mosaic-dialog .download{max-width:390px;margin:18px auto 0}.mosaic-free{text-align:center;font-size:11px;color:#68645f;margin:14px 0 0}
 @media(max-width:480px){.mosaic-dialog{padding:16px;width:calc(100% - 24px);max-height:calc(100dvh - 24px)}.mosaic-reward{padding:9px 10px;gap:9px}.mosaic-thumbnails{width:66px}.mosaic-reward strong{font-size:11px}.mosaic-reward small{font-size:10px}}
 :root{--paper:#b90b2a;--ink:#161513;--muted:#68645f;--red:#b90b2a;--line:#d7d1c7;--shadow:4px 4px 0 var(--ink)}
+.mosaic-thumbnails{grid-template-columns:1fr;grid-template-rows:repeat(10,minmax(0,1fr));gap:1px;width:26px;height:76px;padding:4px 6px;background:#191715;border-radius:0}.mosaic-thumbnails img{height:100%;min-height:0;aspect-ratio:auto;object-fit:cover}.mosaic-dialog{width:min(620px,calc(100% - 32px))}.mosaic-dialog[open]{display:flex;flex-direction:column}.mosaic-dialog-heading,.mosaic-dialog>p,.mosaic-dialog>.download{flex-shrink:0}.mosaic-viewer{flex:1 1 auto;min-height:0;max-height:55dvh;overflow:auto;overscroll-behavior:contain;padding:18px 10px;background:#8d0921;border-radius:8px;scrollbar-color:#f4c8a3 #71051a}.mosaic-viewer canvas{max-width:360px;margin:0 auto;border-radius:0;filter:drop-shadow(4px 5px 3px #32000a88)}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:#fff5ed;font-family:'DM Sans',Arial,sans-serif;font-size:14px;}button,input,textarea,select{font:inherit}button,select{cursor:pointer}button{color:inherit}a{color:inherit}[hidden]{display:none!important}.skip{position:fixed;top:-80px;left:12px;z-index:10;background:white;color:var(--ink);padding:12px;border:2px solid}.skip:focus{top:12px}:focus-visible{outline:3px solid #ffda88;outline-offset:4px}button:disabled{cursor:not-allowed}main{padding:0 24px 60px}
 .top-band{position:relative;display:grid;grid-template-columns:minmax(200px,1fr) minmax(0,850px) minmax(0,1fr);align-items:center;gap:24px;padding:16px clamp(24px,4vw,76px) 14px;background:#8d0921;border-bottom:2px solid #71051a}.brand{text-align:center;min-width:0}.brand h1{margin:0;line-height:0}.collection{min-width:0;text-align:center}.collection-heading{display:flex;align-items:center;justify-content:center;gap:12px}.collection h2{font-size:11px;text-transform:uppercase;letter-spacing:1px;border-radius:20px;background:#fff5ed;color:#8d0921;margin:0;padding:6px 14px}#collection-count{font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;color:#fff5ed}.collection p{margin:9px auto 13px;color:#ffe2e7;font-size:12px}.daily-gallery{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:11px;max-width:850px;margin:0 auto;padding:2px 3px 5px}.meme-slot{aspect-ratio:1;position:relative;min-width:0;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:4px;display:grid;place-items:center;box-shadow:2px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s;overflow:hidden}.meme-slot img{width:100%;height:100%;object-fit:contain;border-radius:3px}.meme-slot:nth-child(3n+1){transform:rotate(-2deg)}.meme-slot:nth-child(3n){transform:rotate(2deg)}button.meme-slot:hover{transform:translateY(-5px) rotate(0deg)}button.meme-slot[aria-pressed=true]{border-color:#fff5ed;box-shadow:0 0 0 2px #fff5ed,3px 4px 0 #161513}.meme-slot.empty{background:#ffffff05;border:2px dashed #e78e9d;box-shadow:none;transform:none;color:#ffd7df}.slot-number{font-size:12px;font-weight:800;position:absolute;bottom:5px;right:7px}.slot-mark{font-family:'Archivo Black','Arial Black',sans-serif;font-size:24px;color:#e9a5b1}.meme-slot.used{border-style:solid;border-color:#b75b6e;background:#71051a;color:#ffe2e7}.meme-slot.used .slot-mark{font-size:11px;letter-spacing:.4px;color:#f2bdc7}.meme-slot.next{border-color:#fff5ed;background:#fff5ed}.meme-slot.next .slot-mark,.meme-slot.next .slot-number{color:var(--red)}.meme-slot.pending{border-color:var(--red);animation:pulse 1s ease-in-out infinite}.collection p.daily-status{font-size:12px;font-weight:700;color:#fff5ed;margin:10px 0 0}.collection p.storage-note{font-size:10px;margin:5px 0 0}
 .home-link{display:block;border-radius:5px}.social-links{position:absolute;top:14px;right:18px;display:flex;align-items:center;gap:8px}.social-links a{display:grid;place-items:center;width:40px;height:40px;color:#161513;background:#fff5ed;border:2px solid #161513;border-radius:8px;box-shadow:2px 3px 0 #161513;text-decoration:none;transition:transform .15s,background .15s}.social-links a:nth-child(1){transform:rotate(-3deg)}.social-links a:nth-child(3){transform:rotate(3deg)}.social-links a:hover{background:#ffdfb8;transform:translateY(-2px) rotate(0deg)}.social-links svg{display:block;width:24px;height:24px}
@@ -38,7 +39,7 @@
     <div class="collection-heading"><h2 id="collection-title">Your Memes</h2><span id="collection-count">0 / 10 collected</span></div>
     <p id="collection-note">Fill your daily lineup. Click a meme to revisit it. Download your keepers.</p>
     <div class="daily-gallery" id="session-gallery" aria-label="Your ten daily meme slots"></div>
-    <button id="open-mosaic" class="mosaic-reward" type="button" aria-haspopup="dialog" aria-controls="mosaic-dialog" hidden><span id="mosaic-thumbnails" class="mosaic-thumbnails" aria-hidden="true"></span><span><strong>Daily mosaic unlocked</strong><small>View your 10-meme masterpiece ↗</small></span></button>
+    <button id="open-mosaic" class="mosaic-reward" type="button" aria-haspopup="dialog" aria-controls="mosaic-dialog" hidden><span id="mosaic-thumbnails" class="mosaic-thumbnails" aria-hidden="true"></span><span><strong>Daily mosaic unlocked</strong><small>Open your Bobo photo booth strip ↗</small></span></button>
     <span id="mosaic-announcement" class="sr-only" role="status"></span>
     <p class="daily-status" id="daily-status" aria-live="polite">Ten turns. Make them memorable.</p>
     <p class="storage-note" id="storage-note">Collect all 10 to unlock your daily mosaic. Save your keepers before the next round.</p>
@@ -98,12 +99,12 @@
     </section>
   </main>
   <dialog id="mosaic-dialog" class="mosaic-dialog" aria-labelledby="mosaic-title" aria-describedby="mosaic-description">
-    <div class="mosaic-dialog-heading"><div><p class="mosaic-eyebrow">FULL LINEUP. FULL MASTERPIECE.</p><h2 id="mosaic-title">Your daily Bobo mosaic</h2></div><button type="button" id="close-mosaic" class="mosaic-close" aria-label="Close mosaic" autofocus>×</button></div>
-    <p id="mosaic-description">All 10 of today's memes, together. Download the poster to keep this round forever.</p>
+    <div class="mosaic-dialog-heading"><div><p class="mosaic-eyebrow">TEN FRAMES. ONE VERY LONG DAY.</p><h2 id="mosaic-title">The Bobo photo booth</h2></div><button type="button" id="close-mosaic" class="mosaic-close" aria-label="Close mosaic" autofocus>×</button></div>
+    <p id="mosaic-description">Scroll through all ten of today's memes. Download the full film strip to keep this round forever.</p>
     <p id="mosaic-status" role="status" aria-live="polite"></p>
-    <canvas id="mosaic-canvas" width="1" height="1" role="img" aria-label="A Bobo poster featuring all ten memes from your daily collection in order" hidden></canvas>
+    <div id="mosaic-viewer" class="mosaic-viewer" tabindex="0" role="region" aria-label="Photo booth film strip. Scroll to view all ten numbered frames." hidden><canvas id="mosaic-canvas" width="1" height="1" role="img" aria-label="A vertical Bobo photo booth film strip featuring all ten daily memes in order" hidden></canvas></div>
     <button type="button" id="retry-mosaic" class="download" hidden>Try building the mosaic again</button>
-    <button type="button" id="download-mosaic" class="download" hidden>Download mosaic PNG ↓</button>
+    <button type="button" id="download-mosaic" class="download" hidden>Download film strip PNG ↓</button>
     <p class="mosaic-free">Made from your collection. No extra turn needed.</p>
   </dialog>
   <noscript><p class="notice">Enable JavaScript to use the meme generator.</p></noscript>
@@ -291,7 +292,7 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
     refreshMosaic();
   }
   function refreshMosaic() {
-    // Network usage alone cannot unlock a poster: all ten originals must exist here.
+    // Network usage alone cannot unlock a strip: all ten originals must exist here.
     const complete = items.length === 10 && items.every(item => item.day === collectionDay && item.blob);
     const key = complete ? JSON.stringify([collectionDay, ...items.map(item => [item.id, item.top, item.bottom])]) : '';
     $('open-mosaic').hidden = !complete;
@@ -303,6 +304,7 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
       if (!complete) $('scene').focus({ preventScroll: true });
     }
     $('mosaic-canvas').hidden = true; $('mosaic-canvas').width = 1; $('mosaic-canvas').height = 1;
+    $('mosaic-viewer').hidden = true;
     $('download-mosaic').hidden = true; $('retry-mosaic').hidden = true;
     $('mosaic-thumbnails').replaceChildren();
     if (complete) for (const item of items) {
@@ -312,18 +314,23 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
     $('mosaic-announcement').textContent = complete ? 'Daily mosaic unlocked! View your 10-meme masterpiece above.' : '';
   }
   async function makeMosaic(snapshot, day, version) {
-    const poster = document.createElement('canvas'); poster.width = 2400; poster.height = 1320;
-    const art = poster.getContext('2d'), tile = document.createElement('canvas');
+    const strip = document.createElement('canvas'); strip.width = 900; strip.height = 8060;
+    const art = strip.getContext('2d'), tile = document.createElement('canvas');
     const active = () => version === mosaicVersion;
-    art.fillStyle = '#b90b2a'; art.fillRect(0, 0, poster.width, poster.height);
-    art.fillStyle = '#8d0921'; art.fillRect(0, 0, poster.width, 205);
+    art.fillStyle = '#191715'; art.fillRect(0, 0, strip.width, strip.height);
+    art.fillStyle = '#fff5e7'; art.fillRect(68, 0, 764, strip.height);
+    // Real transparent perforations keep the film edges visible on any background.
+    art.save(); art.globalCompositeOperation = 'destination-out';
+    for (let y = 28; y + 44 < strip.height - 20; y += 88) {
+      for (const x of [19, 851]) { art.beginPath(); art.roundRect(x, y, 30, 44, 5); art.fill(); }
+    }
+    art.restore();
+    art.fillStyle = '#8d0921'; art.fillRect(68, 0, 764, 210);
     const logo = $('bobo-logo'); await logo.decode();
     if (!active()) return;
-    art.drawImage(logo, 80, 38, 360, 360 * logo.naturalHeight / logo.naturalWidth);
-    art.fillStyle = '#fff5ed'; art.font = '900 58px "Arial Black", Arial, sans-serif';
-    art.fillText('THE DAILY BOBO', 530, 108);
-    art.font = '28px Arial, sans-serif'; art.fillText('10 bad ideas. One masterpiece.', 534, 156);
-    art.textAlign = 'right'; art.font = 'bold 25px Arial, sans-serif'; art.fillText(day + ' · UTC', 2320, 108);
+    art.drawImage(logo, 280, 28, 340, 340 * logo.naturalHeight / logo.naturalWidth);
+    art.fillStyle = '#fff5e7'; art.textAlign = 'center'; art.font = 'bold 23px "Courier New", monospace';
+    art.fillText('P H O T O  B O O T H', 450, 182);
     for (let i = 0; i < snapshot.length; i++) {
       if (!active()) return;
       const item = snapshot[i], url = item.image ? null : URL.createObjectURL(item.blob), image = item.image || new Image();
@@ -331,32 +338,33 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
         if (url) { image.src = url; await image.decode(); }
         if (!active()) return;
         paintMeme(tile, item, image);
-        const x = 80 + (i % 5) * 452, y = 235 + Math.floor(i / 5) * 490;
-        art.fillStyle = '#161513'; art.fillRect(x + 7, y + 8, 432, 470);
-        art.fillStyle = '#fffaf4'; art.fillRect(x, y, 432, 470);
+        const x = 90, y = 236 + i * 764;
+        art.fillStyle = '#24211f'; art.fillRect(x, y, 720, 720);
         // Fit, rather than crop, so square, wide and tall memes keep their full scene.
-        const scale = Math.min(412 / tile.width, 412 / tile.height), w = tile.width * scale, h = tile.height * scale;
-        art.drawImage(tile, x + 10 + (412 - w) / 2, y + 10 + (412 - h) / 2, w, h);
-        art.fillStyle = '#8d0921'; art.textAlign = 'left'; art.font = 'bold 22px Arial, sans-serif';
-        art.fillText(String(i + 1).padStart(2, '0'), x + 16, y + 452);
-        art.textAlign = 'right'; art.font = '17px Arial, sans-serif'; art.fillText('BOBO DAILY COLLECTION', x + 416, y + 451);
+        const scale = Math.min(720 / tile.width, 720 / tile.height), w = tile.width * scale, h = tile.height * scale;
+        art.drawImage(tile, x + (720 - w) / 2, y + (720 - h) / 2, w, h);
+        art.fillStyle = '#8d0921'; art.textAlign = 'left'; art.font = 'bold 22px "Courier New", monospace';
+        art.fillText(String(i + 1).padStart(2, '0') + ' / 10', x, y + 749);
+        art.textAlign = 'right'; art.font = '19px "Courier New", monospace'; art.fillText('BOBO · DAILY EXPOSURES', x + 720, y + 749);
       } finally { if (url) URL.revokeObjectURL(url); }
     }
-    art.fillStyle = '#fff5ed'; art.textAlign = 'left'; art.font = 'bold 25px Arial, sans-serif';
-    art.fillText('ONE BEAR. ENDLESS BAD IDEAS.', 80, 1272);
-    art.textAlign = 'right'; art.fillText('10 / 10 COLLECTED', 2320, 1272);
+    art.fillStyle = '#8d0921'; art.textAlign = 'center'; art.font = 'bold 25px "Courier New", monospace';
+    art.fillText('10 MEMES. ONE VERY LONG DAY.', 450, 7916);
+    art.fillStyle = '#191715'; art.font = '23px "Courier New", monospace'; art.fillText(day + ' · UTC', 450, 7956);
+    art.font = '18px "Courier New", monospace'; art.fillText('BOBOTHEBEAR.IO', 450, 8000);
     if (!active()) return;
-    const target = $('mosaic-canvas'); target.width = poster.width; target.height = poster.height;
-    target.getContext('2d').drawImage(poster, 0, 0); target.hidden = false;
+    const target = $('mosaic-canvas'); target.width = strip.width; target.height = strip.height;
+    target.getContext('2d').drawImage(strip, 0, 0); target.hidden = false;
+    $('mosaic-viewer').hidden = false; $('mosaic-viewer').scrollTop = 0;
     mosaicReady = true; $('download-mosaic').hidden = false;
-    $('mosaic-status').textContent = 'Your ' + day + ' collection · 2400 × 1320 PNG';
+    $('mosaic-status').textContent = 'Your ' + day + ' film strip · 900 × 8060 PNG';
   }
   function openMosaic() {
     if (!mosaicKey) return;
     if (!$('mosaic-dialog').open) $('mosaic-dialog').showModal();
     if (mosaicReady || mosaicJob) return;
     const version = mosaicVersion, snapshot = items.slice(), day = collectionDay;
-    $('mosaic-status').textContent = 'Putting your daily masterpiece together…';
+    $('mosaic-status').textContent = 'Developing your daily film strip…';
     $('retry-mosaic').hidden = true; $('mosaic-canvas').setAttribute('aria-busy', 'true');
     const job = makeMosaic(snapshot, day, version).catch(() => {
       if (version !== mosaicVersion) return;
@@ -375,11 +383,11 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
     if (!mosaicReady) return;
     const day = collectionDay;
     $('mosaic-canvas').toBlob(blob => {
-      if (!blob) { $('mosaic-status').textContent = 'The poster couldn’t be saved. Please try downloading again.'; return; }
+      if (!blob) { $('mosaic-status').textContent = 'The film strip couldn’t be saved. Please try downloading again.'; return; }
       const url = URL.createObjectURL(blob), link = document.createElement('a');
-      link.href = url; link.download = 'bobo-daily-mosaic-' + day + '.png';
+      link.href = url; link.download = 'bobo-photo-booth-' + day + '.png';
       document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 30000);
-      $('mosaic-status').textContent = 'Mosaic downloaded. Your daily masterpiece is a keeper.';
+      $('mosaic-status').textContent = 'Film strip downloaded. All ten frames are yours to keep.';
     }, 'image/png');
   });
   async function selectItem(item) {
