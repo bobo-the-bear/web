@@ -24,26 +24,23 @@
   <link rel="canonical" href="https://www.bobothebear.io/">
   <link rel="icon" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/webclip.png">
-  <link rel="stylesheet" href="css/redesign.css?v=20261019-buy">
-  <script src="js/redesign.js?v=20261019-buy" defer></script>
+  <link rel="stylesheet" href="css/redesign.css?v=20261019-inline-contract">
+  <script src="js/redesign.js?v=20261019-inline-contract" defer></script>
 </head>
 <body>
   <main>
     <div class="market-strip" aria-label="Live Bobo market data">
       <div class="market-strip__inner">
         <span class="live-label"><span class="live-dot" aria-hidden="true"></span>$BOBO LIVE</span>
-        <span class="strip-stat"><span>MARKET CAP</span><b data-market-cap>—</b></span>
+        <span class="strip-stat strip-market-cap"><span>MARKET CAP</span><b data-market-cap>—</b></span>
         <span class="strip-stat" data-market-change-wrap><span>24H</span><b data-market-change>—</b></span>
         <span class="strip-stat strip-price"><span>PRICE</span><b data-market-price>—</b></span>
+        <button class="strip-contract" type="button" data-copy-contract aria-label="Copy BOBO contract address" title="Copy 4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump">
+          <span class="strip-contract__label">BOBO CONTRACT</span>
+          <code>4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump</code>
+          <span class="strip-contract__copy" data-copy-label aria-live="polite">Copy</span>
+        </button>
         <span class="strip-network">SOLANA NETWORK</span>
-      </div>
-    </div>
-
-    <div class="contract-strip" aria-label="Bobo Solana contract address">
-      <div class="contract-strip__inner">
-        <span class="contract-strip__label">Solana contract</span>
-        <code>4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump</code>
-        <button type="button" data-copy-contract aria-live="polite">Copy address</button>
       </div>
     </div>
 

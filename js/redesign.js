@@ -179,7 +179,8 @@
 
   function initCopyContract() {
     document.querySelectorAll("[data-copy-contract]").forEach(function (button) {
-      var originalLabel = button.textContent;
+      var label = button.querySelector("[data-copy-label]") || button;
+      var originalLabel = label.textContent;
       var resetTimer;
       button.addEventListener("click", async function () {
         var copied = false;
@@ -203,8 +204,8 @@
           }
         }
         window.clearTimeout(resetTimer);
-        button.textContent = copied ? "Copied ✓" : "Copy failed";
-        resetTimer = window.setTimeout(function () { button.textContent = originalLabel; }, 1800);
+        label.textContent = copied ? "Copied ✓" : "Copy failed";
+        resetTimer = window.setTimeout(function () { label.textContent = originalLabel; }, 1800);
       });
     });
   }
