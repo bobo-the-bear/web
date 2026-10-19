@@ -24,8 +24,8 @@
   <link rel="canonical" href="https://www.bobothebear.io/">
   <link rel="icon" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/webclip.png">
-  <link rel="stylesheet" href="css/redesign.css?v=20261019-nav">
-  <script src="js/redesign.js?v=20261019-nav" defer></script>
+  <link rel="stylesheet" href="css/redesign.css?v=20261019-buy">
+  <script src="js/redesign.js?v=20261019-buy" defer></script>
 </head>
 <body>
   <main>
@@ -36,6 +36,14 @@
         <span class="strip-stat" data-market-change-wrap><span>24H</span><b data-market-change>—</b></span>
         <span class="strip-stat strip-price"><span>PRICE</span><b data-market-price>—</b></span>
         <span class="strip-network">SOLANA NETWORK</span>
+      </div>
+    </div>
+
+    <div class="contract-strip" aria-label="Bobo Solana contract address">
+      <div class="contract-strip__inner">
+        <span class="contract-strip__label">Solana contract</span>
+        <code>4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump</code>
+        <button type="button" data-copy-contract aria-live="polite">Copy address</button>
       </div>
     </div>
 
@@ -79,7 +87,7 @@
           </div>
         </details>
       </nav>
-      <a class="header-link header-link--primary header-swap" href="terminal.html">Swap BOBO <span aria-hidden="true">↗</span></a>
+      <a class="header-link header-link--primary header-swap" href="https://jup.ag/swap?buy=4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump&amp;sell=So11111111111111111111111111111111111111112" target="_blank" rel="noopener noreferrer">BUY BOBO <span aria-hidden="true">↗</span></a>
       <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false" hidden><span class="nav-toggle-label">Menu</span><span class="nav-toggle-icon" aria-hidden="true">☰</span></button>
     </header>
 
@@ -159,7 +167,7 @@
           </div>
           <div class="contract-row">
             <div><span>Solana contract address</span><code>4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump</code></div>
-            <button type="button" id="copyContract" aria-live="polite">Copy address</button>
+            <button type="button" id="copyContract" data-copy-contract aria-live="polite">Copy address</button>
             <a href="https://solscan.io/token/4nV5gNwwP68zUDat26ySChREqVaQaLudfJBkSgEzpump" target="_blank" rel="noopener noreferrer">View on Solscan ↗</a>
           </div>
         </div>

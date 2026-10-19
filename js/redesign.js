@@ -178,23 +178,34 @@
   }
 
   function initCopyContract() {
-    var button = document.getElementById("copyContract");
-    if (!button) return;
-    button.addEventListener("click", async function () {
-      try {
-        await navigator.clipboard.writeText(TOKEN);
-      } catch (error) {
-        var textarea = document.createElement("textarea");
-        textarea.value = TOKEN;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        textarea.remove();
-      }
-      button.textContent = "Copied ✓";
-      window.setTimeout(function () { button.textContent = "Copy address"; }, 1800);
+    document.querySelectorAll("[data-copy-contract]").forEach(function (button) {
+      var originalLabel = button.textContent;
+      var resetTimer;
+      button.addEventListener("click", async function () {
+        var copied = false;
+        try {
+          await navigator.clipboard.writeText(TOKEN);
+          copied = true;
+        } catch (error) {
+          var textarea = document.createElement("textarea");
+          textarea.value = TOKEN;
+          textarea.style.position = "fixed";
+          textarea.style.opacity = "0";
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            copied = document.execCommand("copy");
+          } catch (fallbackError) {
+            copied = false;
+          } finally {
+            textarea.remove();
+            button.focus({ preventScroll: true });
+          }
+        }
+        window.clearTimeout(resetTimer);
+        button.textContent = copied ? "Copied ✓" : "Copy failed";
+        resetTimer = window.setTimeout(function () { button.textContent = originalLabel; }, 1800);
+      });
     });
   }
 
