@@ -24,8 +24,8 @@
   <link rel="canonical" href="https://www.bobothebear.io/">
   <link rel="icon" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/webclip.png">
-  <link rel="stylesheet" href="css/redesign.css?v=20260722-1">
-  <script src="js/redesign.js" defer></script>
+  <link rel="stylesheet" href="css/redesign.css?v=20261019-nav">
+  <script src="js/redesign.js?v=20261019-nav" defer></script>
 </head>
 <body>
   <main>
@@ -44,32 +44,43 @@
         <img src="images/logo.png" alt="">
         <span>BOBO<br>THE BEAR</span>
       </a>
-      <nav class="desktop-nav" aria-label="Primary navigation">
-        <a href="#story">Story</a>
-        <a href="#bobonomics">Bobonomics</a>
-        <a href="#markets">Markets</a>
-        <a href="#generator">Pixel Bobos</a>
-        <a href="#council">Council</a>
-        <a href="https://streamlabs.com/rekt_tekashi/merch" target="_blank" rel="noopener noreferrer">Merch <span aria-hidden="true">↗</span></a>
-        <a href="https://t.me/bobocouncil" target="_blank" rel="noopener noreferrer">Telegram <span aria-hidden="true">↗</span></a>
+      <nav class="primary-nav" id="primary-navigation" aria-label="Primary navigation">
+        <details class="nav-group">
+          <summary class="nav-trigger">About<span class="nav-chevron" aria-hidden="true"></span></summary>
+          <div class="nav-dropdown">
+            <a href="#story"><span><strong>Bobo’s story</strong><small>The bear behind the memes.</small></span><span class="nav-arrow" aria-hidden="true">→</span></a>
+            <a href="https://x.com/rekt_tekashi" target="_blank" rel="noopener noreferrer"><span><strong>Meet the artist</strong><small>Rekt Tekashi, Bobo’s creator.</small></span><span class="nav-arrow" aria-hidden="true">↗</span></a>
+            <a href="#council"><span><strong>Bobo Council</strong><small>2,222 bear-market personalities.</small></span><span class="nav-arrow" aria-hidden="true">→</span></a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-trigger">Create<span class="nav-chevron" aria-hidden="true"></span></summary>
+          <div class="nav-dropdown">
+            <a href="BoboMemeCreate.html"><span><strong>AI meme generator</strong><small>Turn an idea into a Bobo meme.</small></span><span class="nav-arrow" aria-hidden="true">→</span></a>
+            <a href="pixelbobos.html"><span><strong>Pixel Bobos</strong><small>Build your own pixel bear.</small></span><span class="nav-arrow" aria-hidden="true">→</span></a>
+            <a href="mediakit.html"><span><strong>Media kit</strong><small>Artwork and assets, ready to use.</small></span><span class="nav-arrow" aria-hidden="true">→</span></a>
+            <a href="https://bobomemes.com/" target="_blank" rel="noopener noreferrer"><span><strong>Bobo Memes</strong><small>Explore the meme archive.</small></span><span class="nav-arrow" aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-trigger">$BOBO<span class="nav-chevron" aria-hidden="true"></span></summary>
+          <div class="nav-dropdown">
+            <a href="#bobonomics"><span><strong>Bobonomics</strong><small>Token details and contract address.</small></span><span class="nav-arrow" aria-hidden="true">→</span></a>
+            <a href="https://dexscreener.com/solana/31zmtzeufrdbgksj7nicckekxtpqgaemqvdbcuufe6gx" target="_blank" rel="noopener noreferrer"><span><strong>View chart</strong><small>Price and trading activity.</small></span><span class="nav-arrow" aria-hidden="true">↗</span></a>
+            <a href="#markets"><span><strong>Markets</strong><small>Find the exchanges listing Bobo.</small></span><span class="nav-arrow" aria-hidden="true">→</span></a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary class="nav-trigger">Community<span class="nav-chevron" aria-hidden="true"></span></summary>
+          <div class="nav-dropdown">
+            <a href="https://x.com/bobocouncil" target="_blank" rel="noopener noreferrer"><span><strong>Follow on X</strong><small>Bobo from the timeline.</small></span><span class="nav-arrow" aria-hidden="true">↗</span></a>
+            <a href="https://t.me/bobocouncil" target="_blank" rel="noopener noreferrer"><span><strong>Telegram</strong><small>Join the conversation.</small></span><span class="nav-arrow" aria-hidden="true">↗</span></a>
+            <a href="https://streamlabs.com/rekt_tekashi/merch" target="_blank" rel="noopener noreferrer"><span><strong>Merch</strong><small>Wear the bear.</small></span><span class="nav-arrow" aria-hidden="true">↗</span></a>
+          </div>
+        </details>
       </nav>
-      <div class="header-actions">
-        <a class="header-link header-link--primary" href="https://bobomemes.com" target="_blank" rel="noopener noreferrer">Bobo Memes <span aria-hidden="true">↗</span></a>
-        <a class="header-link header-link--outline" href="https://dexscreener.com/solana/31zmtzeufrdbgksj7nicckekxtpqgaemqvdbcuufe6gx" target="_blank" rel="noopener noreferrer">View chart <span aria-hidden="true">↗</span></a>
-      </div>
-      <details class="mobile-nav">
-        <summary aria-label="Open navigation">Menu</summary>
-        <div>
-          <a href="#story">Story</a>
-          <a href="#bobonomics">Bobonomics</a>
-          <a href="#markets">Markets</a>
-          <a href="#generator">Pixel Bobos</a>
-          <a href="terminal.html">Bobo Software</a>
-          <a href="#council">Council</a>
-          <a href="https://streamlabs.com/rekt_tekashi/merch" target="_blank" rel="noopener noreferrer">Merch <span aria-hidden="true">↗</span></a>
-          <a href="https://t.me/bobocouncil" target="_blank" rel="noopener noreferrer">Telegram <span aria-hidden="true">↗</span></a>
-        </div>
-      </details>
+      <a class="header-link header-link--primary header-swap" href="terminal.html">Swap BOBO <span aria-hidden="true">↗</span></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false" hidden><span class="nav-toggle-label">Menu</span><span class="nav-toggle-icon" aria-hidden="true">☰</span></button>
     </header>
 
     <section class="hero" id="top">
