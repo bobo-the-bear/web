@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#b90b2a">
-  <meta name="description" content="Ten daily turns. One unimpressed bear. Create your own Bobo memes and collect today's best.">
+  <meta name="description" content="Twenty daily turns. One unimpressed bear. Create your own Bobo memes and collect today's best.">
   <title>$BOBO — Meme Generator</title>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700;800&display=swap');
@@ -36,13 +36,13 @@
       <p class="tagline">Meme Generator</p>
     </div>
     <section class="collection" aria-labelledby="collection-title">
-    <div class="collection-heading"><h2 id="collection-title">Your Memes</h2><span id="collection-count">0 / 10 collected</span></div>
+    <div class="collection-heading"><h2 id="collection-title">Your Memes</h2><span id="collection-count">0 / 20 collected</span></div>
     <p id="collection-note">Fill your daily lineup. Click a meme to revisit it. Download your keepers.</p>
-    <div class="daily-gallery" id="session-gallery" aria-label="Your ten daily meme slots"></div>
+    <div class="daily-gallery" id="session-gallery" aria-label="Your twenty daily meme slots"></div>
     <button id="open-mosaic" class="mosaic-reward" type="button" aria-haspopup="dialog" aria-controls="mosaic-dialog" hidden><span id="mosaic-thumbnails" class="mosaic-thumbnails" aria-hidden="true"></span><span><strong>Daily collage unlocked</strong><small>Open your Bobo Polaroid pile ↗</small></span></button>
     <span id="mosaic-announcement" class="sr-only" role="status"></span>
-    <p class="daily-status" id="daily-status" aria-live="polite">Ten turns. Make them memorable.</p>
-    <p class="storage-note" id="storage-note">Collect all 10 to unlock your daily collage. Save your keepers before the next round.</p>
+    <p class="daily-status" id="daily-status" aria-live="polite">Twenty turns. Make them memorable.</p>
+    <p class="storage-note" id="storage-note">Collect 10 to unlock your daily collage. Save your keepers before the next round.</p>
     </section>
     <nav class="social-links" aria-label="Bobo social links">
       <a href="https://x.com/bobocouncil" target="_blank" rel="noopener noreferrer" aria-label="Bobo on X (opens in a new tab)" title="Bobo on X">
@@ -78,7 +78,7 @@
         <button class="generate" id="generate" type="submit" disabled><span id="generate-label">Draw Bobo</span><span aria-hidden="true">↗</span></button>
         <p class="allowance" id="allowance">Drawing can take a minute or two.</p>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        <details class="daily-details"><summary>How daily turns work</summary><p>You get 10 generation attempts each day, shared with people on your internet connection. A failed generation can use a turn. Downloads are always free.</p><p id="reset-detail">A fresh round starts at midnight UTC. The community has 1,000 turns a day.</p></details>
+        <details class="daily-details"><summary>How daily turns work</summary><p>You get 20 generation attempts each day, shared with people on your internet connection. A failed generation can use a turn. Downloads are always free.</p><p id="reset-detail">A fresh round starts at midnight UTC. The community has 1,000 turns a day.</p></details>
       </form>
       <div class="output">
         <div class="card canvas-frame" id="canvas-frame">
@@ -100,7 +100,7 @@
   </main>
   <dialog id="mosaic-dialog" class="mosaic-dialog" aria-labelledby="mosaic-title" aria-describedby="mosaic-description">
     <div class="mosaic-dialog-heading"><div><p class="mosaic-eyebrow">TEN MEMES. A DAY WORTH KEEPING.</p><h2 id="mosaic-title">Your daily Bobo collage</h2></div><button type="button" id="close-mosaic" class="mosaic-close" aria-label="Close collage" autofocus>×</button></div>
-    <p id="mosaic-description">Today's ten memes, piled up as Polaroids. Download your collage and keep the whole day.</p>
+    <p id="mosaic-description">Your latest ten memes, piled up as Polaroids. Download your collage and keep your favorites.</p>
     <p id="mosaic-status" role="status" aria-live="polite"></p>
     <div id="mosaic-viewer" class="mosaic-viewer" role="region" aria-label="Daily Polaroid collage preview" hidden><canvas id="mosaic-canvas" width="1" height="1" role="img" aria-label="Ten daily Bobo memes in overlapping, tilted Polaroid frames, with the tenth meme larger in the center" hidden></canvas></div>
     <button type="button" id="retry-mosaic" class="download" hidden>Try building the collage again</button>
@@ -139,7 +139,8 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
     'Bobo on a tropical beach, using a laptop balanced on a coconut, looking deeply unimpressed.'
   ];
   let ideaIndex = Math.floor(Math.random() * ideas.length);
-  const limit = () => Math.min(10, config?.dailyIpLimit || 10);
+  const DAILY_LIMIT = 20, COLLAGE_SIZE = 10;
+  const limit = () => Math.min(DAILY_LIMIT, config?.dailyIpLimit || DAILY_LIMIT);
   function setNotice(message) { $('connection-notice').textContent = message; $('connection-notice').hidden = !message; }
   function status(message, error = false) { $('form-status').textContent = message; $('form-status').classList.toggle('error', error); }
   function selectedTemplate() { return config?.templates?.[$('style').value]; }
@@ -203,7 +204,7 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
         const tx = db.transaction('memes', 'readwrite'), store = tx.objectStore('memes'), request = store.getAll();
         let saved = [];
         request.onsuccess = () => {
-          saved = request.result.filter(validRecord).sort((a, b) => a.created - b.created).slice(-10);
+          saved = request.result.filter(validRecord).sort((a, b) => a.created - b.created).slice(-DAILY_LIMIT);
           const keep = new Set(saved.map(item => item.id));
           for (const record of request.result) if (!keep.has(record.id)) store.delete(record.id);
         };
@@ -215,7 +216,7 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
         return [record.id, existing === current ? existing : { ...record, image: existing?.image }];
       }));
       for (const item of items) if (item.day === collectionDay && !combined.has(item.id)) combined.set(item.id, item);
-      items.splice(0, items.length, ...[...combined.values()].sort((a, b) => a.created - b.created).slice(-10));
+      items.splice(0, items.length, ...[...combined.values()].sort((a, b) => a.created - b.created).slice(-DAILY_LIMIT));
     } catch { storageWarning(); }
     refreshGallery();
   }
@@ -287,16 +288,17 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
     }
     $('collection-count').textContent = items.length + ' / ' + total + ' collected';
     $('daily-status').textContent = usage?.siteAvailable === false ? 'The community round is complete. New round at ' + resetTime() + '.' :
-      usage?.remaining === 0 ? 'All 10 turns played. A fresh lineup at ' + resetTime() + '.' :
-      usage ? usage.remaining + (usage.remaining === 1 ? ' turn left' : ' turns left') + ' today · Fresh lineup at ' + resetTime() : 'Ten turns. Make them memorable.';
+      usage?.remaining === 0 ? 'All ' + total + ' turns played. A fresh lineup at ' + resetTime() + '.' :
+      usage ? usage.remaining + (usage.remaining === 1 ? ' turn left' : ' turns left') + ' today · Fresh lineup at ' + resetTime() : 'Twenty turns. Make them memorable.';
     refreshMosaic();
   }
   function refreshMosaic() {
-    // Network usage alone cannot unlock a collage: all ten originals must exist here.
-    const complete = items.length === 10 && items.every(item => item.day === collectionDay && item.blob);
-    const key = complete ? JSON.stringify([collectionDay, ...items.map(item => [item.id, item.top, item.bottom])]) : '';
+    // Keep the ten-photo collage available while the daily collection grows to twenty.
+    const snapshot = items.slice(-COLLAGE_SIZE);
+    const complete = snapshot.length === COLLAGE_SIZE && snapshot.every(item => item.day === collectionDay && item.blob);
+    const key = complete ? JSON.stringify([collectionDay, ...snapshot.map(item => [item.id, item.top, item.bottom])]) : '';
     $('open-mosaic').hidden = !complete;
-    if (!storageFailed) $('storage-note').textContent = complete ? 'Save your collage before the next round. Today’s collection lives in this browser.' : 'Collect all 10 in this browser to unlock your daily collage. Save your keepers before the next round.';
+    if (!storageFailed) $('storage-note').textContent = complete ? 'Save your collage before the next round. Your collage uses your latest 10 memes.' : 'Collect 10 in this browser to unlock your daily collage. Save your keepers before the next round.';
     if (key === mosaicKey) return;
     mosaicKey = key; mosaicVersion++; mosaicJob = null; mosaicReady = false;
     if ($('mosaic-dialog').open) {
@@ -307,7 +309,7 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
     $('mosaic-viewer').hidden = true;
     $('download-mosaic').hidden = true; $('retry-mosaic').hidden = true;
     $('mosaic-thumbnails').replaceChildren();
-    if (complete) for (const item of items) {
+    if (complete) for (const item of snapshot) {
       const image = document.createElement('img'); image.src = item.thumbnail; image.alt = '';
       $('mosaic-thumbnails').append(image);
     }
@@ -376,7 +378,7 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
     if (!mosaicKey) return;
     if (!$('mosaic-dialog').open) $('mosaic-dialog').showModal();
     if (mosaicReady || mosaicJob) return;
-    const version = mosaicVersion, snapshot = items.slice(), day = collectionDay;
+    const version = mosaicVersion, snapshot = items.slice(-COLLAGE_SIZE), day = collectionDay;
     $('mosaic-status').textContent = 'Laying out your daily Polaroids…';
     $('retry-mosaic').hidden = true; $('mosaic-canvas').setAttribute('aria-busy', 'true');
     const job = makeMosaic(snapshot, day, version).catch(() => {
@@ -512,10 +514,10 @@ window.BOBO_CONFIG = {"apiBase":"https://bobo-meme-generator.bobo-meme-generator
       try { image.src = url; await image.decode(); } finally { URL.revokeObjectURL(url); }
       current = { id: input.requestId, day: result.usage?.day || collectionDay, created: Date.now(), blob, image,
         scene: input.scene, style: input.style, size: input.size, top: '', bottom: '' };
-      items.push(current); if (items.length > 10) items.shift();
+      items.push(current); if (items.length > DAILY_LIMIT) items.shift();
       render(); await saveItem(current);
       cooldownUntil = Date.now() + Math.max(0, result.cooldownSeconds || 0) * 1000;
-      status(items.length === 10 ? 'Full lineup! Your daily collage is unlocked at the top. Click it to view and download your masterpiece.' : 'Added to your lineup. Download your meme or dream up the next one.');
+      status(items.length === COLLAGE_SIZE ? 'Your daily collage is unlocked at the top. Click it to view and download your masterpiece.' : 'Added to your lineup. Download your meme or dream up the next one.');
     } catch (error) {
       status(error.name === 'TimeoutError' || error.name === 'AbortError' ? 'Bobo took too long. This turn may have been used. Your request was not retried.' : error.message || 'Connection lost. Your request was not retried.', true);
     } finally {
