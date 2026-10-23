@@ -1,0 +1,20 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+
+const root=path.dirname(fileURLToPath(import.meta.url));
+const require=createRequire(import.meta.url);
+const modules=process.env.BOBO_BUILD_MODULES;
+const {build}=modules?require(path.join(modules,"esbuild")):require("esbuild");
+const shared={absWorkingDir:root,bundle:true,jsx:"automatic",target:"es2022",nodePaths:modules?[modules]:[],define:{"process.env.NODE_ENV":'"production"'},logLevel:"warning"};
+fs.mkdirSync(path.join(root,".build"),{recursive:true});
+fs.mkdirSync(path.join(root,"../assets/bobo-burn"),{recursive:true});
+await build({...shared,entryPoints:["client.tsx"],platform:"browser",format:"iife",minify:true,outfile:"../assets/bobo-burn/app.js"});
+await build({...shared,entryPoints:["render.tsx"],platform:"node",format:"cjs",outfile:".build/render.cjs"});
+await build({...shared,entryPoints:["worker.ts"],platform:"neutral",format:"esm",external:["cloudflare:workers"],outfile:".build/worker.js"});
+const {render}=require(path.join(root,".build/render.cjs"));
+const html=fs.readFileSync(path.join(root,"page.html"),"utf8").replace("__APP_MARKUP__",render());
+fs.writeFileSync(path.join(root,"../boboburn.html"),html);
+fs.copyFileSync(path.join(root,"burn.css"),path.join(root,"../assets/bobo-burn/style.css"));
+console.log("Built boboburn.html, browser assets, and the public data Worker.");

@@ -1,0 +1,153 @@
+{
+  "asOf": "2026-10-23T03:51:19.109Z",
+  "slot": 460296442,
+  "balanceRaw": "1024730057031",
+  "headSignature": "4GxUxR7sH37qJmUSfjWLzZaeoQo7bYSHCjk8x6X8ELuMDeUeBMuAKMN8BSqvpLUTeUaEqUUk3yYzEw4mZk9JJJ1q",
+  "events": [
+    {
+      "signature": "4GxUxR7sH37qJmUSfjWLzZaeoQo7bYSHCjk8x6X8ELuMDeUeBMuAKMN8BSqvpLUTeUaEqUUk3yYzEw4mZk9JJJ1q",
+      "at": 1792727012,
+      "slot": 460294244,
+      "deltaRaw": "401639224"
+    },
+    {
+      "signature": "2h5PAcwa1yoh9zuC9CG9QcNni7F6Fp8etQy16gHXiTBWnFSYwqdEXAHtxXubrYgfnGz6XKFr7CNKSzztro9L4U3T",
+      "at": 1792726471,
+      "slot": 460291699,
+      "deltaRaw": "38397531"
+    },
+    {
+      "signature": "2SbXQCubibzxxpUBZ6ojuDZD3RBYXy2gRKqmqrvWqVs5MBTyxrWToBBVuekS9NGGpghoF2TzfkzUvYMu845sRgzA",
+      "at": 1792725864,
+      "slot": 460288825,
+      "deltaRaw": "410010515"
+    },
+    {
+      "signature": "4i8hPkMuLnoxJFr9qKiPFtnPHAFhXuUK1HsJeGmSvdbqwxcm79iMCNQMae6WS99WKBemMgJvL2mgDiEv2AndJDW1",
+      "at": 1792724088,
+      "slot": 460280425,
+      "deltaRaw": "1714304402"
+    },
+    {
+      "signature": "2dwtpyoXj5hDqTZsqeDxiNAjb87V5mE7QwjngtKmrjFfa9w4UBfjDS2zc8zA7KDRvau1fSW5Zta4uHNdvTqRz5EQ",
+      "at": 1792713357,
+      "slot": 460229736,
+      "deltaRaw": "1607520495"
+    },
+    {
+      "signature": "5gpguBKrgqhpNL1ypQ1houQLFLdcRWTjznCvbZsfC28YMtDuqmx6dSqdDyA3cV639rkdDtBuTuto9WsLFgb7FZTL",
+      "at": 1792712821,
+      "slot": 460227196,
+      "deltaRaw": "30330605"
+    },
+    {
+      "signature": "djsmaCNBTVaZaMydESvXD8NNkFok84UrdEdcHTySNPvPeGJFQ8S4qMpDbsGtBLLemTtV76SSFZFh6A257q4KhgQ",
+      "at": 1792712068,
+      "slot": 460223644,
+      "deltaRaw": "1592629855"
+    },
+    {
+      "signature": "61q3pA8uT9GLUEnQo4oTJCjbuSg4oaMgkW9RRK8eehJwT4bjFHcsBupDLKGPsUHmLdWxVVeGUzxmtAv2Bv7jV9Dq",
+      "at": 1792700481,
+      "slot": 460168996,
+      "deltaRaw": "33536"
+    },
+    {
+      "signature": "5YDgSsi1UkFcYZhvKFCwVqTYwbNbTiLPXTs2jrcVZbT467pCCW6uymKqYWk8Let1S5sUDpkKwF1oQ1TQvBb7aKD4",
+      "at": 1792700276,
+      "slot": 460168027,
+      "deltaRaw": "7595138496"
+    },
+    {
+      "signature": "2j76pWH6zfWyKSmtQ4GUkUbUijtMXmhHChwHWnfyzXe48DE9DYghAARhYSFM4p5Xj4ph8A7DGutYeGY11nGQiF3j",
+      "at": 1792700262,
+      "slot": 460167960,
+      "deltaRaw": "4920234744"
+    },
+    {
+      "signature": "4ZcgrzdezSmCqJnXMoZdixriP4KTHkkyQGSnwkjpp3dQNK6eCMx6xLWNGwmDhqjHqqe4byYbh3RwEQL4S9HPCE81",
+      "at": 1792700059,
+      "slot": 460167010,
+      "deltaRaw": "1005881448019"
+    },
+    {
+      "signature": "gLxACkAEk5epu5f2uLNWKpD8onexhYKYydU7AAaTeAZZnfvSnUPMZSoQzukG6okh8h1KfXXmfQgGYCLtA2iz2Jj",
+      "at": 1792618922,
+      "slot": 459784974,
+      "deltaRaw": "6915770"
+    },
+    {
+      "signature": "3Gc3wEWzHnFqfoiGGzNLrWeVWsoSZE6SH6diWyLfnut49KMwwnkc4PvMe52kHBgQ7avQ16TgYXaFbrdDK1TPxo6w",
+      "at": 1792618171,
+      "slot": 459781432,
+      "deltaRaw": "7788523"
+    },
+    {
+      "signature": "4GvEGT1Dbgou2sidsbC6YPb6vw2xiAkmKywE8QUv84Vzdn5Pgdbi4VVqUom7TbXwNM7d6T28mvPAb8f4g7qo899X",
+      "at": 1792609154,
+      "slot": 459739163,
+      "deltaRaw": "27325447"
+    },
+    {
+      "signature": "5C69y3CBrH5s8c8XGXUQ5GXUubbUxz2fEf3v52fhDcfbw9qjhoAfEbarwmA5s35icVU5mT4ESSCSMGgN7GXAaFDY",
+      "at": 1792606217,
+      "slot": 459725400,
+      "deltaRaw": "14325023"
+    },
+    {
+      "signature": "3BwgAJ7WUXcyJMeyqTRyiBRJ1SftbxegkyCLmuBfLQhNa2adHA4jiRKoVNKPF4UBARxPdTgD9fLbheiTXf4k2bA",
+      "at": 1792599889,
+      "slot": 459695641,
+      "deltaRaw": "1607568"
+    },
+    {
+      "signature": "3eB4yQTshtfGpTHENnZvrSnQ3QLmbqGRV2acvXA4nF9noTB8u1LyQ5p5ChdYUJQTkt43x19ZrKv6EJAmL75xqVWM",
+      "at": 1792598263,
+      "slot": 459687999,
+      "deltaRaw": "68892"
+    },
+    {
+      "signature": "21ysK8oAW1C1FSKGMCH6y1jUXXyz3ddyUcFBmaMpC4A2aB1QAhcGd36uCSvShZUdDAibpBb2sqHduC69RSU9B6KA",
+      "at": 1792578617,
+      "slot": 459596233,
+      "deltaRaw": "65671"
+    },
+    {
+      "signature": "4Uf2jGGGDsFp66ZmXLjH3WPNvrhBqhQJfGXzN5uygSQ6VJ2YhFnrxanukHUApcGgHXvE3Cun6NJGChTGcTv62M3o",
+      "at": 1792575254,
+      "slot": 459580702,
+      "deltaRaw": "2235251"
+    },
+    {
+      "signature": "4qqXDgbx9wDfR1YSmPrek75Qa3zT6vrq1DV8G6QFos28Q2TPF2534q3wvNikdu46zCYfvQ8oQue8dLRXyashhwi",
+      "at": 1792532551,
+      "slot": 459383220,
+      "deltaRaw": "442270408"
+    },
+    {
+      "signature": "4yPLKaoDPp74CTEfUNkro6hTrfuueuy1tAkxztrWSTUKj865UZxABVKXn5Sh5M2be3zfjoxJHygcPDEqPEjF35pc",
+      "at": 1792520887,
+      "slot": 459329285,
+      "deltaRaw": "34770106"
+    },
+    {
+      "signature": "5CW5ufKTYMJWtrFm9wnJzcDbTz9U7g2v8AuY2YjuXXtVN3Kqib91NCW32XCRdZcVhDxJZHh8CtsfN5vKBLQH5U3G",
+      "at": 1792507782,
+      "slot": 459269022,
+      "deltaRaw": "986751"
+    },
+    {
+      "signature": "5B8p2arm5gXaexTfHo2dFV1wTA8XGVYgSQyc3NdLXfEAGzBHvdxDyqGRyqpC8NXovumSM8nj2JCKkpuhjj9XGaMa",
+      "at": 1792507241,
+      "slot": 459266581,
+      "deltaRaw": "10199"
+    },
+    {
+      "signature": "3gPwEJvEqRbEAoMRWaQDHrQjoC3cHUnTok9smRJ8YTVsinKTo3bF6mR28LPS8wRCnU2pt9kQuGgAi8Gw8riLpWv6",
+      "at": 1792506461,
+      "slot": 459263006,
+      "deltaRaw": "0"
+    }
+  ],
+  "historyComplete": true
+}

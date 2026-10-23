@@ -1,0 +1,11 @@
+{
+  "account_id": "9fca5df0a68798f2311bb302ada26683",
+  "worker_name": "bobo-burn-data",
+  "endpoint": "https://bobo-burn-data.bobo-meme-generator.workers.dev/api/burn",
+  "metadata": {
+    "main_module": "worker.js",
+    "compatibility_date": "2026-10-22",
+    "bindings": [{ "type": "d1", "name": "DB", "database_id": "a79a3717-7df8-4fb4-9959-ddf76a3e92a1" }],
+    "observability": { "enabled": true, "traces": { "enabled": true }, "head_sampling_rate": 0.1 }
+  }
+}
